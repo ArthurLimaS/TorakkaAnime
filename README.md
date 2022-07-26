@@ -13,4 +13,3 @@ Com o nosso aplicativo você pode:
 - Filtrar os animes por temporada
 - Observar as informações sobre um anime
 - Adicionar o anime em uma lista
-- Avaliar um anime
