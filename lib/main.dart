@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:torakka_anime/view/fundoInicial.dart';
+import 'package:torakka_anime/view/inicial_tela00.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const fundoInicial(title: 'fundoInicial'),
+      home: const inicial_tela00(),
     );
   }
 }
