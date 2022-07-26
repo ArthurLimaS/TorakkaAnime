@@ -1,16 +1,16 @@
-# torakka_anime
+# Torakkā Anime
 
-A new Flutter project.
+Um projeto em flutter para a cadeira de desenvolvimento mobile.
 
-## Getting Started
+## Descrição
 
-This project is a starting point for a Flutter application.
+Já pensou em rastrear e monitorar seus animes na palma da mão ?
 
-A few resources to get you started if this is your first Flutter project:
+O TorakkāAnime permite você acompanhar os animes de todas as temporadas do ano, criando assim sua própria lista para que você não perca nenhuma informação sobre os animes que você mais gosta.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Com o nosso aplicativo você pode:
+- Criar um perfil
+- Filtrar os animes por temporada
+- Observar as informações sobre um anime
+- Adicionar o anime em uma lista
+- Avaliar um anime
