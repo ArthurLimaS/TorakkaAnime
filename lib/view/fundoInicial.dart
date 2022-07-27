@@ -3,16 +3,16 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'dart:ui';
 
-class fundoInicial extends StatefulWidget {
-  const fundoInicial({Key? key, required this.title}) : super(key: key);
+class FundoInicial extends StatefulWidget {
+  const FundoInicial({Key? key, required this.title}) : super(key: key);
 
   final String title;
   @override
-  State<fundoInicial> createState() => _fundoInicialState();
+  State<FundoInicial> createState() => _FundoInicialState();
 }
 
 // ignore: camel_case_types
-class _fundoInicialState extends State<fundoInicial> {
+class _FundoInicialState extends State<FundoInicial> {
   @override
   Widget build(BuildContext context) {
     return Stack(children: <Widget>[

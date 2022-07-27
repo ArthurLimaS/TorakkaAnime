@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:torakka_anime/view/cadastrar_tela02.dart';
+import 'package:torakka_anime/view/entrar_tela01.dart';
 import 'package:torakka_anime/view/fundoInicial.dart';
 import 'package:torakka_anime/view/inicial_tela00.dart';
 
@@ -11,12 +13,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const inicial_tela00(),
-    );
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        initialRoute: "/",
+        routes: <String, WidgetBuilder>{
+          "/": (BuildContext context) => const Inicial_Tela00(),
+          "/entrar": (BuildContext context) => const Entrar_Tela01(),
+          "/cadastrar": (BuildContext context) => const Cadastrar_Tela02(),
+        });
   }
 }
 
