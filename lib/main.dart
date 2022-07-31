@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:torakka_anime/view/cadastrar_tela02.dart';
 import 'package:torakka_anime/view/entrar_tela01.dart';
-import 'package:torakka_anime/view/fundoInicial.dart';
+import 'package:torakka_anime/view/navpages/main_navpag.dart';
+import 'package:torakka_anime/view/widgets/fundoInicial.dart';
+import 'package:torakka_anime/view/navpages/home_tela03.dart';
 import 'package:torakka_anime/view/inicial_tela00.dart';
 
 void main() {
@@ -22,6 +24,7 @@ class MyApp extends StatelessWidget {
           "/": (BuildContext context) => const Inicial_Tela00(),
           "/entrar": (BuildContext context) => const Entrar_Tela01(),
           "/cadastrar": (BuildContext context) => const Cadastrar_Tela02(),
+          "/home": (BuildContext context) => const MainNavPage(),
         });
   }
 }
