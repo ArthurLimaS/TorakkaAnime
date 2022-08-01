@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:torakka_anime/view/FundoInicial.dart';
-import 'package:torakka_anime/view/FundoInicial.dart';
+import 'package:torakka_anime/view/widgets/fundoInicial.dart';
 
 class Cadastrar_Tela02 extends StatefulWidget {
   const Cadastrar_Tela02({Key? key}) : super(key: key);
