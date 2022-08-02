@@ -4,7 +4,8 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:torakka_anime/utils/constants.dart';
-import 'package:torakka_anime/view/FundoInicial.dart';
+import 'package:torakka_anime/view/widgets/fundoInicial.dart';
+
 
 class Inicial_Tela00 extends StatefulWidget {
   const Inicial_Tela00({Key? key}) : super(key: key);
