@@ -2,7 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:torakka_anime/utils/constants.dart';
 import 'package:torakka_anime/view/widgets/fundoInicial.dart';
+
 
 class Inicial_Tela00 extends StatefulWidget {
   const Inicial_Tela00({Key? key}) : super(key: key);
@@ -12,8 +15,25 @@ class Inicial_Tela00 extends StatefulWidget {
 }
 
 class _Inicial_Tela00State extends State<Inicial_Tela00> {
+  /*String genero = 'nenhum genero';
+
+  Future test() async {
+    final res = await supabase.from('GENERO').select('genre_name').execute();
+    try {
+      genero = res.data[0]['genre_name'];
+      setState(() {
+        print(res.data);
+      });
+    } catch (e) {
+      print(e.toString());
+    }
+
+    print(res.data[0]['genre_name']);
+  }*/
+
   @override
   Widget build(BuildContext context) {
+    //print(genero);
     // --------------------------------------------------------- plano de fundo -------------------------------------------------------------------------------
     return Scaffold(
         body: Stack(
@@ -50,7 +70,7 @@ class _Inicial_Tela00State extends State<Inicial_Tela00> {
                   ),
                   child: const Center(
                     child: Text(
-                      "Log in",
+                      'Log in',
                       style: TextStyle(
                         color: Color.fromARGB(255, 255, 255, 255),
                         fontWeight: FontWeight.bold,
