@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:torakka_anime/requests/mal_queries.dart';
 import 'package:torakka_anime/view/widgets/topAnime.dart';
+
+import '../../model/generic_data_model/generic_data.dart';
 
 class Home_Tela03 extends StatefulWidget {
   const Home_Tela03({Key? key}) : super(key: key);
@@ -11,8 +14,29 @@ class Home_Tela03 extends StatefulWidget {
 }
 
 class _Home_Tela03State extends State<Home_Tela03> {
+  GenericData? rank;
+  var isLoaded = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    //rank = Rank.fromJson(MalQuery().getRank('airing'));
+    getData();
+  }
+
+  getData() async {
+    rank = await MalQuery().getRank('airing');
+    if (rank != null) {
+      setState(() {
+        isLoaded = true;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    //print(rank?.data?.elementAt(1).node?.title ?? 'some default');
     return Scaffold(
       appBar: AppBar(
         // ------------------------------------------- APP BAR -----------------------------------------
@@ -116,31 +140,43 @@ class _Home_Tela03State extends State<Home_Tela03> {
                     ),
                   ),
                   const SizedBox(height: 12),
-                  const TopAnime(
+                  TopAnime(
                       // ========================================================== TOP 1 ===============================================
                       numero: '1',
-                      imgLink:
-                          "https://s3-alpha-sig.figma.com/img/a9fb/1f64/64c5a4e2112ab9a41a0526cf1b1c8b14?Expires=1659916800&Signature=T3HPQqeR0Dw~qGMB7PMnPh9RvgjLX4gdpsQ9ReeYI5DwTcpgrcdTfN5ImsBkDpfEBu71SA7PfAX3QAJogfGFc5SYddYsNCOxcza6i~hjq8kOMgXqQk6QIWX5WFphi-484L5e5MGLC~OSh2cJK2y8rHP7SBIpnhiFXmdcQmx9G-Bw2fMDdiyUQqIDUSGXWHJI6X4ir34rTiTtwzLNYR4OR~bxJHlGNHMyC5wFzkikuaNDegaR5GoNONMCzTqn848zYjg0YzUzoeZqe-mz6-XduSLyh3Xn4XqeQfBJxW6PCWhjj2PbLdSv6zzC-5hhKivx9auVNYnTZS4r3lqKE4AKGA__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA",
-                      nome: "Kingdom 4th Season",
-                      desc: "TV, 26 eps, scored 8.81"),
+                      imgLink: rank?.data
+                              ?.elementAt(0)
+                              .node
+                              ?.mainPicture
+                              ?.medium ??
+                          'https://thumbs.dreamstime.com/b/no-image-available-icon-flat-vector-no-image-available-icon-flat-vector-illustration-132482930.jpg',
+                      nome: rank?.data?.elementAt(0).node?.title ?? 'default',
+                      desc: ""),
                   const SizedBox(
                     height: 5,
                   ),
-                  const TopAnime(
+                  TopAnime(
                       // ========================================================== TOP 2 ===============================================
                       numero: '2',
-                      imgLink:
-                          "https://s3-alpha-sig.figma.com/img/a9fb/1f64/64c5a4e2112ab9a41a0526cf1b1c8b14?Expires=1659916800&Signature=T3HPQqeR0Dw~qGMB7PMnPh9RvgjLX4gdpsQ9ReeYI5DwTcpgrcdTfN5ImsBkDpfEBu71SA7PfAX3QAJogfGFc5SYddYsNCOxcza6i~hjq8kOMgXqQk6QIWX5WFphi-484L5e5MGLC~OSh2cJK2y8rHP7SBIpnhiFXmdcQmx9G-Bw2fMDdiyUQqIDUSGXWHJI6X4ir34rTiTtwzLNYR4OR~bxJHlGNHMyC5wFzkikuaNDegaR5GoNONMCzTqn848zYjg0YzUzoeZqe-mz6-XduSLyh3Xn4XqeQfBJxW6PCWhjj2PbLdSv6zzC-5hhKivx9auVNYnTZS4r3lqKE4AKGA__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA",
-                      nome: "Kingdom 4th Season",
-                      desc: "TV, 26 eps, scored 8.81"),
+                      imgLink: rank?.data
+                              ?.elementAt(1)
+                              .node
+                              ?.mainPicture
+                              ?.medium ??
+                          'https://thumbs.dreamstime.com/b/no-image-available-icon-flat-vector-no-image-available-icon-flat-vector-illustration-132482930.jpg',
+                      nome: rank?.data?.elementAt(1).node?.title ?? 'default',
+                      desc: ""),
                   const SizedBox(height: 5),
-                  const TopAnime(
+                  TopAnime(
                       // ========================================================== TOP 3 ===============================================
                       numero: '3',
-                      imgLink:
-                          "https://s3-alpha-sig.figma.com/img/a9fb/1f64/64c5a4e2112ab9a41a0526cf1b1c8b14?Expires=1659916800&Signature=T3HPQqeR0Dw~qGMB7PMnPh9RvgjLX4gdpsQ9ReeYI5DwTcpgrcdTfN5ImsBkDpfEBu71SA7PfAX3QAJogfGFc5SYddYsNCOxcza6i~hjq8kOMgXqQk6QIWX5WFphi-484L5e5MGLC~OSh2cJK2y8rHP7SBIpnhiFXmdcQmx9G-Bw2fMDdiyUQqIDUSGXWHJI6X4ir34rTiTtwzLNYR4OR~bxJHlGNHMyC5wFzkikuaNDegaR5GoNONMCzTqn848zYjg0YzUzoeZqe-mz6-XduSLyh3Xn4XqeQfBJxW6PCWhjj2PbLdSv6zzC-5hhKivx9auVNYnTZS4r3lqKE4AKGA__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA",
-                      nome: "Kingdom 4th Season",
-                      desc: "TV, 26 eps, scored 8.81"),
+                      imgLink: rank?.data
+                              ?.elementAt(2)
+                              .node
+                              ?.mainPicture
+                              ?.medium ??
+                          'https://thumbs.dreamstime.com/b/no-image-available-icon-flat-vector-no-image-available-icon-flat-vector-illustration-132482930.jpg',
+                      nome: rank?.data?.elementAt(2).node?.title ?? 'default',
+                      desc: ""),
                 ]),
               ),
               const SizedBox(height: 30),

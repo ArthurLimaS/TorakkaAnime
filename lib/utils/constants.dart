@@ -9,6 +9,9 @@ const supabaseAnnonKey =
 final supabase = Supabase.instance.client;
 
 //TODO: add your MYANIMELIST_URL / MYANIMELIST_KEY
-const malUrl = 'https://api.myanimelist.net/v2/';
-const malKey = '6e5f66c52a149f1c14b8cfb968373f3e';
+const malUrl = 'https://api.myanimelist.net/v2/anime';
+const malKey = {'X-MAL-CLIENT-ID': '6e5f66c52a149f1c14b8cfb968373f3e'};
 
+
+const animeFields =
+    '?fields=id,title,main_picture,start_date,end_date,synopsis,score,rank,popularity,media_type,status,genres,num_episodes,start_season,broadcast,source,average_episode_duration,rating,studios';

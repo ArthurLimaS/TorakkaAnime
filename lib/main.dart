@@ -7,7 +7,7 @@ import 'package:torakka_anime/view/widgets/fundoInicial.dart';
 import 'package:torakka_anime/view/navpages/home_tela03.dart';
 import 'package:torakka_anime/view/inicial_tela00.dart';
 
-import 'supabase_request.dart';
+import 'requests/supabase_request.dart';
 import 'utils/constants.dart';
 
 Future main() async {

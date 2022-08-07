@@ -104,7 +104,7 @@ class Anime {
     }
   }
 
-  /* getters e setters, no momento, não tão necessários
+  //getters e setters, no momento, não tão necessários
   int? get id => _id;
   set id(int? id) => _id = id;
   String? get title => _title;
@@ -127,8 +127,8 @@ class Anime {
   set mediaType(String? mediaType) => _mediaType = mediaType;
   String? get status => _status;
   set status(String? status) => _status = status;
-  List<Genres>? get genres => _genres;
-  set genres(List<Genres>? genres) => _genres = genres;
+  List<Genre>? get genres => _genres;
+  set genres(List<Genre>? genres) => _genres = genres;
   int? get numEpisodes => _numEpisodes;
   set numEpisodes(int? numEpisodes) => _numEpisodes = numEpisodes;
   StartSeason? get startSeason => _startSeason;
@@ -142,8 +142,8 @@ class Anime {
       _averageEpisodeDuration = averageEpisodeDuration;
   String? get rating => _rating;
   set rating(String? rating) => _rating = rating;
-  List<Studios>? get studios => _studios;
-  set studios(List<Studios>? studios) => _studios = studios;*/
+  List<Studio>? get studios => _studios;
+  set studios(List<Studio>? studios) => _studios = studios;
 
   Anime.fromJson(Map<String, dynamic> json) {
     _id = json['id'];

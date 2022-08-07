@@ -46,7 +46,7 @@ class _TopAnimeState extends State<TopAnime> {
         ),
         const SizedBox(width: 40),
         ClipRRect(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(3),
           child: Image.network(imgLink),
         ),
         const SizedBox(width: 10),
@@ -59,15 +59,13 @@ class _TopAnimeState extends State<TopAnime> {
               style: const TextStyle(
                   color: Color.fromARGB(255, 10, 34, 57),
                   fontWeight: FontWeight.bold,
-                  fontSize: 20),
+                  fontSize: 17),
             ),
             const SizedBox(height: 20),
             Text(
               desc,
               style: const TextStyle(
-                  color: Colors.grey,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18),
+                  color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 0),
             ),
           ],
         )),

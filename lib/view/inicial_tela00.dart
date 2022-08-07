@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:torakka_anime/requests/mal_queries.dart';
 import 'package:torakka_anime/utils/constants.dart';
 import 'package:torakka_anime/view/widgets/fundoInicial.dart';
-
+import 'package:torakka_anime/requests/mal_queries.dart';
 
 class Inicial_Tela00 extends StatefulWidget {
   const Inicial_Tela00({Key? key}) : super(key: key);
@@ -33,7 +34,8 @@ class _Inicial_Tela00State extends State<Inicial_Tela00> {
 
   @override
   Widget build(BuildContext context) {
-    //print(genero);
+    print('hello');
+    MalQuery().getAnime(30230);
     // --------------------------------------------------------- plano de fundo -------------------------------------------------------------------------------
     return Scaffold(
         body: Stack(
