@@ -11,11 +11,11 @@ import 'requests/supabase_request.dart';
 import 'utils/constants.dart';
 
 Future main() async {
-  //WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
 
-  //await supabaseInitialize();
+  await supabaseInitialize();
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {

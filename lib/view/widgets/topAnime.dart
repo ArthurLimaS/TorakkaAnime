@@ -30,10 +30,9 @@ class _TopAnimeState extends State<TopAnime> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      //============================================================== TOP 1 ======================================================
       height: 108,
       child: Row(children: [
-        const SizedBox(width: 10),
+        const SizedBox(width: 15),
         Align(
           alignment: Alignment.topLeft,
           child: Text(
@@ -44,10 +43,18 @@ class _TopAnimeState extends State<TopAnime> {
                 fontSize: 24),
           ),
         ),
-        const SizedBox(width: 40),
+        const SizedBox(width: 20),
         ClipRRect(
           borderRadius: BorderRadius.circular(3),
-          child: Image.network(imgLink),
+          child: Container(
+            width: 70,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                fit: BoxFit.fill,
+                image: NetworkImage(imgLink),
+              ),
+            ),
+          ),
         ),
         const SizedBox(width: 10),
         Expanded(
