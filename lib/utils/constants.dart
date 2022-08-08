@@ -1,8 +1,7 @@
 //TODO: add your SUPABASE_URL / SUPABASE_KEY here
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-const myAuthRedirectUrl = 'io.supabase.TorakkaAnime://login-callback/';
-
+const myAuthRedirectUrl = 'io.supabase.torakkaanime://login-callback/';
 const supabaseUrl = 'https://xtvvmuslbpdcgzlbpkdw.supabase.co/';
 const supabaseAnnonKey =
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh0dnZtdXNsYnBkY2d6bGJwa2R3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NTkxNTQ1NDUsImV4cCI6MTk3NDczMDU0NX0.b6TjHEpFj40jYFy-v0hs38xlDkCGdm2xnpM4xrr_wKo';

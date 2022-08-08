@@ -139,16 +139,13 @@ class _Home_Tela03State extends State<Home_Tela03> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 7),
                   TopAnime(
                       // ========================================================== TOP 1 ===============================================
                       numero: '1',
-                      imgLink: rank?.data
-                              ?.elementAt(0)
-                              .node
-                              ?.mainPicture
-                              ?.medium ??
-                          'https://thumbs.dreamstime.com/b/no-image-available-icon-flat-vector-no-image-available-icon-flat-vector-illustration-132482930.jpg',
+                      imgLink:
+                          rank?.data?.elementAt(0).node?.mainPicture?.medium ??
+                              '',
                       nome: rank?.data?.elementAt(0).node?.title ?? 'default',
                       desc: ""),
                   const SizedBox(
@@ -157,24 +154,18 @@ class _Home_Tela03State extends State<Home_Tela03> {
                   TopAnime(
                       // ========================================================== TOP 2 ===============================================
                       numero: '2',
-                      imgLink: rank?.data
-                              ?.elementAt(1)
-                              .node
-                              ?.mainPicture
-                              ?.medium ??
-                          'https://thumbs.dreamstime.com/b/no-image-available-icon-flat-vector-no-image-available-icon-flat-vector-illustration-132482930.jpg',
+                      imgLink:
+                          rank?.data?.elementAt(1).node?.mainPicture?.medium ??
+                              '',
                       nome: rank?.data?.elementAt(1).node?.title ?? 'default',
                       desc: ""),
                   const SizedBox(height: 5),
                   TopAnime(
                       // ========================================================== TOP 3 ===============================================
                       numero: '3',
-                      imgLink: rank?.data
-                              ?.elementAt(2)
-                              .node
-                              ?.mainPicture
-                              ?.medium ??
-                          'https://thumbs.dreamstime.com/b/no-image-available-icon-flat-vector-no-image-available-icon-flat-vector-illustration-132482930.jpg',
+                      imgLink:
+                          rank?.data?.elementAt(2).node?.mainPicture?.large ??
+                              '',
                       nome: rank?.data?.elementAt(2).node?.title ?? 'default',
                       desc: ""),
                 ]),
@@ -227,12 +218,11 @@ class _Home_Tela03State extends State<Home_Tela03> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 7),
                   const TopAnime(
                       // ========================================================== TOP 1 ===============================================
                       numero: '1',
-                      imgLink:
-                          "https://s3-alpha-sig.figma.com/img/a9fb/1f64/64c5a4e2112ab9a41a0526cf1b1c8b14?Expires=1659916800&Signature=T3HPQqeR0Dw~qGMB7PMnPh9RvgjLX4gdpsQ9ReeYI5DwTcpgrcdTfN5ImsBkDpfEBu71SA7PfAX3QAJogfGFc5SYddYsNCOxcza6i~hjq8kOMgXqQk6QIWX5WFphi-484L5e5MGLC~OSh2cJK2y8rHP7SBIpnhiFXmdcQmx9G-Bw2fMDdiyUQqIDUSGXWHJI6X4ir34rTiTtwzLNYR4OR~bxJHlGNHMyC5wFzkikuaNDegaR5GoNONMCzTqn848zYjg0YzUzoeZqe-mz6-XduSLyh3Xn4XqeQfBJxW6PCWhjj2PbLdSv6zzC-5hhKivx9auVNYnTZS4r3lqKE4AKGA__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA",
+                      imgLink: '',
                       nome: "Kingdom 4th Season",
                       desc: "TV, 26 eps, scored 8.81"),
                   const SizedBox(
@@ -241,16 +231,14 @@ class _Home_Tela03State extends State<Home_Tela03> {
                   const TopAnime(
                       // ========================================================== TOP 2 ===============================================
                       numero: '2',
-                      imgLink:
-                          "https://s3-alpha-sig.figma.com/img/a9fb/1f64/64c5a4e2112ab9a41a0526cf1b1c8b14?Expires=1659916800&Signature=T3HPQqeR0Dw~qGMB7PMnPh9RvgjLX4gdpsQ9ReeYI5DwTcpgrcdTfN5ImsBkDpfEBu71SA7PfAX3QAJogfGFc5SYddYsNCOxcza6i~hjq8kOMgXqQk6QIWX5WFphi-484L5e5MGLC~OSh2cJK2y8rHP7SBIpnhiFXmdcQmx9G-Bw2fMDdiyUQqIDUSGXWHJI6X4ir34rTiTtwzLNYR4OR~bxJHlGNHMyC5wFzkikuaNDegaR5GoNONMCzTqn848zYjg0YzUzoeZqe-mz6-XduSLyh3Xn4XqeQfBJxW6PCWhjj2PbLdSv6zzC-5hhKivx9auVNYnTZS4r3lqKE4AKGA__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA",
+                      imgLink: '',
                       nome: "Kingdom 4th Season",
                       desc: "TV, 26 eps, scored 8.81"),
                   const SizedBox(height: 5),
                   const TopAnime(
                       // ========================================================== TOP 3 ===============================================
                       numero: '3',
-                      imgLink:
-                          "https://s3-alpha-sig.figma.com/img/a9fb/1f64/64c5a4e2112ab9a41a0526cf1b1c8b14?Expires=1659916800&Signature=T3HPQqeR0Dw~qGMB7PMnPh9RvgjLX4gdpsQ9ReeYI5DwTcpgrcdTfN5ImsBkDpfEBu71SA7PfAX3QAJogfGFc5SYddYsNCOxcza6i~hjq8kOMgXqQk6QIWX5WFphi-484L5e5MGLC~OSh2cJK2y8rHP7SBIpnhiFXmdcQmx9G-Bw2fMDdiyUQqIDUSGXWHJI6X4ir34rTiTtwzLNYR4OR~bxJHlGNHMyC5wFzkikuaNDegaR5GoNONMCzTqn848zYjg0YzUzoeZqe-mz6-XduSLyh3Xn4XqeQfBJxW6PCWhjj2PbLdSv6zzC-5hhKivx9auVNYnTZS4r3lqKE4AKGA__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA",
+                      imgLink: '',
                       nome: "Kingdom 4th Season",
                       desc: "TV, 26 eps, scored 8.81"),
                 ]),
@@ -303,12 +291,11 @@ class _Home_Tela03State extends State<Home_Tela03> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 7),
                   const TopAnime(
                       // ========================================================== TOP 1 ===============================================
                       numero: '1',
-                      imgLink:
-                          "https://s3-alpha-sig.figma.com/img/a9fb/1f64/64c5a4e2112ab9a41a0526cf1b1c8b14?Expires=1659916800&Signature=T3HPQqeR0Dw~qGMB7PMnPh9RvgjLX4gdpsQ9ReeYI5DwTcpgrcdTfN5ImsBkDpfEBu71SA7PfAX3QAJogfGFc5SYddYsNCOxcza6i~hjq8kOMgXqQk6QIWX5WFphi-484L5e5MGLC~OSh2cJK2y8rHP7SBIpnhiFXmdcQmx9G-Bw2fMDdiyUQqIDUSGXWHJI6X4ir34rTiTtwzLNYR4OR~bxJHlGNHMyC5wFzkikuaNDegaR5GoNONMCzTqn848zYjg0YzUzoeZqe-mz6-XduSLyh3Xn4XqeQfBJxW6PCWhjj2PbLdSv6zzC-5hhKivx9auVNYnTZS4r3lqKE4AKGA__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA",
+                      imgLink: '',
                       nome: "Kingdom 4th Season",
                       desc: "TV, 26 eps, scored 8.81"),
                   const SizedBox(
@@ -317,16 +304,14 @@ class _Home_Tela03State extends State<Home_Tela03> {
                   const TopAnime(
                       // ========================================================== TOP 2 ===============================================
                       numero: '2',
-                      imgLink:
-                          "https://s3-alpha-sig.figma.com/img/a9fb/1f64/64c5a4e2112ab9a41a0526cf1b1c8b14?Expires=1659916800&Signature=T3HPQqeR0Dw~qGMB7PMnPh9RvgjLX4gdpsQ9ReeYI5DwTcpgrcdTfN5ImsBkDpfEBu71SA7PfAX3QAJogfGFc5SYddYsNCOxcza6i~hjq8kOMgXqQk6QIWX5WFphi-484L5e5MGLC~OSh2cJK2y8rHP7SBIpnhiFXmdcQmx9G-Bw2fMDdiyUQqIDUSGXWHJI6X4ir34rTiTtwzLNYR4OR~bxJHlGNHMyC5wFzkikuaNDegaR5GoNONMCzTqn848zYjg0YzUzoeZqe-mz6-XduSLyh3Xn4XqeQfBJxW6PCWhjj2PbLdSv6zzC-5hhKivx9auVNYnTZS4r3lqKE4AKGA__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA",
+                      imgLink: '',
                       nome: "Kingdom 4th Season",
                       desc: "TV, 26 eps, scored 8.81"),
                   const SizedBox(height: 5),
                   const TopAnime(
                       // ========================================================== TOP 3 ===============================================
                       numero: '3',
-                      imgLink:
-                          "https://s3-alpha-sig.figma.com/img/a9fb/1f64/64c5a4e2112ab9a41a0526cf1b1c8b14?Expires=1659916800&Signature=T3HPQqeR0Dw~qGMB7PMnPh9RvgjLX4gdpsQ9ReeYI5DwTcpgrcdTfN5ImsBkDpfEBu71SA7PfAX3QAJogfGFc5SYddYsNCOxcza6i~hjq8kOMgXqQk6QIWX5WFphi-484L5e5MGLC~OSh2cJK2y8rHP7SBIpnhiFXmdcQmx9G-Bw2fMDdiyUQqIDUSGXWHJI6X4ir34rTiTtwzLNYR4OR~bxJHlGNHMyC5wFzkikuaNDegaR5GoNONMCzTqn848zYjg0YzUzoeZqe-mz6-XduSLyh3Xn4XqeQfBJxW6PCWhjj2PbLdSv6zzC-5hhKivx9auVNYnTZS4r3lqKE4AKGA__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA",
+                      imgLink: '',
                       nome: "Kingdom 4th Season",
                       desc: "TV, 26 eps, scored 8.81"),
                 ]),
