@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:torakka_anime/view/widgets/fundoInicial.dart';
+import 'package:torakka_anime/view/widgets/fundo_inicial.dart';
 
-class Entrar_Tela01 extends StatefulWidget {
-  const Entrar_Tela01({Key? key}) : super(key: key);
+class EntrarTela01 extends StatefulWidget {
+  const EntrarTela01({Key? key}) : super(key: key);
 
   @override
-  State<Entrar_Tela01> createState() => _Entrar_Tela01State();
+  State<EntrarTela01> createState() => _EntrarTela01State();
 }
 
-class _Entrar_Tela01State extends State<Entrar_Tela01> {
+class _EntrarTela01State extends State<EntrarTela01> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

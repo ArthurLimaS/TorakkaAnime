@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
-class Perfil_Tela07 extends StatefulWidget {
-  const Perfil_Tela07({Key? key}) : super(key: key);
+class PerfilTela07 extends StatefulWidget {
+  const PerfilTela07({Key? key}) : super(key: key);
 
   @override
-  State<Perfil_Tela07> createState() => _Perfil_Tela07State();
+  State<PerfilTela07> createState() => _PerfilTela07State();
 }
 
-class _Perfil_Tela07State extends State<Perfil_Tela07> {
+class _PerfilTela07State extends State<PerfilTela07> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

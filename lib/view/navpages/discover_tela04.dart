@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
-class Discover_Tela04 extends StatefulWidget {
-  const Discover_Tela04({Key? key}) : super(key: key);
+class DiscoverTela04 extends StatefulWidget {
+  const DiscoverTela04({Key? key}) : super(key: key);
 
   @override
-  State<Discover_Tela04> createState() => _Discover_Tela04State();
+  State<DiscoverTela04> createState() => _DiscoverTela04State();
 }
 
-class _Discover_Tela04State extends State<Discover_Tela04> {
+class _DiscoverTela04State extends State<DiscoverTela04> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

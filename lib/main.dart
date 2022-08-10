@@ -3,7 +3,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:torakka_anime/view/cadastrar_tela02.dart';
 import 'package:torakka_anime/view/entrar_tela01.dart';
 import 'package:torakka_anime/view/navpages/main_navpag.dart';
-import 'package:torakka_anime/view/widgets/fundoInicial.dart';
+import 'package:torakka_anime/view/widgets/fundo_inicial.dart';
 import 'package:torakka_anime/view/navpages/home_tela03.dart';
 import 'package:torakka_anime/view/inicial_tela00.dart';
 
@@ -29,9 +29,9 @@ class MyApp extends StatelessWidget {
         ),
         initialRoute: "/",
         routes: <String, WidgetBuilder>{
-          "/": (BuildContext context) => const Inicial_Tela00(),
-          "/entrar": (BuildContext context) => const Entrar_Tela01(),
-          "/cadastrar": (BuildContext context) => const Cadastrar_Tela02(),
+          "/": (BuildContext context) => const InicialTela00(),
+          "/entrar": (BuildContext context) => const EntrarTela01(),
+          "/cadastrar": (BuildContext context) => const CadastrarTela02(),
           "/home": (BuildContext context) => const MainNavPage(),
         });
   }

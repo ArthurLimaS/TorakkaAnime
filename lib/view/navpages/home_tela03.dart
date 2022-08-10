@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:torakka_anime/requests/mal_queries.dart';
-import 'package:torakka_anime/view/widgets/topAnime.dart';
+import 'package:torakka_anime/view/widgets/top_anime.dart';
+import 'package:torakka_anime/view/widgets/top_container.dart';
 
 import '../../model/generic_data_model/generic_data.dart';
 
-class Home_Tela03 extends StatefulWidget {
-  const Home_Tela03({Key? key}) : super(key: key);
+class HomeTela03 extends StatefulWidget {
+  const HomeTela03({Key? key}) : super(key: key);
 
   @override
-  State<Home_Tela03> createState() => _Home_Tela03State();
+  State<HomeTela03> createState() => _HomeTela03State();
 }
 
-class _Home_Tela03State extends State<Home_Tela03> {
-  GenericData? rank;
+class _HomeTela03State extends State<HomeTela03> {
+  GenericData? rankAiring;
+  GenericData? rankTop;
+  GenericData? rankUpcoming;
   var isLoaded = false;
 
   @override
@@ -26,11 +27,15 @@ class _Home_Tela03State extends State<Home_Tela03> {
   }
 
   getData() async {
-    rank = await MalQuery().getRank('airing');
-    if (rank != null) {
-      setState(() {
-        isLoaded = true;
-      });
+    rankAiring = await MalQuery().getRank('airing');
+    rankUpcoming = await MalQuery().getRank('upcoming');
+    rankTop = await MalQuery().getRank('all');
+    if (rankAiring != null && rankTop != null && rankUpcoming != null) {
+      if (this.mounted) {
+        setState(() {
+          isLoaded = true;
+        });
+      }
     }
   }
 
@@ -41,47 +46,12 @@ class _Home_Tela03State extends State<Home_Tela03> {
       appBar: AppBar(
         // ------------------------------------------- APP BAR -----------------------------------------
         titleSpacing: 0.0,
-        title: Row(
-          children: <Widget>[
-            const SizedBox(width: 20),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                    padding: const EdgeInsets.only(bottom: 0, top: 30),
-                    iconSize: 55,
-                    onPressed: () {},
-                    icon: const Icon(Icons.account_circle_rounded)),
-                TextButton(
-                  onPressed: () {},
-                  style: TextButton.styleFrom(
-                      textStyle: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.bold)),
-                  child: const Text('Home',
-                      style: TextStyle(
-                        shadows: [
-                          Shadow(color: Colors.white, offset: Offset(0, -10))
-                        ],
-                        color: Colors.transparent,
-                        decoration: TextDecoration.underline,
-                        decorationColor: Colors.white,
-                        decorationThickness: 3,
-                      )),
-                ),
-              ],
-            ),
-            const SizedBox(width: 90),
-            SizedBox(
-                child: Center(
-                    child: SizedBox(
-                        height: 65,
-                        width: 65,
-                        child: Image.asset("assets/img/logo3.png")))),
-          ],
-        ),
-        toolbarHeight: 120,
+        title: Center(
+            child: SizedBox(
+                height: 65,
+                width: 65,
+                child: Image.asset("assets/img/logo3.png"))),
+        toolbarHeight: 50,
         backgroundColor: const Color.fromARGB(255, 10, 34, 57),
       ),
       backgroundColor: Colors.white,
@@ -108,66 +78,21 @@ class _Home_Tela03State extends State<Home_Tela03> {
                     ),
                   ],
                 ),
-                child: Column(children: [
-                  Container(
-                    height: 50,
-                    color: const Color.fromARGB(255, 10, 34, 57),
-                    child: Row(
-                      children: [
-                        const SizedBox(width: 10),
-                        const Text(
-                          "Top Airing Anime",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 22),
-                        ),
-                        Expanded(
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: TextButton(
-                              style: TextButton.styleFrom(
-                                  textStyle: const TextStyle(
-                                fontSize: 20,
-                              )),
-                              onPressed: () {},
-                              child: const Text('More',
-                                  style: TextStyle(color: Colors.white)),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                child: Column(children: <Widget>[
+                  const TopContainer(nome: 'Top Airing Anime'),
                   const SizedBox(height: 7),
-                  TopAnime(
-                      // ========================================================== TOP 1 ===============================================
-                      numero: '1',
-                      imgLink:
-                          rank?.data?.elementAt(0).node?.mainPicture?.medium ??
-                              '',
-                      nome: rank?.data?.elementAt(0).node?.title ?? 'default',
-                      desc: ""),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  TopAnime(
-                      // ========================================================== TOP 2 ===============================================
-                      numero: '2',
-                      imgLink:
-                          rank?.data?.elementAt(1).node?.mainPicture?.medium ??
-                              '',
-                      nome: rank?.data?.elementAt(1).node?.title ?? 'default',
-                      desc: ""),
-                  const SizedBox(height: 5),
-                  TopAnime(
-                      // ========================================================== TOP 3 ===============================================
-                      numero: '3',
-                      imgLink:
-                          rank?.data?.elementAt(2).node?.mainPicture?.large ??
-                              '',
-                      nome: rank?.data?.elementAt(2).node?.title ?? 'default',
-                      desc: ""),
+                  for (int i = 0; i < 3; i++)
+                    TopAnime(
+                        // ========================================================== TOP ===============================================
+                        numero: i,
+                        imgLink: rankAiring?.data
+                                ?.elementAt(i)
+                                .node
+                                ?.mainPicture
+                                ?.medium ??
+                            '',
+                        nome: rankAiring?.data?.elementAt(i).node?.title ?? '',
+                        desc: ""),
                 ]),
               ),
               const SizedBox(height: 30),
@@ -188,59 +113,20 @@ class _Home_Tela03State extends State<Home_Tela03> {
                   ],
                 ),
                 child: Column(children: [
-                  Container(
-                    height: 50,
-                    color: const Color.fromARGB(255, 10, 34, 57),
-                    child: Row(
-                      children: [
-                        const SizedBox(width: 10),
-                        const Text(
-                          "Top Anime",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 22),
-                        ),
-                        Expanded(
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: TextButton(
-                              style: TextButton.styleFrom(
-                                  textStyle: const TextStyle(
-                                fontSize: 20,
-                              )),
-                              onPressed: () {},
-                              child: const Text('More',
-                                  style: TextStyle(color: Colors.white)),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  const TopContainer(nome: 'Top Anime'),
                   const SizedBox(height: 7),
-                  const TopAnime(
-                      // ========================================================== TOP 1 ===============================================
-                      numero: '1',
-                      imgLink: '',
-                      nome: "Kingdom 4th Season",
-                      desc: "TV, 26 eps, scored 8.81"),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  const TopAnime(
-                      // ========================================================== TOP 2 ===============================================
-                      numero: '2',
-                      imgLink: '',
-                      nome: "Kingdom 4th Season",
-                      desc: "TV, 26 eps, scored 8.81"),
-                  const SizedBox(height: 5),
-                  const TopAnime(
-                      // ========================================================== TOP 3 ===============================================
-                      numero: '3',
-                      imgLink: '',
-                      nome: "Kingdom 4th Season",
-                      desc: "TV, 26 eps, scored 8.81"),
+                  for (int i = 0; i < 3; i++)
+                    TopAnime(
+                        // ========================================================== TOP ===============================================
+                        numero: i,
+                        imgLink: rankTop?.data
+                                ?.elementAt(i)
+                                .node
+                                ?.mainPicture
+                                ?.medium ??
+                            '',
+                        nome: rankTop?.data?.elementAt(i).node?.title ?? '',
+                        desc: ""),
                 ]),
               ),
               const SizedBox(height: 30),
@@ -261,59 +147,21 @@ class _Home_Tela03State extends State<Home_Tela03> {
                   ],
                 ),
                 child: Column(children: [
-                  Container(
-                    height: 50,
-                    color: const Color.fromARGB(255, 10, 34, 57),
-                    child: Row(
-                      children: [
-                        const SizedBox(width: 10),
-                        const Text(
-                          "Top Upcoming Anime",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 22),
-                        ),
-                        Expanded(
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: TextButton(
-                              style: TextButton.styleFrom(
-                                  textStyle: const TextStyle(
-                                fontSize: 20,
-                              )),
-                              onPressed: () {},
-                              child: const Text('More',
-                                  style: TextStyle(color: Colors.white)),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  const TopContainer(nome: 'Top Upcoming Anime'),
                   const SizedBox(height: 7),
-                  const TopAnime(
-                      // ========================================================== TOP 1 ===============================================
-                      numero: '1',
-                      imgLink: '',
-                      nome: "Kingdom 4th Season",
-                      desc: "TV, 26 eps, scored 8.81"),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  const TopAnime(
-                      // ========================================================== TOP 2 ===============================================
-                      numero: '2',
-                      imgLink: '',
-                      nome: "Kingdom 4th Season",
-                      desc: "TV, 26 eps, scored 8.81"),
-                  const SizedBox(height: 5),
-                  const TopAnime(
-                      // ========================================================== TOP 3 ===============================================
-                      numero: '3',
-                      imgLink: '',
-                      nome: "Kingdom 4th Season",
-                      desc: "TV, 26 eps, scored 8.81"),
+                  for (int i = 0; i < 3; i++)
+                    TopAnime(
+                        // ========================================================== TOP ===============================================
+                        numero: i,
+                        imgLink: rankUpcoming?.data
+                                ?.elementAt(i)
+                                .node
+                                ?.mainPicture
+                                ?.medium ??
+                            '',
+                        nome:
+                            rankUpcoming?.data?.elementAt(i).node?.title ?? '',
+                        desc: ""),
                 ]),
               ),
               const SizedBox(height: 30),

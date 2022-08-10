@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
-class Seasonal_Tela05 extends StatefulWidget {
-  const Seasonal_Tela05({Key? key}) : super(key: key);
+class SeasonalTela05 extends StatefulWidget {
+  const SeasonalTela05({Key? key}) : super(key: key);
 
   @override
-  State<Seasonal_Tela05> createState() => _Seasonal_Tela05State();
+  State<SeasonalTela05> createState() => _SeasonalTela05State();
 }
 
-class _Seasonal_Tela05State extends State<Seasonal_Tela05> {
+class _SeasonalTela05State extends State<SeasonalTela05> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
