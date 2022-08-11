@@ -29,18 +29,21 @@ class _TopAnimeState extends State<TopAnime> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
+        SizedBox(
           height: 108,
           child: Row(children: [
             const SizedBox(width: 15),
-            Align(
-              alignment: Alignment.topLeft,
-              child: Text(
-                '$x',
-                style: const TextStyle(
-                    color: Color.fromARGB(255, 10, 34, 57),
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24),
+            SizedBox(
+              width: 35,
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  '$x',
+                  style: const TextStyle(
+                      color: Color.fromARGB(255, 10, 34, 57),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 24),
+                ),
               ),
             ),
             const SizedBox(width: 20),

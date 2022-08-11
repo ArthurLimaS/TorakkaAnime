@@ -44,6 +44,7 @@ class _HomeTela03State extends State<HomeTela03> {
     //print(rank?.data?.elementAt(1).node?.title ?? 'some default');
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         // ------------------------------------------- APP BAR -----------------------------------------
         titleSpacing: 0.0,
         title: Center(

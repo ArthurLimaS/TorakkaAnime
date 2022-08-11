@@ -32,7 +32,9 @@ class _TopContainerState extends State<TopContainer> {
                     textStyle: const TextStyle(
                   fontSize: 20,
                 )),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pushNamed("/more", arguments: nome);
+                },
                 child:
                     const Text('More', style: TextStyle(color: Colors.white)),
               ),

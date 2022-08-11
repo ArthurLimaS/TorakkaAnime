@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class DiscoverTela04 extends StatefulWidget {
   const DiscoverTela04({Key? key}) : super(key: key);
@@ -14,55 +12,46 @@ class _DiscoverTela04State extends State<DiscoverTela04> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         // ------------------------------------------- APP BAR -----------------------------------------
-        titleSpacing: 0.0,
-        title: Row(
-          children: <Widget>[
-            const SizedBox(width: 20),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                    padding: const EdgeInsets.only(bottom: 0, top: 30),
-                    iconSize: 55,
-                    onPressed: () {},
-                    icon: const Icon(Icons.account_circle_rounded)),
-                TextButton(
-                  onPressed: () {},
-                  style: TextButton.styleFrom(
-                      textStyle: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.bold)),
-                  child: const Text('Home',
-                      style: TextStyle(
-                        shadows: [
-                          Shadow(color: Colors.white, offset: Offset(0, -10))
-                        ],
-                        color: Colors.transparent,
-                        decoration: TextDecoration.underline,
-                        decorationColor: Colors.white,
-                        decorationThickness: 3,
-                      )),
-                ),
-              ],
-            ),
-            const SizedBox(width: 90),
+        title: Column(
+          children: [
             SizedBox(
-                child: Center(
-                    child: SizedBox(
-                        height: 65,
-                        width: 65,
-                        child: Image.asset("assets/img/logo3.png")))),
+              width: 10000,
+              child: Center(
+                  child: SizedBox(
+                      height: 45,
+                      width: 65,
+                      child: Image.asset("assets/img/logo3.png"))),
+            ),
+            SizedBox(
+              width: 400,
+              height: 30,
+              child: TextField(
+                textAlignVertical: TextAlignVertical.bottom,
+                decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white,
+                    hintText: 'Discover',
+                    hintStyle: const TextStyle(
+                        color: Color.fromARGB(60, 0, 0, 0),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18),
+                    contentPadding: const EdgeInsets.all(15),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(1000))),
+                onChanged: (value) {
+                  // do something
+                },
+              ),
+            ),
           ],
         ),
-        toolbarHeight: 120,
+        toolbarHeight: 100,
         backgroundColor: const Color.fromARGB(255, 10, 34, 57),
       ),
-      backgroundColor: Color.fromARGB(255, 255, 0, 0),
-      body: Container(
-        color: Color.fromARGB(255, 255, 0, 0),
-      ),
+      backgroundColor: Colors.white,
+      body: ListView(),
     );
   }
 }
