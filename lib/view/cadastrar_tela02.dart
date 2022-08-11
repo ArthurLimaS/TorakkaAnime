@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:supabase/supabase.dart';
 import 'package:torakka_anime/components/auth_state.dart';
-import 'package:torakka_anime/requests/supabase_request.dart';
 import 'package:torakka_anime/utils/constants.dart';
-import 'package:torakka_anime/view/widgets/fundoInicial.dart';
+import 'package:torakka_anime/view/widgets/fundo_inicial.dart';
 
 import '../utils/aux_func.dart';
 
-class Cadastrar_Tela02 extends StatefulWidget {
-  const Cadastrar_Tela02({Key? key}) : super(key: key);
+class CadastrarTela02 extends StatefulWidget {
+  const CadastrarTela02({Key? key}) : super(key: key);
 
   @override
-  State<Cadastrar_Tela02> createState() => _Cadastrar_Tela02State();
+  State<CadastrarTela02> createState() => _CadastrarTela02State();
 }
 
-class _Cadastrar_Tela02State extends AuthState<Cadastrar_Tela02> {
+class _CadastrarTela02State extends AuthState<CadastrarTela02> {
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 

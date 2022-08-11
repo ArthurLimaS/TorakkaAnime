@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
-class Lista_Tela06 extends StatefulWidget {
-  const Lista_Tela06({Key? key}) : super(key: key);
+class ListaTela06 extends StatefulWidget {
+  const ListaTela06({Key? key}) : super(key: key);
 
   @override
-  State<Lista_Tela06> createState() => _Lista_Tela06State();
+  State<ListaTela06> createState() => _ListaTela06State();
 }
 
-class _Lista_Tela06State extends State<Lista_Tela06> {
+class _ListaTela06State extends State<ListaTela06> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

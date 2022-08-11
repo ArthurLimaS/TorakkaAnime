@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:torakka_anime/requests/supabase_request.dart';
 import 'package:torakka_anime/utils/aux_func.dart';
-import 'package:torakka_anime/utils/constants.dart';
-import 'package:torakka_anime/view/widgets/fundoInicial.dart';
+import 'package:torakka_anime/view/widgets/fundo_inicial.dart';
 
-class Entrar_Tela01 extends StatefulWidget {
-  const Entrar_Tela01({Key? key}) : super(key: key);
+class EntrarTela01 extends StatefulWidget {
+  const EntrarTela01({Key? key}) : super(key: key);
 
   @override
-  State<Entrar_Tela01> createState() => _Entrar_Tela01State();
+  State<EntrarTela01> createState() => _EntrarTela01State();
 }
 
-class _Entrar_Tela01State extends State<Entrar_Tela01> {
+class _EntrarTela01State extends State<EntrarTela01> {
   final _formKey = GlobalKey<FormState>();
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;

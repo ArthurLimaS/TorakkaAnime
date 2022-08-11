@@ -16,11 +16,11 @@ class MainNavPage extends StatefulWidget {
 
 class _MainNavPageState extends State<MainNavPage> {
   List pages = [
-    Home_Tela03(),
-    Discover_Tela04(),
-    Seasonal_Tela05(),
-    Lista_Tela06(),
-    Perfil_Tela07(),
+    const HomeTela03(),
+    const DiscoverTela04(),
+    const SeasonalTela05(),
+    const ListaTela06(),
+    const PerfilTela07(),
   ];
   int currentIndex = 0;
 
@@ -37,7 +37,7 @@ class _MainNavPageState extends State<MainNavPage> {
       bottomNavigationBar: BottomNavigationBar(
           onTap: onTap,
           currentIndex: currentIndex,
-          iconSize: 40,
+          iconSize: 30,
           selectedItemColor: Color.fromARGB(255, 0, 0, 0),
           unselectedItemColor: Color.fromARGB(255, 110, 110, 110),
           type: BottomNavigationBarType.fixed,
