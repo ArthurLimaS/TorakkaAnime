@@ -1,3 +1,7 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
 String? validatePassword(String? value) {
   return value == null || value.isEmpty ? 'Invalid password' : null;
 }
@@ -14,4 +18,13 @@ String? validateEmail(String? value) {
   } else {
     return null;
   }
+}
+
+showToastMessage(String message, {bool isError = false}) {
+  return Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 2,
+      backgroundColor: isError ? Colors.red : Colors.green);
 }

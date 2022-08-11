@@ -16,26 +16,10 @@ class Inicial_Tela00 extends StatefulWidget {
 }
 
 class _Inicial_Tela00State extends State<Inicial_Tela00> {
-  /*String genero = 'nenhum genero';
-
-  Future test() async {
-    final res = await supabase.from('GENERO').select('genre_name').execute();
-    try {
-      genero = res.data[0]['genre_name'];
-      setState(() {
-        print(res.data);
-      });
-    } catch (e) {
-      print(e.toString());
-    }
-
-    print(res.data[0]['genre_name']);
-  }*/
 
   @override
   Widget build(BuildContext context) {
     print('hello');
-    MalQuery().getAnime(30230);
     // --------------------------------------------------------- plano de fundo -------------------------------------------------------------------------------
     return Scaffold(
         body: Stack(
