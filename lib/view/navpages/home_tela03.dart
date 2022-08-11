@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:torakka_anime/requests/mal_queries.dart';
+import 'package:torakka_anime/utils/aux_func.dart';
+import 'package:torakka_anime/utils/constants.dart';
 import 'package:torakka_anime/view/widgets/top_anime.dart';
 import 'package:torakka_anime/view/widgets/top_container.dart';
 
@@ -26,6 +28,13 @@ class _HomeTela03State extends State<HomeTela03> {
     getData();
   }
 
+  Future _onSignOutPress(BuildContext context) async {
+    final response = await supabase.auth.signOut();
+    if (response.error != null) {
+      showToastMessage(response.error!.message);
+    }
+  }
+
   getData() async {
     rankAiring = await MalQuery().getRank('airing');
     rankUpcoming = await MalQuery().getRank('upcoming');
@@ -47,6 +56,20 @@ class _HomeTela03State extends State<HomeTela03> {
         automaticallyImplyLeading: false,
         // ------------------------------------------- APP BAR -----------------------------------------
         titleSpacing: 0.0,
+        actions: [
+          TextButton(
+            onPressed: () {
+              _onSignOutPress(context);
+            },
+            child: const Text(
+              "Sign Out",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 22),
+            ),
+          )
+        ],
         title: Center(
             child: SizedBox(
                 height: 65,

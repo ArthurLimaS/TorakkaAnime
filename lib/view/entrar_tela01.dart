@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:torakka_anime/utils/aux_func.dart';
 import 'package:torakka_anime/view/widgets/fundo_inicial.dart';
 
 class EntrarTela01 extends StatefulWidget {
@@ -11,6 +11,42 @@ class EntrarTela01 extends StatefulWidget {
 }
 
 class _EntrarTela01State extends State<EntrarTela01> {
+  final _formKey = GlobalKey<FormState>();
+  late final TextEditingController _emailController;
+  late final TextEditingController _passwordController;
+
+  /*String _email = '';
+  String _password = '';*/
+
+  Future _onSignInPress() async {
+    final response = await Supabase.instance.client.auth.signIn(
+        email: _emailController.text, password: _passwordController.text);
+    print(response.error.toString());
+    if (response.error != null) {
+      showToastMessage(response.error!.message, isError: true);
+    } else {
+      if (mounted) {
+        Navigator.of(context).pushReplacementNamed('/home');
+        _emailController.clear();
+        _passwordController.clear();
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,12 +68,15 @@ class _EntrarTela01State extends State<EntrarTela01> {
                   child: Image.asset('assets/img/logo2.png'),
                 ),
               ),
-              Container(
+              Form(
                 // --------------------------------------------------------- EMAIL -------------------------------------------------------------------------------
+                key: _formKey,
                 child: Center(
                   child: Container(
                     width: 300,
-                    child: TextField(
+                    child: TextFormField(
+                      controller: _emailController,
+                      validator: (val) => validateEmail(val),
                       decoration: InputDecoration(
                           filled: true,
                           fillColor: Colors.white,
@@ -49,9 +88,6 @@ class _EntrarTela01State extends State<EntrarTela01> {
                           contentPadding: const EdgeInsets.all(15),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(1000))),
-                      onChanged: (value) {
-                        // do something
-                      },
                     ),
                   ),
                 ),
@@ -64,7 +100,9 @@ class _EntrarTela01State extends State<EntrarTela01> {
                 child: Center(
                   child: Container(
                     width: 300,
-                    child: TextField(
+                    child: TextFormField(
+                      controller: _passwordController,
+                      validator: (val) => validatePassword(val),
                       decoration: InputDecoration(
                           filled: true,
                           fillColor: Colors.white,
@@ -76,9 +114,6 @@ class _EntrarTela01State extends State<EntrarTela01> {
                           contentPadding: const EdgeInsets.all(15),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(1000))),
-                      onChanged: (value) {
-                        // do something
-                      },
                     ),
                   ),
                 ),
@@ -86,7 +121,9 @@ class _EntrarTela01State extends State<EntrarTela01> {
               const SizedBox(height: 15),
               GestureDetector(
                 onTap: () {
-                  Navigator.of(context).pushReplacementNamed("/home");
+                  if (_formKey.currentState!.validate()) {
+                    _onSignInPress();
+                  }
                 },
                 child: Container(
                   // --------------------------------------------------------- LOG IN -------------------------------------------------------------------------------

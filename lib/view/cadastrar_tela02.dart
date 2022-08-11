@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:supabase/supabase.dart' as supabase;
-import 'package:torakka_anime/requests/supabase_request.dart';
+import 'package:torakka_anime/components/auth_state.dart';
+import 'package:torakka_anime/utils/constants.dart';
 import 'package:torakka_anime/view/widgets/fundo_inicial.dart';
-import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../utils/aux_func.dart';
 
@@ -17,12 +13,13 @@ class CadastrarTela02 extends StatefulWidget {
   State<CadastrarTela02> createState() => _CadastrarTela02State();
 }
 
-class _CadastrarTela02State extends State<CadastrarTela02> {
+class _CadastrarTela02State extends AuthState<CadastrarTela02> {
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   String _email = '';
   String _password = '';
+  String _nickname = '';
 
   Future _onSignUpPress(BuildContext context) async {
     final form = formKey.currentState;
@@ -31,21 +28,37 @@ class _CadastrarTela02State extends State<CadastrarTela02> {
       form.save();
       FocusScope.of(context).unfocus();
 
-      final response = await createNewUser(_email, _password);
+      //usar o userMetadata para mandar o nickname
+      final response = await Supabase.instance.client.auth.signUp(
+          _email, _password,
+          options: AuthOptions(redirectTo: myAuthRedirectUrl));
+
+      //debugPrint(response.data!.toJson().toString());
       if (response.error != null) {
-        showMessage('Sign up failed: ${response.error!.message}');
+        showToastMessage('Sign up failed: ${response.error!.message}');
       } else if (response.data == null && response.user == null) {
-        showMessage(
+        showToastMessage(
             "Please check your email and follow the instructions to verify your email address.");
       } else {
+        showToastMessage('Registration Success', isError: false);
+        /*print(response.data?.user?.id);
+        try {
+          final res = await supabase.from('USER').insert([
+            {
+              'name': _nickname,
+              'email': _email,
+            }
+          ]).execute();
+          print(res.error!.message);
+        } catch (e) {
+          throw Exception(e);
+        }*/
+
+        //When a BuildContext is used from a StatefulWidget, the mounted property must be checked after an asynchronous gap.
+        if (!mounted) return;
         Navigator.of(context).pushReplacementNamed("/entrar");
       }
     }
-  }
-
-  void showMessage(String message) {
-    final snackbar = SnackBar(content: Text(message));
-    ScaffoldMessenger.of(scaffoldKey.currentContext!).showSnackBar(snackbar);
   }
 
   @override
@@ -77,7 +90,17 @@ class _CadastrarTela02State extends State<CadastrarTela02> {
                           child: Center(
                             child: Container(
                               width: 300,
-                              child: TextField(
+                              child: TextFormField(
+                                onSaved: (value) => _nickname = value ?? '',
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'please enter some text';
+                                  } else if (value.length < 4) {
+                                    return 'less than 4 character';
+                                  } else {
+                                    return null;
+                                  }
+                                },
                                 decoration: InputDecoration(
                                     filled: true,
                                     fillColor: Colors.white,
@@ -90,9 +113,6 @@ class _CadastrarTela02State extends State<CadastrarTela02> {
                                     border: OutlineInputBorder(
                                         borderRadius:
                                             BorderRadius.circular(1000))),
-                                onChanged: (value) {
-                                  // do something
-                                },
                               ),
                             ),
                           ),
