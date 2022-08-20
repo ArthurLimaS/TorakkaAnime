@@ -59,9 +59,11 @@ class _SeasonalTela05State extends State<SeasonalTela05> {
         toolbarHeight: 120,
         backgroundColor: const Color.fromARGB(255, 10, 34, 57),
       ),
-      backgroundColor: Color.fromARGB(255, 0, 34, 255),
+      //backgroundColor: Color.fromARGB(255, 0, 34, 255),
+      backgroundColor: Colors.purple,
       body: Container(
-        color: Color.fromARGB(255, 0, 34, 255),
+        //color: Color.fromARGB(255, 0, 34, 255),
+        color: Colors.purple
       ),
     );
   }

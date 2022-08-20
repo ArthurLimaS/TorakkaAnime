@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:torakka_anime/view/widgets/top_anime.dart';
+import '../../model/generic_data_model/generic_data.dart';
+import 'package:torakka_anime/requests/mal_queries.dart';
 
 class DiscoverTela04 extends StatefulWidget {
   const DiscoverTela04({Key? key}) : super(key: key);
@@ -8,6 +11,32 @@ class DiscoverTela04 extends StatefulWidget {
 }
 
 class _DiscoverTela04State extends State<DiscoverTela04> {
+  GenericData? searchList;
+  var isLoaded = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    //rank = Rank.fromJson(MalQuery().getRank('airing'));
+    getData('');
+  }
+
+  getData(String search) async {
+    if (search.isEmpty) {
+      searchList = await MalQuery().getRank('airing', limit: 9);
+    }
+    else {
+      searchList = await MalQuery().searchAnime(search, limit: 9);
+    }
+
+    if (this.mounted) {
+      setState(() {
+        isLoaded = true;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,8 +69,8 @@ class _DiscoverTela04State extends State<DiscoverTela04> {
                     contentPadding: const EdgeInsets.all(15),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(1000))),
-                onChanged: (value) {
-                  // do something
+                onSubmitted: (value) {
+                  getData(value);
                 },
               ),
             ),
@@ -50,8 +79,34 @@ class _DiscoverTela04State extends State<DiscoverTela04> {
         toolbarHeight: 100,
         backgroundColor: const Color.fromARGB(255, 10, 34, 57),
       ),
+      
       backgroundColor: Colors.white,
-      body: ListView(),
+      
+      body: ListView(
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            
+            children: [
+              const SizedBox(height: 7),
+              for (int i = 0; i < 9; i++)
+                
+                TopAnime(
+                    // ========================================================== TOP ===============================================
+                    numero: i,
+                    imgLink: searchList?.data
+                            ?.elementAt(i)
+                            .node
+                            ?.mainPicture
+                            ?.medium ??
+                        '',
+                    nome: searchList?.data?.elementAt(i).node?.title ?? '',
+                    desc: ""),
+            ],
+          )
+        ],
+
+      ),
     );
   }
 }
