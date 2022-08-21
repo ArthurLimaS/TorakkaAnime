@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:torakka_anime/view/widgets/anime_img_name.dart';
+import 'package:torakka_anime/view/widgets/top_anime.dart';
+import '../../model/generic_data_model/generic_data.dart';
+import 'package:torakka_anime/requests/mal_queries.dart';
 
 class SeasonalTela05 extends StatefulWidget {
   const SeasonalTela05({Key? key}) : super(key: key);
@@ -10,61 +14,100 @@ class SeasonalTela05 extends StatefulWidget {
 }
 
 class _SeasonalTela05State extends State<SeasonalTela05> {
+  String thisSeason = "This Season";
+  String searchSeason = "Search Season";
+  double fontSize = 22;
+  int tab = 0;
+
+  GenericData? seasonList;
+  var isLoaded = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    //rank = Rank.fromJson(MalQuery().getRank('airing'));
+    getData();
+  }
+
+  getData() async {
+    seasonList = await MalQuery().getSeason('Summer', 2022);
+
+    if (this.mounted) {
+      setState(() {
+        isLoaded = true;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         // ------------------------------------------- APP BAR -----------------------------------------
-        titleSpacing: 0.0,
-        title: Row(
+        automaticallyImplyLeading: false,
+        title: Column(
           children: <Widget>[
-            const SizedBox(width: 20),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
+            Center(
+              child: SizedBox(
+                height: 65,
+                width: 65,
+                child: Image.asset("assets/img/logo3.png"))),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                IconButton(
-                    padding: const EdgeInsets.only(bottom: 0, top: 30),
-                    iconSize: 55,
-                    onPressed: () {},
-                    icon: const Icon(Icons.account_circle_rounded)),
                 TextButton(
-                  onPressed: () {},
-                  style: TextButton.styleFrom(
-                      textStyle: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.bold)),
-                  child: const Text('Home',
-                      style: TextStyle(
-                        shadows: [
-                          Shadow(color: Colors.white, offset: Offset(0, -10))
-                        ],
-                        color: Colors.transparent,
-                        decoration: TextDecoration.underline,
-                        decorationColor: Colors.white,
-                        decorationThickness: 3,
-                      )),
+                  onPressed: () {
+                    tab = 0;
+                  },
+                  child: Text(
+                    thisSeason,
+                    style: TextStyle(
+                      decoration: TextDecoration.underline,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: fontSize),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    tab = 1;
+                  },
+                  child: Text(
+                    searchSeason,
+                    style: TextStyle(
+                      decoration: TextDecoration.underline,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: fontSize),
+                  ),
                 ),
               ],
             ),
-            const SizedBox(width: 90),
-            SizedBox(
-                child: Center(
-                    child: SizedBox(
-                        height: 65,
-                        width: 65,
-                        child: Image.asset("assets/img/logo3.png")))),
           ],
         ),
-        toolbarHeight: 120,
+        toolbarHeight: 100,
         backgroundColor: const Color.fromARGB(255, 10, 34, 57),
       ),
       //backgroundColor: Color.fromARGB(255, 0, 34, 255),
-      backgroundColor: Colors.purple,
-      body: Container(
-        //color: Color.fromARGB(255, 0, 34, 255),
-        color: Colors.purple
-      ),
+      backgroundColor: Colors.white,
+      body: GridView.count(
+        crossAxisCount: 2,
+        children: List.generate(10, (index) {
+          return Center(
+            child: AnimeImgName(
+            numero: index,
+            imgLink: seasonList?.data
+                    ?.elementAt(index)
+                    .node
+                    ?.mainPicture
+                    ?.medium ??
+                '',
+            nome: seasonList?.data?.elementAt(index).node?.title ?? '',
+            desc: "",),
+          );
+        })
+      )
     );
   }
 }
