@@ -20,8 +20,32 @@ class _AnimeImgNameState extends State<AnimeImgName> {
 
   @override
   Widget build(BuildContext context) {
-    return Image(
-      image: NetworkImage(imgLink)
+    return Column(
+      children: [
+        ClipRRect(
+          borderRadius: BorderRadius.circular(3),
+          child: Container(
+            width: 120,
+            height: 140,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                fit: BoxFit.fill,
+                image: NetworkImage(imgLink),
+              ),
+            ),
+          ),
+        ),
+
+        Text(
+          nome,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+              color: Color.fromARGB(255, 10, 34, 57),
+              fontWeight: FontWeight.bold,
+              fontSize: 17
+          ),
+        ),
+      ],
     );
   }
 }

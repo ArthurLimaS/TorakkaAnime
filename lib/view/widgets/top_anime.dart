@@ -67,7 +67,7 @@ class _TopAnimeState extends State<TopAnime> {
               const SizedBox(width: 10),
               
               Expanded(
-                  child: Column(
+                child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(

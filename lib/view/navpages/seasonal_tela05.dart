@@ -31,13 +31,14 @@ class _SeasonalTela05State extends State<SeasonalTela05> {
   }
 
   getData() async {
-    seasonList = await MalQuery().getSeason('Summer', 2022);
+    seasonList = await MalQuery().getSeason('summer', 2022, limit: 10);
 
     if (this.mounted) {
       setState(() {
         isLoaded = true;
       });
     }
+    print(seasonList);
   }
 
   @override
@@ -69,6 +70,7 @@ class _SeasonalTela05State extends State<SeasonalTela05> {
                       fontSize: fontSize),
                   ),
                 ),
+                const SizedBox(width: 26),
                 TextButton(
                   onPressed: () {
                     tab = 1;
@@ -96,15 +98,16 @@ class _SeasonalTela05State extends State<SeasonalTela05> {
         children: List.generate(10, (index) {
           return Center(
             child: AnimeImgName(
-            numero: index,
-            imgLink: seasonList?.data
-                    ?.elementAt(index)
-                    .node
-                    ?.mainPicture
-                    ?.medium ??
-                '',
-            nome: seasonList?.data?.elementAt(index).node?.title ?? '',
-            desc: "",),
+              numero: index,
+              imgLink: seasonList?.data
+                      ?.elementAt(index)
+                      .node
+                      ?.mainPicture
+                      ?.medium ??
+                  '',
+              nome: seasonList?.data?.elementAt(index).node?.title ?? '',
+              desc: "",
+            ),
           );
         })
       )
