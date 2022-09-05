@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:torakka_anime/requests/supabase_request.dart';
 import 'package:torakka_anime/utils/aux_func.dart';
 import 'package:torakka_anime/view/widgets/fundo_inicial.dart';
+
+import '../requests/mal_queries.dart';
+import '../utils/constants.dart';
 
 class EntrarTela01 extends StatefulWidget {
   const EntrarTela01({Key? key}) : super(key: key);
@@ -37,6 +41,9 @@ class _EntrarTela01State extends State<EntrarTela01> {
   void initState() {
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
+    //MalQuery().getAnime(41084);
+    //Future<String> id = SupabaseRequest().getAnimeUuid(41084);
+    SupabaseRequest().getAnimeDB(41084);
     super.initState();
   }
 

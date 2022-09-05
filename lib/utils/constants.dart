@@ -14,4 +14,7 @@ const malUrl = 'https://api.myanimelist.net/v2/anime';
 const malKey = {'X-MAL-CLIENT-ID': '6e5f66c52a149f1c14b8cfb968373f3e'};
 
 const animeFields =
-    '?fields=id,title,main_picture,start_date,end_date,synopsis,score,rank,popularity,media_type,status,genres,num_episodes,start_season,broadcast,source,average_episode_duration,rating,studios';
+    '?fields=id,title,main_picture,start_date,end_date,synopsis,mean,rank,popularity,media_type,status,genres,num_episodes,start_season,broadcast,source,average_episode_duration,rating,studios';
+
+//Criar enums para o status do anime list
+enum Status { completed, watching, planToWatching, dropped }
