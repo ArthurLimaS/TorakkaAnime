@@ -101,6 +101,7 @@ class _EntrarTela01State extends State<EntrarTela01> {
                   child: Container(
                     width: 300,
                     child: TextFormField(
+                      obscureText: true,
                       controller: _passwordController,
                       validator: (val) => validatePassword(val),
                       decoration: InputDecoration(

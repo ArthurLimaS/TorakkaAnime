@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:torakka_anime/components/auth_required_state.dart';
 import 'package:torakka_anime/requests/mal_queries.dart';
 import 'package:torakka_anime/utils/aux_func.dart';
 import 'package:torakka_anime/utils/constants.dart';
 import 'package:torakka_anime/view/widgets/top_anime.dart';
 import 'package:torakka_anime/view/widgets/top_container.dart';
 
-import '../../model/generic_data_model/generic_data.dart';
+import '../../../model/generic_data_model/generic_data.dart';
 
 class HomeTela03 extends StatefulWidget {
   const HomeTela03({Key? key}) : super(key: key);
@@ -14,7 +15,7 @@ class HomeTela03 extends StatefulWidget {
   State<HomeTela03> createState() => _HomeTela03State();
 }
 
-class _HomeTela03State extends State<HomeTela03> {
+class _HomeTela03State extends AuthRequiredState<HomeTela03> {
   GenericData? rankAiring;
   GenericData? rankTop;
   GenericData? rankUpcoming;
@@ -53,28 +54,30 @@ class _HomeTela03State extends State<HomeTela03> {
     //print(rank?.data?.elementAt(1).node?.title ?? 'some default');
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        elevation: 0,
         // ------------------------------------------- APP BAR -----------------------------------------
         titleSpacing: 0.0,
-        actions: [
-          TextButton(
-            onPressed: () {
-              _onSignOutPress(context);
-            },
-            child: const Text(
-              "Sign Out",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 22),
-            ),
-          )
-        ],
-        title: Center(
-            child: SizedBox(
-                height: 65,
-                width: 65,
-                child: Image.asset("assets/img/logo3.png"))),
+        title: Stack(
+          children: [
+            Center(
+                child: SizedBox(
+                    height: 65,
+                    width: 65,
+                    child: Image.asset("assets/img/logo3.png"))),
+            TextButton(
+              onPressed: () {
+                _onSignOutPress(context);
+              },
+              child: const Text(
+                "Sign Out",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22),
+              ),
+            )
+          ],
+        ),
         toolbarHeight: 50,
         backgroundColor: const Color.fromARGB(255, 10, 34, 57),
       ),

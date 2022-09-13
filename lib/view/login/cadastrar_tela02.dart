@@ -4,7 +4,7 @@ import 'package:torakka_anime/components/auth_state.dart';
 import 'package:torakka_anime/utils/constants.dart';
 import 'package:torakka_anime/view/widgets/fundo_inicial.dart';
 
-import '../utils/aux_func.dart';
+import '../../utils/aux_func.dart';
 
 class CadastrarTela02 extends StatefulWidget {
   const CadastrarTela02({Key? key}) : super(key: key);
@@ -203,6 +203,37 @@ class _CadastrarTela02State extends AuthState<CadastrarTela02> {
                           ),
                         ),
                       ),
+                    ),
+                  ),
+                  const SizedBox(height: 25),
+                  Container(
+                    // --------------------------------------------------------- TEXTO -------------------------------------------------------------------------------
+                    child: Column(
+                      children: [
+                        Container(
+                          child: const Text(
+                            "Already a member?",
+                            textDirection: TextDirection.ltr,
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 11, 54, 205),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20),
+                          ),
+                        ),
+                        Container(
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                                textStyle: const TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold)),
+                            onPressed: () {
+                              Navigator.of(context)
+                                  .pushReplacementNamed("/entrar");
+                            },
+                            child: const Text('Log in',
+                                style: TextStyle(color: Colors.white)),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ]),
