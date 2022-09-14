@@ -18,6 +18,9 @@ class _SeasonalTela05State extends State<SeasonalTela05> {
   String searchSeason = "Search Season";
   double fontSize = 22;
   int tab = 0;
+  double widthValue = 75;
+  // 0 caso na tela "This Season"
+  // 1 caso na tela "Search Season"
 
   GenericData? seasonList;
   var isLoaded = false;
@@ -28,6 +31,12 @@ class _SeasonalTela05State extends State<SeasonalTela05> {
 
     //rank = Rank.fromJson(MalQuery().getRank('airing'));
     getData();
+  }
+
+  nTab(n) {
+    setState(() {
+      tab = n;
+    });
   }
 
   getData() async {
@@ -59,7 +68,7 @@ class _SeasonalTela05State extends State<SeasonalTela05> {
               children: [
                 TextButton(
                   onPressed: () {
-                    tab = 0;
+                    nTab(0);
                   },
                   child: Text(
                     thisSeason,
@@ -73,7 +82,7 @@ class _SeasonalTela05State extends State<SeasonalTela05> {
                 const SizedBox(width: 26),
                 TextButton(
                   onPressed: () {
-                    tab = 1;
+                    nTab(1);
                   },
                   child: Text(
                     searchSeason,
@@ -93,24 +102,188 @@ class _SeasonalTela05State extends State<SeasonalTela05> {
       ),
       //backgroundColor: Color.fromARGB(255, 0, 34, 255),
       backgroundColor: Colors.white,
-      body: GridView.count(
-        crossAxisCount: 2,
-        children: List.generate(10, (index) {
-          return Center(
-            child: AnimeImgName(
-              numero: index,
-              imgLink: seasonList?.data
-                      ?.elementAt(index)
-                      .node
-                      ?.mainPicture
-                      ?.medium ??
-                  '',
-              nome: seasonList?.data?.elementAt(index).node?.title ?? '',
-              desc: "",
-            ),
-          );
-        })
+      body: Builder(
+        builder: (BuildContext context) {
+          if (tab == 0){
+            return GridView.count(
+              crossAxisCount: 2,
+              children: List.generate(10, (index) {
+                return Center(
+                  child: AnimeImgName(
+                    numero: index,
+                    imgLink: seasonList?.data
+                            ?.elementAt(index)
+                            .node
+                            ?.mainPicture
+                            ?.medium ??
+                        '',
+                    nome: seasonList?.data?.elementAt(index).node?.title ?? '',
+                    desc: "",
+                  ),
+                );
+              })
+            );
+          } else {
+            return Center(
+              child: ListView(
+                children: List.generate(10, (index) {
+                  int ano = 2022 - index;
+                  return Column(
+                    children: [
+                      const SizedBox(height: 20.0),
+                      Text(
+                        "$ano",
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                            color: Color.fromARGB(255, 10, 34, 57),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18
+                        ),
+                      ),
+                      const SizedBox(height: 20.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          GestureDetector(
+                            onTap: () {},
+                            child: Container(
+                              height: 30,
+                              width: widthValue,
+                              decoration: BoxDecoration(
+                                color: const Color.fromARGB(255, 10, 34, 57),
+                                borderRadius: BorderRadius.circular(1000),
+                              ),
+                              child: const Center(
+                                child: Text(
+                                  "Winter",
+                                  style: TextStyle(
+                                    color: Color.fromARGB(255, 255, 255, 255),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                  ), 
+                                ),
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {},
+                            child: Container(
+                              height: 30,
+                              width: widthValue,
+                              decoration: BoxDecoration(
+                                color: const Color.fromARGB(255, 10, 34, 57),
+                                borderRadius: BorderRadius.circular(1000),
+                              ),
+                              child: const Center(
+                                child: Text(
+                                  "Spring",
+                                  style: TextStyle(
+                                    color: Color.fromARGB(255, 255, 255, 255),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                  ), 
+                                ),
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {},
+                            child: Container(
+                              height: 30,
+                              width: widthValue,
+                              decoration: BoxDecoration(
+                                color: const Color.fromARGB(255, 10, 34, 57),
+                                borderRadius: BorderRadius.circular(1000),
+                              ),
+                              child: const Center(
+                                child: Text(
+                                  "Summer",
+                                  style: TextStyle(
+                                    color: Color.fromARGB(255, 255, 255, 255),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                  ), 
+                                ),
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {},
+                            child: Container(
+                              height: 30,
+                              width: widthValue,
+                              decoration: BoxDecoration(
+                                color: const Color.fromARGB(255, 10, 34, 57),
+                                borderRadius: BorderRadius.circular(1000),
+                              ),
+                              child: const Center(
+                                child: Text(
+                                  "Fall",
+                                  style: TextStyle(
+                                    color: Color.fromARGB(255, 255, 255, 255),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                  ), 
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  );
+                })
+              ),
+            );
+            
+          }
+        },
       )
     );
   }
 }
+
+/*
+GridView.count(
+  crossAxisCount: 2,
+  children: List.generate(10, (index) {
+    return Center(
+      child: AnimeImgName(
+        numero: index,
+        imgLink: seasonList?.data
+                ?.elementAt(index)
+                .node
+                ?.mainPicture
+                ?.medium ??
+            '',
+        nome: seasonList?.data?.elementAt(index).node?.title ?? '',
+        desc: "",
+      ),
+    );
+  })
+)
+*/
+
+/*
+GestureDetector(
+  onTap: () {},
+  child: Container(
+    height: 60,
+    width: 160,
+    decoration: BoxDecoration(
+      color: const Color.fromARGB(255, 11, 53, 205),
+      borderRadius: BorderRadius.circular(1000),
+    ),
+    child: const Center(
+      Text(
+        "Winter",
+        style: TextStyle(
+          color: Color.fromARGB(255, 255, 255, 255),
+          fontWeight: FontWeight.bold,
+          fontSize: 25,
+        ), 
+      ),
+    ),
+  ),
+),
+*/
