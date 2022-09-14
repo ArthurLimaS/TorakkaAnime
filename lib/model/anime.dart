@@ -154,7 +154,7 @@ class Anime {
     _startDate = json['start_date'];
     _endDate = json['end_date'];
     _synopsis = json['synopsis'];
-    _score = json['score'];
+    _score = json['mean'];
     _rank = json['rank'];
     _popularity = json['popularity'];
     _mediaType = json['media_type'];

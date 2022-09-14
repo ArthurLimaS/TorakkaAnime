@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:torakka_anime/components/auth_required_state.dart';
 import 'package:torakka_anime/requests/mal_queries.dart';
 import 'package:torakka_anime/utils/aux_func.dart';
 import 'package:torakka_anime/utils/constants.dart';
 import 'package:torakka_anime/view/widgets/top_anime.dart';
 import 'package:torakka_anime/view/widgets/top_container.dart';
 
+import '../../components/auth_state.dart';
 import '../../model/generic_data_model/generic_data.dart';
 
 class HomeTela03 extends StatefulWidget {
@@ -14,17 +16,19 @@ class HomeTela03 extends StatefulWidget {
   State<HomeTela03> createState() => _HomeTela03State();
 }
 
-class _HomeTela03State extends State<HomeTela03> {
+class _HomeTela03State extends AuthRequiredState<HomeTela03> {
   GenericData? rankAiring;
   GenericData? rankTop;
   GenericData? rankUpcoming;
-  var isLoaded = false;
 
   @override
-  void initState() {
+  void initState(){
     super.initState();
 
-    //rank = Rank.fromJson(MalQuery().getRank('airing'));
+    /*final res = await supabase.rpc('insertIfNotExist', params: {
+      'id': supabase.auth.user()?.id,
+      'name': supabase.auth.user()?.userMetadata['name']
+    });*/
     getData();
   }
 
@@ -41,16 +45,14 @@ class _HomeTela03State extends State<HomeTela03> {
     rankTop = await MalQuery().getRank('all');
     if (rankAiring != null && rankTop != null && rankUpcoming != null) {
       if (this.mounted) {
-        setState(() {
-          isLoaded = true;
-        });
+        setState(() {});
       }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    //print(rank?.data?.elementAt(1).node?.title ?? 'some default');
+    
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
