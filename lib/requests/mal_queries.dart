@@ -1,8 +1,6 @@
-import 'dart:convert';
-
 import 'package:torakka_anime/model/anime.dart';
 import 'package:torakka_anime/requests/request_mal.dart';
-import 'package:http/http.dart' as http;
+import 'package:torakka_anime/requests/supabase_request.dart';
 import 'package:torakka_anime/utils/constants.dart';
 
 import '../model/generic_data_model/generic_data.dart';
@@ -22,10 +20,12 @@ class MalQuery {
   }
 
   Future getAnime(int id) async {
+    
     var query = '/$id$animeFields';
     var response = await MalRequest().getAnimeRequest(query);
     var anime = Anime.fromJson(response);
-    //print(anime.title);
+    SupabaseRequest().insertAnimeToDatabase(anime);
+
     return anime;
   }
 

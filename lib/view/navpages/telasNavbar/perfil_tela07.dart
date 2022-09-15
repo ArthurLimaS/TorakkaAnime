@@ -85,8 +85,7 @@ class _PerfilTela07State extends State<PerfilTela07> {
                             decoration: BoxDecoration(
                               image: DecorationImage(
                                 fit: BoxFit.fill,
-                                image: NetworkImage(
-                                    "https://s3-alpha-sig.figma.com/img/4d4c/fc6d/9544f856d9b0cedceb54bdf7e84b8000?Expires=1662336000&Signature=HM8HjqcDRmWdhVXrQpume1N9Gip8PfcCNZn653fprGNIY39WcMuexoHpNJrM~WO~rc2gFmSrCkEdQUrvrgrCEG45BZ3NjYLhzRn1kTZxVV7IjTnTF2ArU2z0SmmQiEeaT8C322dI-If4jiD~aOO1lY2rvrdjv~23HAUBTFG4rH1wzOvs1lBI9ADmeuDCtzlOqOi7YnGZ8S80PILuzGJ7RHtxYdYkQ~vEOECPDbhEsRBqRa105LZdBTM4H6uU30VhmrmmJCeCfyWtLY-fT5zei9Ce3ZaxeNPFnFJHHbg3tMdU3LXGSWLjsmFdCAxcFqc60KD~S3WbhUmkfigujMCx5g__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA"),
+                                image: NetworkImage(""),
                               ),
                             ),
                           ),

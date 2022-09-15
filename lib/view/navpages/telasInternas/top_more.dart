@@ -77,6 +77,7 @@ class _TopMoreState extends State<TopMore> {
               for (int i = 0; i < 50; i++)
                 TopAnime(
                     // ========================================================== TOP ===============================================
+                    id: rank?.data?.elementAt(i).node?.id ?? 0,
                     numero: i,
                     imgLink:
                         rank?.data?.elementAt(i).node?.mainPicture?.medium ??

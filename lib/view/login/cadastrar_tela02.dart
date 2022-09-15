@@ -28,19 +28,21 @@ class _CadastrarTela02State extends AuthState<CadastrarTela02> {
       form.save();
       FocusScope.of(context).unfocus();
 
-      //usar o userMetadata para mandar o nickname
       final response = await Supabase.instance.client.auth.signUp(
           _email, _password,
           options: AuthOptions(redirectTo: myAuthRedirectUrl));
 
-      //debugPrint(response.data!.toJson().toString());
+      print(response.user?.id);
       if (response.error != null) {
         showToastMessage('Sign up failed: ${response.error!.message}');
       } else if (response.data == null && response.user == null) {
-        showToastMessage(
-            "Please check your email and follow the instructions to verify your email address.");
+        showToastMessage(response.error!.message);
       } else {
-        showToastMessage('Registration Success', isError: false);
+        supabase.from('USER').insert(
+            {'id_user': response.user?.id, 'name': _nickname}).execute();
+        showToastMessage(
+            'Please check your email and follow the instructions to verify your email address.',
+            isError: false);
         /*print(response.data?.user?.id);
         try {
           final res = await supabase.from('USER').insert([

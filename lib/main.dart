@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:torakka_anime/view/login/cadastrar_tela02.dart';
 import 'package:torakka_anime/view/login/entrar_tela01.dart';
@@ -11,7 +12,6 @@ import 'package:torakka_anime/view/login/inicial_tela00.dart';
 import 'package:torakka_anime/view/navpages/telasInternas/top_more.dart';
 
 import 'requests/supabase_request.dart';
-import 'utils/constants.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();

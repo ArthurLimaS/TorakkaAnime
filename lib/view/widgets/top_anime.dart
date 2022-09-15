@@ -7,8 +7,10 @@ class TopAnime extends StatefulWidget {
     required this.imgLink,
     required this.nome,
     required this.desc,
+    required this.id,
   }) : super(key: key);
 
+  final int id;
   final int numero;
   final String imgLink;
   final String nome;
@@ -19,6 +21,7 @@ class TopAnime extends StatefulWidget {
 }
 
 class _TopAnimeState extends State<TopAnime> {
+  get id => widget.id;
   get numero => widget.numero;
   get imgLink => widget.imgLink;
   get nome => widget.nome;
@@ -33,7 +36,7 @@ class _TopAnimeState extends State<TopAnime> {
           height: 108,
           child: GestureDetector(
             onTap: () {
-              Navigator.of(context).pushNamed("/anime");
+              Navigator.of(context).pushNamed("/anime", arguments: id);
             },
             child: Row(children: [
               const SizedBox(width: 15),

@@ -5,7 +5,6 @@ import 'package:torakka_anime/utils/aux_func.dart';
 import 'package:torakka_anime/utils/constants.dart';
 import 'package:torakka_anime/view/widgets/top_anime.dart';
 import 'package:torakka_anime/view/widgets/top_container.dart';
-
 import '../../../model/generic_data_model/generic_data.dart';
 
 class HomeTela03 extends StatefulWidget {
@@ -19,13 +18,15 @@ class _HomeTela03State extends AuthRequiredState<HomeTela03> {
   GenericData? rankAiring;
   GenericData? rankTop;
   GenericData? rankUpcoming;
-  var isLoaded = false;
 
   @override
   void initState() {
     super.initState();
 
-    //rank = Rank.fromJson(MalQuery().getRank('airing'));
+    /*final res = await supabase.rpc('insertIfNotExist', params: {
+      'id': supabase.auth.user()?.id,
+      'name': supabase.auth.user()?.userMetadata['name']
+    });*/
     getData();
   }
 
@@ -42,16 +43,13 @@ class _HomeTela03State extends AuthRequiredState<HomeTela03> {
     rankTop = await MalQuery().getRank('all');
     if (rankAiring != null && rankTop != null && rankUpcoming != null) {
       if (this.mounted) {
-        setState(() {
-          isLoaded = true;
-        });
+        setState(() {});
       }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    //print(rank?.data?.elementAt(1).node?.title ?? 'some default');
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -111,6 +109,7 @@ class _HomeTela03State extends AuthRequiredState<HomeTela03> {
                   for (int i = 0; i < 3; i++)
                     TopAnime(
                         // ========================================================== TOP ===============================================
+                        id: rankAiring?.data?.elementAt(i).node?.id ?? 0,
                         numero: i,
                         imgLink: rankAiring?.data
                                 ?.elementAt(i)
@@ -145,6 +144,7 @@ class _HomeTela03State extends AuthRequiredState<HomeTela03> {
                   for (int i = 0; i < 3; i++)
                     TopAnime(
                         // ========================================================== TOP ===============================================
+                        id: rankTop?.data?.elementAt(i).node?.id ?? 0,
                         numero: i,
                         imgLink: rankTop?.data
                                 ?.elementAt(i)
@@ -179,6 +179,7 @@ class _HomeTela03State extends AuthRequiredState<HomeTela03> {
                   for (int i = 0; i < 3; i++)
                     TopAnime(
                         // ========================================================== TOP ===============================================
+                        id: rankUpcoming?.data?.elementAt(i).node?.id ?? 0,
                         numero: i,
                         imgLink: rankUpcoming?.data
                                 ?.elementAt(i)

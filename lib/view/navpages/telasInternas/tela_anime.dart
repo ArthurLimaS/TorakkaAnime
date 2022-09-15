@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:torakka_anime/model/anime.dart';
+import 'package:torakka_anime/requests/mal_queries.dart';
 
 class TelaAnime extends StatefulWidget {
   const TelaAnime({Key? key}) : super(key: key);
@@ -10,6 +12,42 @@ class TelaAnime extends StatefulWidget {
 }
 
 class _TelaAnimeState extends State<TelaAnime> {
+  late int x;
+  Anime? anime;
+  bool y = true;
+  int tamGenero = 3;
+  var isLoaded = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    getData();
+  }
+
+  getData() async {
+    final arg = ModalRoute.of(context)!.settings.arguments;
+    anime = await MalQuery().getAnime(int.parse('$arg'));
+
+    if (anime != null) {
+      if (anime!.genres!.length > 4) {
+        tamGenero = 4;
+      } else {
+        tamGenero = anime!.genres!.length;
+      }
+      if (mounted) {
+        setState(() {
+          isLoaded = true;
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,10 +74,10 @@ class _TelaAnimeState extends State<TelaAnime> {
                   padding: const EdgeInsets.only(left: 20),
                   child: Align(
                     alignment: Alignment.topLeft,
-                    child: const Text(
-                      'Made in Abyss: Retsujitsu no Ougonkyou',
+                    child: Text(
+                      anime?.title ?? "",
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                         fontSize: 24,
@@ -81,7 +119,7 @@ class _TelaAnimeState extends State<TelaAnime> {
                               image: DecorationImage(
                                 fit: BoxFit.fill,
                                 image: NetworkImage(
-                                    "https://cdn.myanimelist.net/images/anime/1864/122519.jpg"),
+                                    anime?.mainPicture?.large ?? ''),
                               ),
                             ),
                           ),
@@ -135,7 +173,7 @@ class _TelaAnimeState extends State<TelaAnime> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      '1/12',
+                                      '0/${anime?.numEpisodes ?? ""}',
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,
@@ -204,7 +242,7 @@ class _TelaAnimeState extends State<TelaAnime> {
                             ),
                           ),
                           Text(
-                            '#37',
+                            '#${anime?.rank ?? ''}',
                             style: TextStyle(
                               color: Color.fromARGB(255, 10, 34, 57),
                               fontSize: 20,
@@ -220,7 +258,7 @@ class _TelaAnimeState extends State<TelaAnime> {
                             ),
                           ),
                           Text(
-                            '#952',
+                            '#${anime?.popularity ?? ''}',
                             style: TextStyle(
                               color: Color.fromARGB(255, 10, 34, 57),
                               fontSize: 20,
@@ -236,7 +274,7 @@ class _TelaAnimeState extends State<TelaAnime> {
                             ),
                           ),
                           Text(
-                            '8.77',
+                            '${anime?.score ?? ''}',
                             style: TextStyle(
                               color: Color.fromARGB(255, 10, 34, 57),
                               fontSize: 20,
@@ -263,7 +301,7 @@ class _TelaAnimeState extends State<TelaAnime> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
-                            'TV',
+                            anime?.mediaType?.toUpperCase() ?? '',
                             style: TextStyle(
                               color: Color.fromARGB(255, 10, 34, 57),
                               fontSize: 20,
@@ -271,7 +309,7 @@ class _TelaAnimeState extends State<TelaAnime> {
                           ),
                           SizedBox(height: 25),
                           Text(
-                            'Airing',
+                            anime?.status?.replaceAll('_', ' ') ?? '',
                             style: TextStyle(
                               color: Color.fromARGB(255, 10, 34, 57),
                               fontSize: 20,
@@ -279,7 +317,7 @@ class _TelaAnimeState extends State<TelaAnime> {
                           ),
                           SizedBox(height: 25),
                           Text(
-                            '12 episodes',
+                            '${anime?.numEpisodes ?? ''} episodes',
                             style: TextStyle(
                               color: Color.fromARGB(255, 10, 34, 57),
                               fontSize: 20,
@@ -295,7 +333,7 @@ class _TelaAnimeState extends State<TelaAnime> {
           ),
           const SizedBox(height: 15),
           Container(
-            padding: EdgeInsets.only(left: 20, right: 20),
+            padding: const EdgeInsets.only(left: 20, right: 20),
             child: Column(children: [
               const Divider(
                 color: Color.fromARGB(255, 218, 218, 218),
@@ -308,8 +346,8 @@ class _TelaAnimeState extends State<TelaAnime> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Summer 2022 • Wednesdays at 22:30 • 24 min per ep.',
-                      style: TextStyle(
+                      '${anime?.startSeason?.season ?? ''} ${anime?.startSeason?.year ?? ''} • ${anime?.broadcast?.dayOfTheWeek ?? ''} at ${anime?.broadcast?.startTime ?? ''} • ${anime?.getEpisodeDurationMin() ?? ''} min per ep.',
+                      style: const TextStyle(
                         color: Color.fromARGB(255, 10, 34, 57),
                         fontSize: 14,
                       ),
@@ -329,7 +367,7 @@ class _TelaAnimeState extends State<TelaAnime> {
                   const SizedBox(height: 5),
                   Row(
                     children: [
-                      Text(
+                      const Text(
                         'Rating',
                         style: TextStyle(
                           color: Color.fromARGB(255, 10, 34, 57),
@@ -340,7 +378,8 @@ class _TelaAnimeState extends State<TelaAnime> {
                       Expanded(
                         child: Text(
                           textAlign: TextAlign.end,
-                          'R - 17 +',
+                          anime?.rating?.toUpperCase().replaceAll('_', ' ') ??
+                              '',
                           style: TextStyle(
                             color: Color.fromARGB(255, 10, 34, 57),
                             fontSize: 20,
@@ -352,7 +391,7 @@ class _TelaAnimeState extends State<TelaAnime> {
                   const SizedBox(height: 15),
                   Row(
                     children: [
-                      Text(
+                      const Text(
                         'Source',
                         style: TextStyle(
                           color: Color.fromARGB(255, 10, 34, 57),
@@ -363,7 +402,7 @@ class _TelaAnimeState extends State<TelaAnime> {
                       Expanded(
                         child: Text(
                           textAlign: TextAlign.end,
-                          'Web Manga',
+                          anime?.source?.replaceAll('_', ' ') ?? '',
                           style: TextStyle(
                             color: Color.fromARGB(255, 10, 34, 57),
                             fontSize: 20,
@@ -375,7 +414,7 @@ class _TelaAnimeState extends State<TelaAnime> {
                   const SizedBox(height: 15),
                   Row(
                     children: [
-                      Text(
+                      const Text(
                         'Studio',
                         style: TextStyle(
                           color: Color.fromARGB(255, 10, 34, 57),
@@ -386,7 +425,7 @@ class _TelaAnimeState extends State<TelaAnime> {
                       Expanded(
                         child: Text(
                           textAlign: TextAlign.end,
-                          'Kinema Citrus',
+                          anime?.studios?.first.name ?? '',
                           style: TextStyle(
                             color: Color.fromARGB(255, 10, 34, 57),
                             fontSize: 20,
@@ -398,7 +437,7 @@ class _TelaAnimeState extends State<TelaAnime> {
                   const SizedBox(height: 15),
                   Row(
                     children: [
-                      Text(
+                      const Text(
                         'Aired',
                         style: TextStyle(
                           color: Color.fromARGB(255, 10, 34, 57),
@@ -408,8 +447,8 @@ class _TelaAnimeState extends State<TelaAnime> {
                       ),
                       Expanded(
                         child: Text(
-                          textAlign: TextAlign.end,
-                          'Jul 6, 2022 to ?',
+                          textAlign: TextAlign.end, //'Jul 6, 2022o ? t',
+                          '${anime?.startDate ?? ''} to ${anime?.endDate ?? ''}',
                           style: TextStyle(
                             color: Color.fromARGB(255, 10, 34, 57),
                             fontSize: 20,
@@ -431,81 +470,25 @@ class _TelaAnimeState extends State<TelaAnime> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
-                      height: 20,
-                      width: 75,
-                      decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 11, 53, 205),
-                        borderRadius: BorderRadius.circular(1000),
-                      ),
-                      child: const Center(
-                        child: Text(
-                          'Adventure',
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 255, 255, 255),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
+                    for (int i = 0; i < tamGenero; i++)
+                      Container(
+                        margin: const EdgeInsets.only(right: 10),
+                        padding: const EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 11, 53, 205),
+                          borderRadius: BorderRadius.circular(1000),
+                        ),
+                        child: Center(
+                          child: Text(
+                            anime?.genres?.elementAt(i).name ?? '',
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 255, 255, 255),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    const SizedBox(width: 10),
-                    Container(
-                      height: 20,
-                      width: 75,
-                      decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 11, 53, 205),
-                        borderRadius: BorderRadius.circular(1000),
-                      ),
-                      child: const Center(
-                        child: Text(
-                          'Drama',
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 255, 255, 255),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    Container(
-                      height: 20,
-                      width: 75,
-                      decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 11, 53, 205),
-                        borderRadius: BorderRadius.circular(1000),
-                      ),
-                      child: const Center(
-                        child: Text(
-                          'Fantasy',
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 255, 255, 255),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    Container(
-                      height: 20,
-                      width: 75,
-                      decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 11, 53, 205),
-                        borderRadius: BorderRadius.circular(1000),
-                      ),
-                      child: const Center(
-                        child: Text(
-                          'Sci-Fi',
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 255, 255, 255),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                          ),
-                        ),
-                      ),
-                    ),
                   ],
                 ),
               ),
@@ -524,7 +507,7 @@ class _TelaAnimeState extends State<TelaAnime> {
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
+                            const Text(
                               'Synopsis',
                               style: TextStyle(
                                 color: Color.fromARGB(255, 10, 34, 57),
@@ -534,7 +517,7 @@ class _TelaAnimeState extends State<TelaAnime> {
                             ),
                             const SizedBox(height: 10),
                             Text(
-                              'Directly after the events of Made in Abyss Movie 3: Dawn of the Deep Soul, the fifth installment of Made in Abyss covers the adventure of Reg, Riko, and Nanachi in the Sixth Layer, The Capital of the Unreturned.',
+                              anime?.synopsis ?? '',
                               style: TextStyle(
                                 color: Color.fromARGB(255, 10, 34, 57),
                                 fontSize: 14,

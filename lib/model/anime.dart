@@ -152,18 +152,26 @@ class Anime {
         ? new MainPicture.fromJson(json['main_picture'])
         : null;
     _startDate = json['start_date'];
-    _endDate = json['end_date'];
+    if (json['end_date'] == null) {
+      _endDate = '?';
+    } else {
+      _endDate = json['end_date'];
+    }
     _synopsis = json['synopsis'];
-    _score = json['score'];
+    _score = json['mean'];
     _rank = json['rank'];
     _popularity = json['popularity'];
     _mediaType = json['media_type'];
     _status = json['status'];
+
     if (json['genres'] != null) {
       _genres = <Genre>[];
       json['genres'].forEach((v) {
         _genres!.add(new Genre.fromJson(v));
       });
+    } else {
+      _genres = <Genre>[];
+      _genres!.add(Genre(id: null, name: 'none found'));
     }
     _numEpisodes = json['num_episodes'];
     _startSeason = json['start_season'] != null
@@ -174,13 +182,24 @@ class Anime {
         : null;
     _source = json['source'];
     _averageEpisodeDuration = json['average_episode_duration'];
-    _rating = json['rating'];
-    if (json['studios'] != null) {
+    if (json['rating'].toString().isEmpty || json['rating'] == null) {
+      _rating = 'none';
+    } else {
+      _rating = json['rating'];
+    }
+    print(json['studios']);
+    if (json['studios'].toString() == '[]') {
+      _studios = <Studio>[];
+      _studios!.add(Studio(0, 'none'));
+    } else if (json['studios'] != null) {
       _studios = <Studio>[];
       json['studios'].forEach((v) {
+        print(v);
         _studios!.add(new Studio.fromJson(v));
       });
     }
+    print(studios?.first.name);
+    print(studios?.length);
   }
 
   Map<String, dynamic> toJson() {
@@ -215,5 +234,12 @@ class Anime {
       data['studios'] = _studios!.map((v) => v.toJson()).toList();
     }
     return data;
+  }
+
+  int getEpisodeDurationMin() {
+    if (averageEpisodeDuration == 0 || averageEpisodeDuration == null) {
+      return 0;
+    }
+    return averageEpisodeDuration! ~/ 60;
   }
 }
