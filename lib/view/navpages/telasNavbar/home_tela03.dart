@@ -5,7 +5,7 @@ import 'package:torakka_anime/utils/aux_func.dart';
 import 'package:torakka_anime/utils/constants.dart';
 import 'package:torakka_anime/view/widgets/top_anime.dart';
 import 'package:torakka_anime/view/widgets/top_container.dart';
-import '../../model/generic_data_model/generic_data.dart';
+import '../../../model/generic_data_model/generic_data.dart';
 
 class HomeTela03 extends StatefulWidget {
   const HomeTela03({Key? key}) : super(key: key);
@@ -20,7 +20,7 @@ class _HomeTela03State extends AuthRequiredState<HomeTela03> {
   GenericData? rankUpcoming;
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
 
     /*final res = await supabase.rpc('insertIfNotExist', params: {
@@ -50,31 +50,32 @@ class _HomeTela03State extends AuthRequiredState<HomeTela03> {
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        elevation: 0,
         // ------------------------------------------- APP BAR -----------------------------------------
         titleSpacing: 0.0,
-        actions: [
-          TextButton(
-            onPressed: () {
-              _onSignOutPress(context);
-            },
-            child: const Text(
-              "Sign Out",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 22),
-            ),
-          )
-        ],
-        title: Center(
-            child: SizedBox(
-                height: 65,
-                width: 65,
-                child: Image.asset("assets/img/logo3.png"))),
+        title: Stack(
+          children: [
+            Center(
+                child: SizedBox(
+                    height: 65,
+                    width: 65,
+                    child: Image.asset("assets/img/logo3.png"))),
+            TextButton(
+              onPressed: () {
+                _onSignOutPress(context);
+              },
+              child: const Text(
+                "Sign Out",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22),
+              ),
+            )
+          ],
+        ),
         toolbarHeight: 50,
         backgroundColor: const Color.fromARGB(255, 10, 34, 57),
       ),
@@ -108,6 +109,7 @@ class _HomeTela03State extends AuthRequiredState<HomeTela03> {
                   for (int i = 0; i < 3; i++)
                     TopAnime(
                         // ========================================================== TOP ===============================================
+                        id: rankAiring?.data?.elementAt(i).node?.id ?? 0,
                         numero: i,
                         imgLink: rankAiring?.data
                                 ?.elementAt(i)
@@ -142,6 +144,7 @@ class _HomeTela03State extends AuthRequiredState<HomeTela03> {
                   for (int i = 0; i < 3; i++)
                     TopAnime(
                         // ========================================================== TOP ===============================================
+                        id: rankTop?.data?.elementAt(i).node?.id ?? 0,
                         numero: i,
                         imgLink: rankTop?.data
                                 ?.elementAt(i)
@@ -176,6 +179,7 @@ class _HomeTela03State extends AuthRequiredState<HomeTela03> {
                   for (int i = 0; i < 3; i++)
                     TopAnime(
                         // ========================================================== TOP ===============================================
+                        id: rankUpcoming?.data?.elementAt(i).node?.id ?? 0,
                         numero: i,
                         imgLink: rankUpcoming?.data
                                 ?.elementAt(i)

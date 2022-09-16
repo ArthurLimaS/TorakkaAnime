@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:torakka_anime/view/navpages/discover_tela04.dart';
-import 'package:torakka_anime/view/navpages/home_tela03.dart';
-import 'package:torakka_anime/view/navpages/lista_tela06.dart';
-import 'package:torakka_anime/view/navpages/perfil_tela07.dart';
-import 'package:torakka_anime/view/navpages/seasonal_tela05.dart';
+import 'package:torakka_anime/view/navpages/telasNavbar/discover_tela04.dart';
+import 'package:torakka_anime/view/navpages/telasNavbar/home_tela03.dart';
+import 'package:torakka_anime/view/navpages/telasNavbar/lista_tela06.dart';
+import 'package:torakka_anime/view/navpages/telasNavbar/perfil_tela07.dart';
+import 'package:torakka_anime/view/navpages/telasNavbar/seasonal_tela05.dart';
+import 'package:torakka_anime/view/navpages/telasNavbar/seasonal_tela05.dart';
 
 class MainNavPage extends StatefulWidget {
   const MainNavPage({Key? key}) : super(key: key);
@@ -38,8 +39,8 @@ class _MainNavPageState extends State<MainNavPage> {
           onTap: onTap,
           currentIndex: currentIndex,
           iconSize: 30,
-          selectedItemColor: Color.fromARGB(255, 0, 0, 0),
-          unselectedItemColor: Color.fromARGB(255, 110, 110, 110),
+          selectedItemColor: const Color.fromARGB(255, 0, 0, 0),
+          unselectedItemColor: const Color.fromARGB(255, 110, 110, 110),
           type: BottomNavigationBarType.fixed,
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),

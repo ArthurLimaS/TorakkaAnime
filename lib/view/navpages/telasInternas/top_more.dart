@@ -4,8 +4,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:torakka_anime/view/widgets/top_anime.dart';
 import 'package:torakka_anime/view/widgets/top_container.dart';
 
-import '../../model/generic_data_model/generic_data.dart';
-import '../../requests/mal_queries.dart';
+import '../../../model/generic_data_model/generic_data.dart';
+import '../../../requests/mal_queries.dart';
 
 class TopMore extends StatefulWidget {
   const TopMore({Key? key}) : super(key: key);
@@ -72,17 +72,19 @@ class _TopMoreState extends State<TopMore> {
         Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           SizedBox(
             //============================================================== TOP AIRING ANIME======================================================
-            height: 5670,
+
             child: Column(children: <Widget>[
               for (int i = 0; i < 50; i++)
                 TopAnime(
                     // ========================================================== TOP ===============================================
+                    id: rank?.data?.elementAt(i).node?.id ?? 0,
                     numero: i,
                     imgLink:
                         rank?.data?.elementAt(i).node?.mainPicture?.medium ??
                             '',
                     nome: rank?.data?.elementAt(i).node?.title ?? '',
                     desc: ""),
+              const SizedBox(height: 30),
             ]),
           ),
         ]),
