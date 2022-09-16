@@ -5,8 +5,6 @@ import 'package:torakka_anime/utils/aux_func.dart';
 import 'package:torakka_anime/utils/constants.dart';
 import 'package:torakka_anime/view/widgets/top_anime.dart';
 import 'package:torakka_anime/view/widgets/top_container.dart';
-
-import '../../components/auth_state.dart';
 import '../../model/generic_data_model/generic_data.dart';
 
 class HomeTela03 extends StatefulWidget {
