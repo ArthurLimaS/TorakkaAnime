@@ -18,6 +18,7 @@ class AuthState<T extends StatefulWidget> extends SupabaseAuthState<T> {
 
   @override
   void onPasswordRecovery(Session session) {
+    //Colocar a tela change password que vai ser criada, que ficará dentro de profile
     Navigator.of(context).pushReplacementNamed('/entrar');
   }
 
