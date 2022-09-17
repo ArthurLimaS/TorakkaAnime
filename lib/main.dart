@@ -5,6 +5,7 @@ import 'package:torakka_anime/view/login/cadastrar_tela02.dart';
 import 'package:torakka_anime/view/login/entrar_tela01.dart';
 import 'package:torakka_anime/view/navpages/main_navpag.dart';
 import 'package:torakka_anime/view/navpages/telasInternas/tela_anime.dart';
+import 'package:torakka_anime/view/navpages/telasNavbar/lista_tela06.dart';
 import 'package:torakka_anime/view/navpages/telasNavbar/perfil_tela07.dart';
 import 'package:torakka_anime/view/widgets/fundo_inicial.dart';
 import 'package:torakka_anime/view/navpages/telasNavbar/home_tela03.dart';
