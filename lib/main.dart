@@ -24,14 +24,18 @@ Future main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
+  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
+        
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
+
         initialRoute: "/",
+        
         routes: <String, WidgetBuilder>{
           "/": (BuildContext context) => const InicialTela00(),
           "/entrar": (BuildContext context) => const EntrarTela01(),

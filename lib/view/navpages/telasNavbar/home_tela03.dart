@@ -84,13 +84,17 @@ class _HomeTela03State extends AuthRequiredState<HomeTela03> {
       body: ListView(
         children: [
           const SizedBox(height: 30),
+
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
+
             children: [
               Container(
                 //============================================================== TOP AIRING ANIME======================================================
                 height: 400,
+
                 width: 365,
+
                 decoration: BoxDecoration(
                   color: Colors.white,
                   border: Border.all(color: Colors.grey),
@@ -103,10 +107,12 @@ class _HomeTela03State extends AuthRequiredState<HomeTela03> {
                     ),
                   ],
                 ),
+
                 child: Column(children: <Widget>[
                   const TopContainer(nome: 'Top Airing Anime'),
                   const SizedBox(height: 7),
                   for (int i = 0; i < 3; i++)
+                    
                     TopAnime(
                         // ========================================================== TOP ===============================================
                         id: rankAiring?.data?.elementAt(i).node?.id ?? 0,
@@ -119,8 +125,11 @@ class _HomeTela03State extends AuthRequiredState<HomeTela03> {
                             '',
                         nome: rankAiring?.data?.elementAt(i).node?.title ?? '',
                         desc: ""),
+                    
                 ]),
+
               ),
+              
               const SizedBox(height: 30),
               Container(
                 //============================================================== TOP ANIME======================================================
@@ -195,6 +204,7 @@ class _HomeTela03State extends AuthRequiredState<HomeTela03> {
               const SizedBox(height: 30),
             ],
           ),
+  
         ],
       ),
     );
