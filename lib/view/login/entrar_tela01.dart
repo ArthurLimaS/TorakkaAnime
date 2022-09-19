@@ -4,9 +4,6 @@ import 'package:torakka_anime/requests/supabase_request.dart';
 import 'package:torakka_anime/utils/aux_func.dart';
 import 'package:torakka_anime/view/widgets/fundo_inicial.dart';
 
-import '../requests/mal_queries.dart';
-import '../utils/constants.dart';
-
 class EntrarTela01 extends StatefulWidget {
   const EntrarTela01({Key? key}) : super(key: key);
 
@@ -108,6 +105,7 @@ class _EntrarTela01State extends State<EntrarTela01> {
                   child: Container(
                     width: 300,
                     child: TextFormField(
+                      obscureText: true,
                       controller: _passwordController,
                       validator: (val) => validatePassword(val),
                       decoration: InputDecoration(
