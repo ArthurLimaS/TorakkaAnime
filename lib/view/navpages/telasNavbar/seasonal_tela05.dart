@@ -23,6 +23,7 @@ class _SeasonalTela05State extends State<SeasonalTela05> {
   double widthValue = 75;
   GenericData? seasonList;
   bool isLoaded = false;
+  int? listSize = 0;
 
   int anoAtual = DateTime.now().year;
   int mesAtual = DateTime.now().month;
@@ -45,7 +46,9 @@ class _SeasonalTela05State extends State<SeasonalTela05> {
   }
 
   getData(String season, int ano) async {
-    seasonList = await MalQuery().getSeason(season, ano, limit: 10);
+    seasonList = await MalQuery().getSeason(season, ano, limit: 500);
+
+    listSize = seasonList?.data?.length;
 
     if (this.mounted) {
       setState(() {
@@ -159,8 +162,8 @@ class _SeasonalTela05State extends State<SeasonalTela05> {
             if (tab == 0) {
               return GridView.count(
                 crossAxisCount: 2,
-                childAspectRatio: (120 / 135),
-                children: List.generate(10, (index) {
+                childAspectRatio: (120 / 150),
+                children: List.generate(listSize!, (index) {
                   return AnimeImgName(
                     id: seasonList?.data?.elementAt(index).node?.id ?? 0,
                     numero: index,
@@ -229,8 +232,8 @@ class _SeasonalTela05State extends State<SeasonalTela05> {
                 },
                 child: GridView.count(
                   crossAxisCount: 2,
-                  childAspectRatio: (120 / 140),
-                  children: List.generate(10, (index) {
+                  childAspectRatio: (120 / 150),
+                  children: List.generate(listSize!, (index) {
                     return AnimeImgName(
                       id: seasonList?.data?.elementAt(index).node?.id ?? 0,
                       numero: index,
