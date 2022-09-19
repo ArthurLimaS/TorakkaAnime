@@ -123,7 +123,7 @@ class _SeasonalTela05State extends State<SeasonalTela05> {
                 );
               })
             );
-          } else {
+          } else if (tab == 1) {
             return Center(
               child: ListView(
                 children: List.generate(10, (index) {
@@ -235,7 +235,8 @@ class _SeasonalTela05State extends State<SeasonalTela05> {
                 })
               ),
             );
-            
+          } else {
+            return const Center();
           }
         },
       )
