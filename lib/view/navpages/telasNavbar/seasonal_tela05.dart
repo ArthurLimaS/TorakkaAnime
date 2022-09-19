@@ -18,27 +18,70 @@ class _SeasonalTela05State extends State<SeasonalTela05> {
   int tab = 0;
   // 0 caso na tela "This Season"
   // 1 caso na tela "Search Season"
+  // 2 caso na tela "Search Season/season_X"
 
   double widthValue = 75;
   GenericData? seasonList;
   bool isLoaded = false;
+
+  int anoAtual = DateTime.now().year;
+  int mesAtual = DateTime.now().month;
+  //Map<int, Map<String, String>> generator;
 
   @override
   void initState() {
     super.initState();
 
     //rank = Rank.fromJson(MalQuery().getRank('airing'));
-    getData();
+    if(3 <= mesAtual && mesAtual <= 5){
+      getData('spring', anoAtual);
+    } else if(6 <= mesAtual && mesAtual <= 8){
+      getData('summer', anoAtual);
+    } else if(9 <= mesAtual && mesAtual <= 11){
+      getData('fall', anoAtual);
+    } else if(12 <= mesAtual || mesAtual <= 2){
+      getData('winter', anoAtual);
+    }
   }
 
-  getData() async {
-    seasonList = await MalQuery().getSeason('summer', 2022, limit: 10);
+  getData(String season, int ano) async {
+    seasonList = await MalQuery().getSeason(season, ano, limit: 10);
 
     if (this.mounted) {
       setState(() {
         isLoaded = true;
       });
     }
+  }
+
+  buttonSeasons(String season, int ano) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          tab = 2;
+          isLoaded = false;
+          getData(season, ano);
+        });
+      },
+      child: Container(
+        height: 30,
+        width: widthValue,
+        decoration: BoxDecoration(
+          color: const Color.fromARGB(255, 10, 34, 57),
+          borderRadius: BorderRadius.circular(1000),
+        ),
+        child: Center(
+          child: Text(
+            season,
+            style: const TextStyle(
+              color: Color.fromARGB(255, 255, 255, 255),
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+            ), 
+          ),
+        ),
+      ),
+    );
   }
 
   @override
@@ -60,7 +103,20 @@ class _SeasonalTela05State extends State<SeasonalTela05> {
                 TextButton(
                   onPressed: () {
                     setState(() {
-                      tab = 0;
+                      if (tab != 0) {
+                        tab = 0;
+                        isLoaded = false;
+
+                        if(3 <= mesAtual && mesAtual <= 5){
+                          getData('spring', anoAtual);
+                        } else if(6 <= mesAtual && mesAtual <= 8){
+                          getData('summer', anoAtual);
+                        } else if(9 <= mesAtual && mesAtual <= 11){
+                          getData('fall', anoAtual);
+                        } else if(12 <= mesAtual || mesAtual <= 2){
+                          getData('winter', anoAtual);
+                        }
+                      }
                     });
                   },
                   child: Text(
@@ -119,8 +175,79 @@ class _SeasonalTela05State extends State<SeasonalTela05> {
                   );
                 })
               );
+            } else if (tab == 1) {
+              return Center(
+                child: ListView(
+                  children: List.generate(11, (index) {
+                    int ano = anoAtual - index;
+                    return Column(
+                      children: [
+                        const SizedBox(height: 10.0),
+                        Text(
+                          "$ano",
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                              color: Color.fromARGB(255, 10, 34, 57),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18
+                          ),
+                        ),
+                        const SizedBox(height: 10.0),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            buttonSeasons("winter", ano),
+                            buttonSeasons("spring", ano),
+                            buttonSeasons("summer", ano),
+                            buttonSeasons("fall", ano)
+                          ],
+                        ),
+                        const SizedBox(height: 10.0),
+                      ]
+                    );
+                  }),
+                )
+              );
             } else {
-              return const Text("yay");
+              return WillPopScope(
+                onWillPop: () async {
+                  setState(() {
+                    tab = 0;
+                    isLoaded = false;
+                    
+                    if(3 <= mesAtual && mesAtual <= 5){
+                      getData('spring', anoAtual);
+                    } else if(6 <= mesAtual && mesAtual <= 8){
+                      getData('summer', anoAtual);
+                    } else if(9 <= mesAtual && mesAtual <= 11){
+                      getData('fall', anoAtual);
+                    } else if(12 <= mesAtual || mesAtual <= 2){
+                      getData('winter', anoAtual);
+                    }
+                  });
+                  return false;
+                },
+                child: GridView.count(
+                  crossAxisCount: 2,
+                  childAspectRatio: (120 / 140),
+                  children: List.generate(10, (index) {
+                    return AnimeImgName(
+                      id: seasonList?.data?.elementAt(index).node?.id ?? 0,
+                      numero: index,
+                      imgLink: seasonList?.data
+                              ?.elementAt(index)
+                              .node
+                              ?.mainPicture
+                              ?.medium ??
+                          '',
+                      nome: seasonList?.data?.elementAt(index).node?.title ?? '',
+                      desc: "",
+                    );
+                  })
+                ),
+              );
+              
+              
             }
           } else {
             return const Center(
@@ -132,140 +259,3 @@ class _SeasonalTela05State extends State<SeasonalTela05> {
     );
   }
 }
-
-/*
-if (tab == 0){
-  return GridView.count(
-    crossAxisCount: 2,
-    children: List.generate(10, (index) {
-      return Center(
-        child: AnimeImgName(
-          numero: index,
-          imgLink: seasonList?.data
-                  ?.elementAt(index)
-                  .node
-                  ?.mainPicture
-                  ?.medium ??
-              '',
-          nome: seasonList?.data?.elementAt(index).node?.title ?? '',
-          desc: "",
-        ),
-      );
-    })
-  );
-} else if (tab == 1) {
-  return Center(
-    child: ListView(
-      children: List.generate(10, (index) {
-        int ano = 2022 - index;
-        return Column(
-          children: [
-            const SizedBox(height: 20.0),
-            Text(
-              "$ano",
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                  color: Color.fromARGB(255, 10, 34, 57),
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18
-              ),
-            ),
-            const SizedBox(height: 20.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                    height: 30,
-                    width: widthValue,
-                    decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 10, 34, 57),
-                      borderRadius: BorderRadius.circular(1000),
-                    ),
-                    child: const Center(
-                      child: Text(
-                        "Winter",
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 255, 255, 255),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ), 
-                      ),
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                    height: 30,
-                    width: widthValue,
-                    decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 10, 34, 57),
-                      borderRadius: BorderRadius.circular(1000),
-                    ),
-                    child: const Center(
-                      child: Text(
-                        "Spring",
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 255, 255, 255),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ), 
-                      ),
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                    height: 30,
-                    width: widthValue,
-                    decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 10, 34, 57),
-                      borderRadius: BorderRadius.circular(1000),
-                    ),
-                    child: const Center(
-                      child: Text(
-                        "Summer",
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 255, 255, 255),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ), 
-                      ),
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                    height: 30,
-                    width: widthValue,
-                    decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 10, 34, 57),
-                      borderRadius: BorderRadius.circular(1000),
-                    ),
-                    child: const Center(
-                      child: Text(
-                        "Fall",
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 255, 255, 255),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ), 
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        );
-      })
-    ),
-  );
-} else {
-  return const Center();
-}
-*/
