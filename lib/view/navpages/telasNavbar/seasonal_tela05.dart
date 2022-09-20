@@ -32,6 +32,7 @@ class _SeasonalTela05State extends State<SeasonalTela05> {
   List<String> seasons = <String>['spring', 'summer', 'fall', 'winter'];
   String dropdownvalue = 'spring';
   int yearBar = 1;
+  final fieldText = TextEditingController();
 
   @override
   void initState() {
@@ -185,7 +186,7 @@ class _SeasonalTela05State extends State<SeasonalTela05> {
             } else if (tab == 1) {
               return Center(
                 child: ListView(
-                  children: List.generate(6, (index) {
+                  children: List.generate(7, (index) {
                     if (index == 0){
                       return Column(
                         children: [
@@ -197,8 +198,22 @@ class _SeasonalTela05State extends State<SeasonalTela05> {
                             ),
                             child: TextField(
                               onChanged: (String value) {
-                                yearBar = int.parse(value);
+                                try {
+                                  yearBar = int.parse(value);
+                                } on Exception catch (_) {
+                                  setState(() {
+                                    fieldText.clear();
+                                  });
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => const AlertDialog(
+                                      title: Text('Erro de input'),
+                                      content: Text('Digite apenas um número inteiro'),
+                                    )
+                                  );
+                                }
                               },
+                              controller: fieldText,
                               textAlign: TextAlign.center,
                               decoration: const InputDecoration(
                                 hintText: 'Digite aqui',
@@ -309,18 +324,8 @@ class _SeasonalTela05State extends State<SeasonalTela05> {
               return WillPopScope(
                 onWillPop: () async {
                   setState(() {
-                    tab = 0;
+                    tab = 2;
                     isLoaded = false;
-                    
-                    if(3 <= mesAtual && mesAtual <= 5){
-                      getData('spring', anoAtual);
-                    } else if(6 <= mesAtual && mesAtual <= 8){
-                      getData('summer', anoAtual);
-                    } else if(9 <= mesAtual && mesAtual <= 11){
-                      getData('fall', anoAtual);
-                    } else if(12 <= mesAtual || mesAtual <= 2){
-                      getData('winter', anoAtual);
-                    }
                   });
                   return false;
                 },
@@ -343,8 +348,6 @@ class _SeasonalTela05State extends State<SeasonalTela05> {
                   })
                 ),
               );
-              
-              
             }
           } else {
             return const Center(
