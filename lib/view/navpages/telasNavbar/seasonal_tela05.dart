@@ -29,6 +29,10 @@ class _SeasonalTela05State extends State<SeasonalTela05> {
   int mesAtual = DateTime.now().month;
   //Map<int, Map<String, String>> generator;
 
+  List<String> seasons = <String>['spring', 'summer', 'fall', 'winter'];
+  String dropdownvalue = 'spring';
+  int yearBar = 1;
+
   @override
   void initState() {
     super.initState();
@@ -181,33 +185,123 @@ class _SeasonalTela05State extends State<SeasonalTela05> {
             } else if (tab == 1) {
               return Center(
                 child: ListView(
-                  children: List.generate(11, (index) {
-                    int ano = anoAtual - index;
-                    return Column(
-                      children: [
-                        const SizedBox(height: 10.0),
-                        Text(
-                          "$ano",
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                              color: Color.fromARGB(255, 10, 34, 57),
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18
+                  children: List.generate(6, (index) {
+                    if (index == 0){
+                      return Column(
+                        children: [
+                          const SizedBox(height: 10,),
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.grey,
+                              borderRadius: BorderRadius.circular(1000),
+                            ),
+                            child: TextField(
+                              onChanged: (String value) {
+                                yearBar = int.parse(value);
+                              },
+                              textAlign: TextAlign.center,
+                              decoration: const InputDecoration(
+                                hintText: 'Digite aqui',
+                                hintStyle: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                  fontStyle: FontStyle.italic,
+                                ),
+                                border: InputBorder.none,
+                              ),
+                              style: const TextStyle(
+                                color: Colors.black,
+                              ),
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 10.0),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            buttonSeasons("winter", ano),
-                            buttonSeasons("spring", ano),
-                            buttonSeasons("summer", ano),
-                            buttonSeasons("fall", ano)
-                          ],
-                        ),
-                        const SizedBox(height: 10.0),
-                      ]
-                    );
+                          const SizedBox(height: 10,),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              DropdownButton<String>(
+                                value: dropdownvalue,
+                                items: seasons.map((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value),
+                                  );
+                                }).toList(),
+                                onChanged: (String? value) {
+                                  setState(() {
+                                     dropdownvalue = value!;
+                                  });
+                                }
+                              ),
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(4),
+                                child: Stack(
+                                  children: <Widget>[
+                                    Positioned.fill(
+                                      child: Container(
+                                        decoration: const BoxDecoration(
+                                          gradient: LinearGradient(
+                                            colors: <Color>[
+                                              Color(0xFF0D47A1),
+                                              Color(0xFF1976D2),
+                                              Color(0xFF42A5F5),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    TextButton(
+                                      style: TextButton.styleFrom(
+                                        primary: Colors.white,
+                                        padding: const EdgeInsets.all(16.0),
+                                        textStyle: const TextStyle(
+                                          fontSize: 20
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          tab = 2;
+                                          isLoaded = false;
+                                          getData(dropdownvalue, yearBar);
+                                        });
+                                      },
+                                      child: const Text('Pesquisar'),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 10,),
+                        ],
+                      );
+                    } else {
+                      int ano = anoAtual - (index-1);
+                      return Column(
+                        children: [
+                          const SizedBox(height: 10.0),
+                          Text(
+                            "$ano",
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                                color: Color.fromARGB(255, 10, 34, 57),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18
+                            ),
+                          ),
+                          const SizedBox(height: 10.0),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              buttonSeasons("winter", ano),
+                              buttonSeasons("spring", ano),
+                              buttonSeasons("summer", ano),
+                              buttonSeasons("fall", ano)
+                            ],
+                          ),
+                          const SizedBox(height: 10.0),
+                        ]
+                      );
+                    }
                   }),
                 )
               );
@@ -262,3 +356,20 @@ class _SeasonalTela05State extends State<SeasonalTela05> {
     );
   }
 }
+
+/*
+TextField(
+  textAlign: TextAlign.center,
+  decoration: const InputDecoration(
+    hintText: 'Digite aqui',
+    hintStyle: TextStyle(
+      color: Colors.black,
+      fontSize: 18,
+      fontStyle: FontStyle.italic,
+    ),
+    border: InputBorder.none,
+  ),
+  style: const TextStyle(
+    color: Colors.black,
+  ),
+),*/
