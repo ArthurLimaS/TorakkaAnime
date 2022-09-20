@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:torakka_anime/components/auth_required_state.dart';
 import 'package:torakka_anime/requests/mal_queries.dart';
+import 'package:torakka_anime/requests/supabase_request.dart';
 import 'package:torakka_anime/utils/aux_func.dart';
 import 'package:torakka_anime/utils/constants.dart';
 import 'package:torakka_anime/view/widgets/top_anime.dart';
@@ -23,10 +24,6 @@ class _HomeTela03State extends AuthRequiredState<HomeTela03> {
   void initState() {
     super.initState();
 
-    /*final res = await supabase.rpc('insertIfNotExist', params: {
-      'id': supabase.auth.user()?.id,
-      'name': supabase.auth.user()?.userMetadata['name']
-    });*/
     getData();
   }
 
@@ -41,6 +38,19 @@ class _HomeTela03State extends AuthRequiredState<HomeTela03> {
     rankAiring = await MalQuery().getRank('airing');
     rankUpcoming = await MalQuery().getRank('upcoming');
     rankTop = await MalQuery().getRank('all');
+
+    //TESTANDO AS FUNCOES DA LISTA DE ANIMES
+    //SupabaseRequest().setAnimeToList('34a0569f-8ba3-4df2-95d9-bb1a895c49dc',
+    //    supabase.auth.currentUser!.id, Status.watching.name, 10);
+    //SupabaseRequest().getAnimeList(SupabaseRequest().getActiveUser()!.id);
+    //SupabaseRequest().getAnimeListRow(45653);
+    //SupabaseRequest()
+    //    .updateAnimeListEpisode(10, 'e8c66675-c7ca-457a-bdb3-edda85d1dca6');
+    //SupabaseRequest()
+    //    .addAnimeToFavorite(false, 'e8c66675-c7ca-457a-bdb3-edda85d1dca6');
+    //SupabaseRequest().getAnimeStatistic();
+    //SupabaseRequest()
+    //    .deleteAnimeFromList('a0d97695-78c3-4eef-987f-0148d61e03fe');
     if (rankAiring != null && rankTop != null && rankUpcoming != null) {
       if (this.mounted) {
         setState(() {});
