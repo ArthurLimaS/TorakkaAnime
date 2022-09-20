@@ -184,6 +184,7 @@ class _SeasonalTela05State extends State<SeasonalTela05> {
                 })
               );
             } else if (tab == 1) {
+              fieldText.clear();
               return Center(
                 child: ListView(
                   children: List.generate(7, (index) {
@@ -324,8 +325,7 @@ class _SeasonalTela05State extends State<SeasonalTela05> {
               return WillPopScope(
                 onWillPop: () async {
                   setState(() {
-                    tab = 2;
-                    isLoaded = false;
+                    tab = 1;
                   });
                   return false;
                 },
