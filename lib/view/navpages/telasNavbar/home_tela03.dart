@@ -24,10 +24,6 @@ class _HomeTela03State extends AuthRequiredState<HomeTela03> {
   void initState() {
     super.initState();
 
-    /*final res = await supabase.rpc('insertIfNotExist', params: {
-      'id': supabase.auth.user()?.id,
-      'name': supabase.auth.user()?.userMetadata['name']
-    });*/
     getData();
   }
 
@@ -46,7 +42,7 @@ class _HomeTela03State extends AuthRequiredState<HomeTela03> {
     //TESTANDO AS FUNCOES DA LISTA DE ANIMES
     /*SupabaseRequest().setAnimeToList('0d51bc81-8126-4f89-9e8f-7f39d4f2cad0',
         supabase.auth.currentUser!.id, Status.completed.name);*/
-    //SupabaseRequest().getAnimeList(SupabaseRequest().getActiveUser()!.id);
+    SupabaseRequest().getAnimeList(SupabaseRequest().getActiveUser()!.id);
     //SupabaseRequest().getAnimeListRow(45653);
     //SupabaseRequest()
     //    .updateAnimeListEpisode(10, 'e8c66675-c7ca-457a-bdb3-edda85d1dca6');

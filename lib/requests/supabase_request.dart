@@ -1,10 +1,13 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:ffi';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:torakka_anime/model/anime_list_model/anime_list.dart';
+import 'package:torakka_anime/model/anime_list_model/data.dart';
 import 'package:torakka_anime/model/genre.dart';
 import 'package:torakka_anime/utils/aux_func.dart';
 import 'package:torakka_anime/utils/constants.dart';
@@ -287,6 +290,7 @@ class SupabaseRequest {
 //falta testar
   Future getAnimeList(dynamic idUser) async {
     try {
+      List<Data>? animeList = [];
       final res = await supabase
           .from('ANIME_LIST')
           .select(
@@ -298,9 +302,14 @@ class SupabaseRequest {
         //showToastMessage(res.error!.message);
         debugPrint(res.error!.message);
       }
-      //debugPrint('func getanimelist - ${res.data}');
-      //criar um model para retorna-lo pronto
-      return res.data;
+
+      for (var animeListRow in res.data) {
+        animeList.add(new Data.fromJson(animeListRow));
+      }
+      
+
+      debugPrint('func getanimelist - ${animeList.elementAt(0).aNIME?.title}');
+      return animeList;
     } catch (e) {
       showToastMessage(e.toString());
     }
