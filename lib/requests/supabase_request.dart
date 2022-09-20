@@ -69,6 +69,21 @@ class SupabaseRequest {
     }
   }
 
+  Future updateActiveUser(String name) async {
+    try {
+      final res = await supabase
+          .from('USER')
+          .update({'name': name})
+          .eq('id_user', getActiveUser())
+          .execute();
+      if (res.error != null) {
+        showToastMessage('Error - ${res.error!.message}');
+      }
+    } catch (e) {
+      showToastMessage(e.toString());
+    }
+  }
+
 //-----------------------------INSERT ANIME TO DB------------------------------------
 //iria usar uma stored procedure para inserir, mas acho melhor tratar aqui
   Future insertAnimeToDatabase(Anime anime) async {
@@ -131,112 +146,8 @@ class SupabaseRequest {
     }
   }
 
-  //-------------------------------SET ANIME LIST--------------------------------------
-  //adiciona anime a lista de anime
-  Future setAnimeToList(String animeId, String userId, String status,
-      [int epWatched = 0]) async {
-    final selectRes =
-        await supabase.from('ANIME').select().eq('id_anime', animeId).execute();
-
-    if (selectRes.error != null) {
-      showToastMessage(
-          'Can\'t add anime to list, error: ${selectRes.error?.message}');
-      return;
-    }
-
-    try {
-      final resUpsert = await supabase.from('ANIME_LIST').upsert({
-        'anime_status': status,
-        'episodes_watched': epWatched,
-        'id_anime': animeId,
-        'id_user': userId
-      }, onConflict: 'id_anime').execute();
-
-      if (resUpsert.error != null) {
-        showToastMessage('error: ${resUpsert.error?.message}');
-      } else {
-        showToastMessage('Anime adicionado com sucesso');
-      }
-    } catch (e) {
-      showToastMessage(e.toString());
-    }
-  }
-
-  // criar função para adicionar o anime aos favoritos e criar funcao para adicionar episodios assistidos.
-  // testar o get anime list, e criar um model para ele
-  //FUNCAO QUE ADICIONA OU REMOVE ANIME AOS FAVORITOS
-  Future addAnimeToFavorite(bool favorite, String uuidAnimeList) async {
-    try {
-      final response = await supabase
-          .from('ANIME_LIST')
-          .update({'favorite': favorite})
-          .eq('id_anime_list', uuidAnimeList)
-          .execute();
-
-      if (response.error != null) {
-        debugPrint('error: ${response.error!.message}');
-      } else {
-        showToastMessage(
-            (favorite == true) ? 'Favorito Adicionado' : 'Favorito Removido');
-      }
-    } catch (e) {
-      debugPrint(e.toString());
-    }
-  }
-
-  //fazer uma logica antes de entrar nessa função,
-  //para não conseguir adicionar valores maiores
-  //que o tamanho real de eps que o anime tem
-  //criar uma func aux que verifica isso
-  //-----------------------------------------------------
-  //Funcao que atualiza os episodios assistidos de um anime
-  Future updateAnimeListEpisode(int epNumber, String uuidAnimeList) async {
-    try {
-      final response = await supabase
-          .from('ANIME_LIST')
-          .update({'episodes_watched': epNumber})
-          .eq('id_anime_list', uuidAnimeList)
-          .execute();
-
-      if (response.error != null) {
-        debugPrint('error: ${response.error!.message}');
-      }
-
-      //como retorna a a lista do episodio que modificou, atualizada,
-      //vou pegar essa informação pra atualizar a variavel da propria pagina de anime
-      debugPrint('func updateanimelistepisode - ${response.data}');
-      showToastMessage('Episodios atualizados');
-    } catch (e) {
-      debugPrint(e.toString());
-    }
-  }
-
-  //funcao que vai ser chamada na lista de anime, e vai prover informacoes de status
-  //quantidade de eps assistido, e IDs para caso precise ser usado em outras funcoes
-  Future getAnimeListRow(int animeIdExt) async {
-    //talvez eu use o id interno do anime, depende de como a pagina do anime
-    //vai ficar
-    try {
-      final response = await supabase
-          .from('ANIME_LIST')
-          .select('*')
-          .eq('id_user', getActiveUser()!.id)
-          .eq('id_anime', await getAnimeUuid(animeIdExt))
-          .execute();
-
-      if (response.error != null) {
-        debugPrint('error: ${response.error!.message}');
-      }
-
-      debugPrint('func getanimelistrow - ${response.data}');
-      //pretendo criar um model para isso, para enviar já tratado
-      return response.data;
-    } catch (e) {
-      throw e.toString();
-    }
-  }
-
   //------------------------------GET ANIME----------------------------------------
+  //ainda não usada
   Future getAnimeDB(int animeId) async {
     final animeUuid = await getAnimeUuid(animeId);
 
@@ -286,8 +197,110 @@ class SupabaseRequest {
     }
   }
 
-//------------------------------------GET ANIME FROM LIST------------------------
-//falta testar
+//--------------------------------------Funcoes ANIME LIST--------------------------------------
+  //-------------------------------SET ANIME LIST--------------------------------------
+  //adiciona anime a lista de anime
+  Future setAnimeToList(String animeId, String userId, String status,
+      [int epWatched = 0]) async {
+    final selectRes =
+        await supabase.from('ANIME').select().eq('id_anime', animeId).execute();
+
+    if (selectRes.error != null) {
+      showToastMessage(
+          'Can\'t add anime to list, error: ${selectRes.error?.message}');
+      return;
+    }
+
+    try {
+      final resUpsert = await supabase.from('ANIME_LIST').upsert({
+        'anime_status': status,
+        'episodes_watched': epWatched,
+        'id_anime': animeId,
+        'id_user': userId
+      }, onConflict: 'id_anime').execute();
+
+      if (resUpsert.error != null) {
+        showToastMessage('error: ${resUpsert.error?.message}');
+      } else {
+        showToastMessage('Anime adicionado com sucesso');
+      }
+    } catch (e) {
+      showToastMessage(e.toString());
+    }
+  }
+
+  //FUNCAO QUE ADICIONA OU REMOVE ANIME AOS FAVORITOS
+  Future addAnimeToFavorite(bool favorite, String uuidAnimeList) async {
+    try {
+      final response = await supabase
+          .from('ANIME_LIST')
+          .update({'favorite': favorite})
+          .eq('id_anime_list', uuidAnimeList)
+          .execute();
+
+      if (response.error != null) {
+        debugPrint('error: ${response.error!.message}');
+      } else {
+        showToastMessage(
+            (favorite == true) ? 'Favorito Adicionado' : 'Favorito Removido');
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+//fazer uma logica antes de entrar nessa função,
+  //para não conseguir adicionar valores maiores
+  //que o tamanho real de eps que o anime tem
+  //criar uma func aux que verifica isso
+  //-----------------------------------------------------
+  //Funcao que atualiza os episodios assistidos de um anime
+  Future updateAnimeListEpisode(int epNumber, String uuidAnimeList) async {
+    try {
+      final response = await supabase
+          .from('ANIME_LIST')
+          .update({'episodes_watched': epNumber})
+          .eq('id_anime_list', uuidAnimeList)
+          .execute();
+
+      if (response.error != null) {
+        debugPrint('error: ${response.error!.message}');
+      }
+
+      //como retorna a a lista do episodio que modificou, atualizada,
+      //vou pegar essa informação pra atualizar a variavel da propria pagina de anime
+      debugPrint('func updateanimelistepisode - ${response.data}');
+      showToastMessage('Episodios atualizados');
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+//funcao que vai pegar infos de apenas um anime da lista
+  Future getAnimeListRow(int animeIdExt) async {
+    //talvez eu use o id interno do anime, depende de como a pagina do anime
+    //vai ficar
+    try {
+      final response = await supabase
+          .from('ANIME_LIST')
+          .select('*')
+          .eq('id_user', getActiveUser()!.id)
+          .eq('id_anime', await getAnimeUuid(animeIdExt))
+          .execute();
+
+      if (response.error != null) {
+        debugPrint('error: ${response.error!.message}');
+      }
+      var animeListRow = Data.fromJson(response.data);
+      debugPrint('func getanimelistrow - ${animeListRow.animeStatus}');
+      //pretendo criar um model para isso, para enviar já tratado
+      return animeListRow;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+//GET ANIME FROM LIST
   Future getAnimeList(dynamic idUser) async {
     try {
       List<Data>? animeList = [];
@@ -299,14 +312,12 @@ class SupabaseRequest {
           .execute();
 
       if (res.error != null) {
-        //showToastMessage(res.error!.message);
-        debugPrint(res.error!.message);
+        showToastMessage('Error - ${res.error!.message}');
       }
 
       for (var animeListRow in res.data) {
         animeList.add(new Data.fromJson(animeListRow));
       }
-      
 
       debugPrint('func getanimelist - ${animeList.elementAt(0).aNIME?.title}');
       return animeList;
@@ -315,6 +326,25 @@ class SupabaseRequest {
     }
   }
 
+  //DELETA UM ANIME DA LISTA DE ANIMES
+  Future deleteAnimeFromList(String idAnimeList) async {
+    try {
+      final res = await supabase
+          .from('ANIME_LIST')
+          .delete()
+          .match({'id_anime_list': idAnimeList}).execute();
+
+      if (res.error != null) {
+        showToastMessage('Error - ${res.error!.message}');
+      }
+
+      debugPrint('func deleteanimelist - ${res.data}');
+    } catch (e) {
+      showToastMessage(e.toString());
+    }
+  }
+
+  //GET ANIME LIST STATISTIC
   Future getAnimeStatistic() async {
     var stats = [];
 
@@ -364,6 +394,7 @@ class SupabaseRequest {
     return stats;
   }
 }
+
 
 //Ficara faltando os gets para pegar as infos do banco de dados
 

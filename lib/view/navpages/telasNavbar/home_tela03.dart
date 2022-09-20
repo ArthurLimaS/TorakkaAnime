@@ -40,15 +40,17 @@ class _HomeTela03State extends AuthRequiredState<HomeTela03> {
     rankTop = await MalQuery().getRank('all');
 
     //TESTANDO AS FUNCOES DA LISTA DE ANIMES
-    /*SupabaseRequest().setAnimeToList('0d51bc81-8126-4f89-9e8f-7f39d4f2cad0',
-        supabase.auth.currentUser!.id, Status.completed.name);*/
-    SupabaseRequest().getAnimeList(SupabaseRequest().getActiveUser()!.id);
+    //SupabaseRequest().setAnimeToList('34a0569f-8ba3-4df2-95d9-bb1a895c49dc',
+    //    supabase.auth.currentUser!.id, Status.watching.name, 10);
+    //SupabaseRequest().getAnimeList(SupabaseRequest().getActiveUser()!.id);
     //SupabaseRequest().getAnimeListRow(45653);
     //SupabaseRequest()
     //    .updateAnimeListEpisode(10, 'e8c66675-c7ca-457a-bdb3-edda85d1dca6');
     //SupabaseRequest()
     //    .addAnimeToFavorite(false, 'e8c66675-c7ca-457a-bdb3-edda85d1dca6');
     //SupabaseRequest().getAnimeStatistic();
+    //SupabaseRequest()
+    //    .deleteAnimeFromList('a0d97695-78c3-4eef-987f-0148d61e03fe');
     if (rankAiring != null && rankTop != null && rankUpcoming != null) {
       if (this.mounted) {
         setState(() {});
