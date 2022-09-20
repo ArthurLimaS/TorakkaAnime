@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:torakka_anime/view/navpages/telasInternas/lista.dart';
 
 import '../../../model/anime.dart';
 
@@ -41,6 +42,7 @@ class _ListaTela06State extends State<ListaTela06> {
           Center(child: Text('2')),
           Center(child: Text('3')),
           Center(child: Text('4')),
+          //Lista(animes: animes) "passar o nome da lista"
         ]),
       ),
     );

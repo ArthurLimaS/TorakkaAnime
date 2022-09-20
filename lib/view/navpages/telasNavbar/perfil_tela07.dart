@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:torakka_anime/components/auth_required_state.dart';
+import 'package:torakka_anime/utils/aux_func.dart';
+import 'package:torakka_anime/utils/constants.dart';
 
 class PerfilTela07 extends StatefulWidget {
   const PerfilTela07({Key? key}) : super(key: key);
@@ -9,18 +12,47 @@ class PerfilTela07 extends StatefulWidget {
   State<PerfilTela07> createState() => _PerfilTela07State();
 }
 
-class _PerfilTela07State extends State<PerfilTela07> {
+class _PerfilTela07State extends AuthRequiredState<PerfilTela07> {
+  Future _onSignOutPress(BuildContext context) async {
+    final response = await supabase.auth.signOut();
+    if (response.error != null) {
+      showToastMessage(response.error!.message);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
         // ------------------------------------------- APP BAR -----------------------------------------
-        title: Center(
-            child: SizedBox(
-                height: 65,
-                width: 65,
-                child: Image.asset("assets/img/logo3.png"))),
+        title: Stack(
+          children: [
+            Center(
+                child: SizedBox(
+                    height: 65,
+                    width: 65,
+                    child: Image.asset("assets/img/logo3.png"))),
+            SizedBox(
+              height: 65,
+              child: Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: () {
+                      _onSignOutPress(context);
+                    },
+                    child: const Text(
+                      "Exit",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 22),
+                    ),
+                  )),
+            ),
+          ],
+        ),
+
         toolbarHeight: 50,
         backgroundColor: const Color.fromARGB(255, 10, 34, 57),
       ),
@@ -82,10 +114,10 @@ class _PerfilTela07State extends State<PerfilTela07> {
                           child: Container(
                             width: 185,
                             height: 285,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               image: DecorationImage(
                                 fit: BoxFit.fill,
-                                image: NetworkImage(""),
+                                image: AssetImage("assets/img/foto.png"),
                               ),
                             ),
                           ),
@@ -127,14 +159,51 @@ class _PerfilTela07State extends State<PerfilTela07> {
                                         const Color.fromARGB(255, 10, 34, 57),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
-                                  child: const Center(
-                                    child: Text(
-                                      'Anime List',
-                                      style: TextStyle(
-                                        color:
-                                            Color.fromARGB(255, 255, 255, 255),
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 22,
+                                  child: Center(
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) => AlertDialog(
+                                            backgroundColor:
+                                                const Color.fromARGB(
+                                                    255, 10, 34, 57),
+                                            title: Text(
+                                              'Edit Password',
+                                              style: const TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 24),
+                                            ),
+                                            content: Text(
+                                              textAlign: TextAlign.center,
+                                              'texto',
+                                              style: const TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 18),
+                                            ),
+                                            actions: [
+                                              TextButton(
+                                                  onPressed: () =>
+                                                      Navigator.pop(context),
+                                                  child: const Text(
+                                                    'Save',
+                                                    style: TextStyle(
+                                                        color: Colors.white),
+                                                  )),
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                      child: Text(
+                                        'Edit_Profile',
+                                        style: TextStyle(
+                                          color: Color.fromARGB(
+                                              255, 255, 255, 255),
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 22,
+                                        ),
                                       ),
                                     ),
                                   ),

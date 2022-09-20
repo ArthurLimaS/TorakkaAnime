@@ -55,40 +55,48 @@ class _TopMoreState extends State<TopMore> {
       y = false;
     }
     return Scaffold(
-      appBar: AppBar(
-        // ------------------------------------------- APP BAR -----------------------------------------
-        title: Text(
-          "$arg",
-          style: const TextStyle(
-              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 22),
-        ),
-        toolbarHeight: 50,
-        backgroundColor: const Color.fromARGB(255, 10, 34, 57),
-      ),
-      backgroundColor: Colors.white,
-      // ================================================================= BODY ========================================================================
-      body: ListView(children: [
-        const SizedBox(height: 20),
-        Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          SizedBox(
-            //============================================================== TOP AIRING ANIME======================================================
-
-            child: Column(children: <Widget>[
-              for (int i = 0; i < 50; i++)
-                TopAnime(
-                    // ========================================================== TOP ===============================================
-                    id: rank?.data?.elementAt(i).node?.id ?? 0,
-                    numero: i,
-                    imgLink:
-                        rank?.data?.elementAt(i).node?.mainPicture?.medium ??
-                            '',
-                    nome: rank?.data?.elementAt(i).node?.title ?? '',
-                    desc: ""),
-              const SizedBox(height: 30),
-            ]),
+        appBar: AppBar(
+          // ------------------------------------------- APP BAR -----------------------------------------
+          title: Text(
+            "$arg",
+            style: const TextStyle(
+                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 22),
           ),
-        ]),
-      ]),
-    );
+          toolbarHeight: 50,
+          backgroundColor: const Color.fromARGB(255, 10, 34, 57),
+        ),
+        backgroundColor: Colors.white,
+        // ================================================================= BODY ========================================================================
+        body: Builder(builder: (BuildContext context) {
+          if (isLoaded) {
+            return ListView(children: [
+              const SizedBox(height: 20),
+              Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                SizedBox(
+                  //============================================================== TOP AIRING ANIME======================================================
+
+                  child: Column(children: <Widget>[
+                    for (int i = 0; i < 50; i++)
+                      TopAnime(
+                          // ========================================================== TOP ===============================================
+                          id: rank?.data?.elementAt(i).node?.id ?? 0,
+                          numero: i,
+                          imgLink: rank?.data
+                                  ?.elementAt(i)
+                                  .node
+                                  ?.mainPicture
+                                  ?.medium ??
+                              '',
+                          nome: rank?.data?.elementAt(i).node?.title ?? '',
+                          desc: ""),
+                    const SizedBox(height: 30),
+                  ]),
+                ),
+              ]),
+            ]);
+          } else {
+            return const Center(child: CircularProgressIndicator());
+          }
+        }));
   }
 }
