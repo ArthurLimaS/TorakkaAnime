@@ -17,6 +17,9 @@ class _TelaAnimeState extends State<TelaAnime> {
   bool y = true;
   int tamGenero = 3;
   var isLoaded = false;
+  List<String> items = ['Watching', 'Plan to Watching', 'Completed', 'Dropped'];
+  String? selectedItem = '';
+  int totalEps = 0;
 
   @override
   void initState() {
@@ -71,7 +74,7 @@ class _TelaAnimeState extends State<TelaAnime> {
                   children: [
                     Container(
                       // ================================================================ TITULO ==================================================
-                      height: 205,
+                      height: 203,
                       color: const Color.fromARGB(255, 10, 34, 57),
                       child: Container(
                         alignment: Alignment.centerLeft,
@@ -141,22 +144,31 @@ class _TelaAnimeState extends State<TelaAnime> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Container(
-                                  height: 50,
-                                  width: 170,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.green),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: const Center(
-                                    child: Text(
-                                      'Watching',
-                                      style: TextStyle(
-                                        color: Colors.green,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 24,
-                                      ),
+                                SizedBox(
+                                  width: 165,
+                                  child: DropdownButton<String>(
+                                    iconEnabledColor: Colors.white,
+                                    dropdownColor:
+                                        const Color.fromARGB(255, 10, 34, 57),
+                                    value: (selectedItem!.isEmpty)
+                                        ? null
+                                        : selectedItem,
+                                    hint: const Text(
+                                      'Add to List',
+                                      style: TextStyle(color: Colors.white),
                                     ),
+                                    items: items
+                                        .map((item) => DropdownMenuItem<String>(
+                                              value: item,
+                                              child: Text(
+                                                item,
+                                                style: const TextStyle(
+                                                    color: Colors.white),
+                                              ),
+                                            ))
+                                        .toList(),
+                                    onChanged: (item) =>
+                                        setState(() => selectedItem = item),
                                   ),
                                 ),
                                 const Divider(
@@ -169,7 +181,7 @@ class _TelaAnimeState extends State<TelaAnime> {
                                   width: 140,
                                   child: Column(
                                     children: [
-                                      Center(
+                                      const Center(
                                         child: Text(
                                           'Episodes',
                                           style: TextStyle(
@@ -184,16 +196,20 @@ class _TelaAnimeState extends State<TelaAnime> {
                                             MainAxisAlignment.center,
                                         children: [
                                           Text(
-                                            '0/${anime?.numEpisodes ?? ""}',
-                                            style: TextStyle(
+                                            '$totalEps/${anime?.numEpisodes ?? ""}',
+                                            style: const TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold,
                                               fontSize: 22,
                                             ),
                                           ),
                                           IconButton(
-                                              onPressed: () {},
-                                              icon: Icon(
+                                              onPressed: () {
+                                                setState(() {
+                                                  totalEps += 1;
+                                                });
+                                              },
+                                              icon: const Icon(
                                                 Icons
                                                     .add_circle_outline_rounded,
                                                 color: Colors.white,
@@ -245,7 +261,7 @@ class _TelaAnimeState extends State<TelaAnime> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
+                                const Text(
                                   'Rank',
                                   style: TextStyle(
                                     color: Color.fromARGB(255, 10, 34, 57),
@@ -255,13 +271,13 @@ class _TelaAnimeState extends State<TelaAnime> {
                                 ),
                                 Text(
                                   '#${anime?.rank ?? ''}',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Color.fromARGB(255, 10, 34, 57),
                                     fontSize: 20,
                                   ),
                                 ),
                                 const SizedBox(height: 15),
-                                Text(
+                                const Text(
                                   'Popularity',
                                   style: TextStyle(
                                     color: Color.fromARGB(255, 10, 34, 57),
@@ -271,13 +287,13 @@ class _TelaAnimeState extends State<TelaAnime> {
                                 ),
                                 Text(
                                   '#${anime?.popularity ?? ''}',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Color.fromARGB(255, 10, 34, 57),
                                     fontSize: 20,
                                   ),
                                 ),
                                 const SizedBox(height: 15),
-                                Text(
+                                const Text(
                                   'Score',
                                   style: TextStyle(
                                     color: Color.fromARGB(255, 10, 34, 57),
@@ -287,7 +303,7 @@ class _TelaAnimeState extends State<TelaAnime> {
                                 ),
                                 Text(
                                   '${anime?.score ?? ''}',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Color.fromARGB(255, 10, 34, 57),
                                     fontSize: 20,
                                   ),
@@ -299,7 +315,7 @@ class _TelaAnimeState extends State<TelaAnime> {
                         Expanded(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
+                            children: const [
                               VerticalDivider(
                                 color: Color.fromARGB(255, 218, 218, 218),
                                 thickness: 1,
@@ -314,23 +330,23 @@ class _TelaAnimeState extends State<TelaAnime> {
                               children: [
                                 Text(
                                   anime?.mediaType?.toUpperCase() ?? '',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Color.fromARGB(255, 10, 34, 57),
                                     fontSize: 20,
                                   ),
                                 ),
-                                SizedBox(height: 25),
+                                const SizedBox(height: 25),
                                 Text(
                                   anime?.status?.replaceAll('_', ' ') ?? '',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Color.fromARGB(255, 10, 34, 57),
                                     fontSize: 20,
                                   ),
                                 ),
-                                SizedBox(height: 25),
+                                const SizedBox(height: 25),
                                 Text(
                                   '${anime?.numEpisodes ?? ''} episodes',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Color.fromARGB(255, 10, 34, 57),
                                     fontSize: 20,
                                   ),
@@ -394,7 +410,7 @@ class _TelaAnimeState extends State<TelaAnime> {
                                         ?.toUpperCase()
                                         .replaceAll('_', ' ') ??
                                     '',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Color.fromARGB(255, 10, 34, 57),
                                   fontSize: 20,
                                 ),
@@ -417,7 +433,7 @@ class _TelaAnimeState extends State<TelaAnime> {
                               child: Text(
                                 textAlign: TextAlign.end,
                                 anime?.source?.replaceAll('_', ' ') ?? '',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Color.fromARGB(255, 10, 34, 57),
                                   fontSize: 20,
                                 ),
@@ -440,7 +456,7 @@ class _TelaAnimeState extends State<TelaAnime> {
                               child: Text(
                                 textAlign: TextAlign.end,
                                 anime?.studios?.first.name ?? '',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Color.fromARGB(255, 10, 34, 57),
                                   fontSize: 20,
                                 ),
@@ -463,7 +479,7 @@ class _TelaAnimeState extends State<TelaAnime> {
                               child: Text(
                                 textAlign: TextAlign.end, //'Jul 6, 2022o ? t',
                                 '${anime?.startDate ?? ''} to ${anime?.endDate ?? ''}',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Color.fromARGB(255, 10, 34, 57),
                                   fontSize: 20,
                                 ),
@@ -495,7 +511,7 @@ class _TelaAnimeState extends State<TelaAnime> {
                               child: Center(
                                 child: Text(
                                   anime?.genres?.elementAt(i).name ?? '',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Color.fromARGB(255, 255, 255, 255),
                                     fontWeight: FontWeight.bold,
                                     fontSize: 14,
@@ -532,7 +548,7 @@ class _TelaAnimeState extends State<TelaAnime> {
                                   const SizedBox(height: 10),
                                   Text(
                                     anime?.synopsis ?? '',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: Color.fromARGB(255, 10, 34, 57),
                                       fontSize: 14,
                                     ),

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:torakka_anime/model/anime.dart';
 import 'package:torakka_anime/requests/request_mal.dart';
 import 'package:torakka_anime/requests/supabase_request.dart';
@@ -20,7 +21,6 @@ class MalQuery {
   }
 
   Future getAnime(int id) async {
-    
     var query = '/$id$animeFields';
     var response = await MalRequest().getAnimeRequest(query);
     var anime = Anime.fromJson(response);
@@ -43,6 +43,7 @@ class MalQuery {
     var response = await MalRequest().getAnimeRequest(query);
     var seasonList = GenericData.fromJson(response);
     //print(seasonList.data?.elementAt(0).node?.title);
+    debugPrint(response.toString());
     return seasonList;
   }
 }

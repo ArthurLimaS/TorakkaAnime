@@ -23,10 +23,15 @@ class _SeasonalTela05State extends State<SeasonalTela05> {
   double widthValue = 75;
   GenericData? seasonList;
   bool isLoaded = false;
+  int? listSize = 0;
 
   int anoAtual = DateTime.now().year;
   int mesAtual = DateTime.now().month;
   //Map<int, Map<String, String>> generator;
+
+  List<String> seasons = <String>['spring', 'summer', 'fall', 'winter'];
+  String dropdownvalue = 'spring';
+  int yearBar = 1;
 
   @override
   void initState() {
@@ -45,7 +50,9 @@ class _SeasonalTela05State extends State<SeasonalTela05> {
   }
 
   getData(String season, int ano) async {
-    seasonList = await MalQuery().getSeason(season, ano, limit: 10);
+    seasonList = await MalQuery().getSeason(season, ano, limit: 500);
+
+    listSize = seasonList?.data?.length;
 
     if (this.mounted) {
       setState(() {
@@ -151,8 +158,6 @@ class _SeasonalTela05State extends State<SeasonalTela05> {
           toolbarHeight: 100,
           backgroundColor: const Color.fromARGB(255, 10, 34, 57),
         ),
-        //backgroundColor: Color.fromARGB(255, 0, 34, 255),
-        backgroundColor: Colors.white,
         body: Builder(
           builder: (BuildContext context) {
             if (isLoaded) {
@@ -160,8 +165,8 @@ class _SeasonalTela05State extends State<SeasonalTela05> {
                 return GridView.count(
                     padding: const EdgeInsets.only(top: 20),
                     crossAxisCount: 2,
-                    childAspectRatio: (120 / 135),
-                    children: List.generate(10, (index) {
+                    childAspectRatio: (120 / 150),
+                    children: List.generate(listSize!, (index) {
                       return AnimeImgName(
                         id: seasonList?.data?.elementAt(index).node?.id ?? 0,
                         numero: index,
@@ -179,30 +184,124 @@ class _SeasonalTela05State extends State<SeasonalTela05> {
               } else if (tab == 1) {
                 return Center(
                     child: ListView(
-                  children: List.generate(11, (index) {
-                    int ano = anoAtual - index;
-                    return Column(children: [
-                      const SizedBox(height: 10.0),
-                      Text(
-                        "$ano",
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                            color: Color.fromARGB(255, 10, 34, 57),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18),
-                      ),
-                      const SizedBox(height: 10.0),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: List.generate(6, (index) {
+                    if (index == 0) {
+                      return Column(
                         children: [
-                          buttonSeasons("winter", ano),
-                          buttonSeasons("spring", ano),
-                          buttonSeasons("summer", ano),
-                          buttonSeasons("fall", ano)
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.grey,
+                              borderRadius: BorderRadius.circular(1000),
+                            ),
+                            child: TextField(
+                              onChanged: (String value) {
+                                yearBar = int.parse(value);
+                              },
+                              textAlign: TextAlign.center,
+                              decoration: const InputDecoration(
+                                hintText: 'Digite aqui',
+                                hintStyle: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                  fontStyle: FontStyle.italic,
+                                ),
+                                border: InputBorder.none,
+                              ),
+                              style: const TextStyle(
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              DropdownButton<String>(
+                                  value: dropdownvalue,
+                                  items: seasons.map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                  onChanged: (String? value) {
+                                    setState(() {
+                                      dropdownvalue = value!;
+                                    });
+                                  }),
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(4),
+                                child: Stack(
+                                  children: <Widget>[
+                                    Positioned.fill(
+                                      child: Container(
+                                        decoration: const BoxDecoration(
+                                          gradient: LinearGradient(
+                                            colors: <Color>[
+                                              Color(0xFF0D47A1),
+                                              Color(0xFF1976D2),
+                                              Color(0xFF42A5F5),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    TextButton(
+                                      style: TextButton.styleFrom(
+                                        primary: Colors.white,
+                                        padding: const EdgeInsets.all(16.0),
+                                        textStyle:
+                                            const TextStyle(fontSize: 20),
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          tab = 2;
+                                          isLoaded = false;
+                                          getData(dropdownvalue, yearBar);
+                                        });
+                                      },
+                                      child: const Text('Pesquisar'),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
                         ],
-                      ),
-                      const SizedBox(height: 10.0),
-                    ]);
+                      );
+                    } else {
+                      int ano = anoAtual - (index - 1);
+                      return Column(children: [
+                        const SizedBox(height: 10.0),
+                        Text(
+                          "$ano",
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                              color: Color.fromARGB(255, 10, 34, 57),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18),
+                        ),
+                        const SizedBox(height: 10.0),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            buttonSeasons("winter", ano),
+                            buttonSeasons("spring", ano),
+                            buttonSeasons("summer", ano),
+                            buttonSeasons("fall", ano)
+                          ],
+                        ),
+                        const SizedBox(height: 10.0),
+                      ]);
+                    }
                   }),
                 ));
               } else {
@@ -225,6 +324,7 @@ class _SeasonalTela05State extends State<SeasonalTela05> {
                     return false;
                   },
                   child: GridView.count(
+                      padding: const EdgeInsets.only(top: 20),
                       crossAxisCount: 2,
                       childAspectRatio: (120 / 140),
                       children: List.generate(10, (index) {
@@ -246,9 +346,64 @@ class _SeasonalTela05State extends State<SeasonalTela05> {
                 );
               }
             } else {
-              return const Center(child: CircularProgressIndicator());
+              //return const Center(child: CircularProgressIndicator());
+              return WillPopScope(
+                onWillPop: () async {
+                  setState(() {
+                    tab = 0;
+                    isLoaded = false;
+
+                    if (3 <= mesAtual && mesAtual <= 5) {
+                      getData('spring', anoAtual);
+                    } else if (6 <= mesAtual && mesAtual <= 8) {
+                      getData('summer', anoAtual);
+                    } else if (9 <= mesAtual && mesAtual <= 11) {
+                      getData('fall', anoAtual);
+                    } else if (12 <= mesAtual || mesAtual <= 2) {
+                      getData('winter', anoAtual);
+                    }
+                  });
+                  return false;
+                },
+                child: GridView.count(
+                    padding: const EdgeInsets.only(top: 20),
+                    crossAxisCount: 2,
+                    childAspectRatio: (120 / 150),
+                    children: List.generate(listSize!, (index) {
+                      return AnimeImgName(
+                        id: seasonList?.data?.elementAt(index).node?.id ?? 0,
+                        numero: index,
+                        imgLink: seasonList?.data
+                                ?.elementAt(index)
+                                .node
+                                ?.mainPicture
+                                ?.medium ??
+                            '',
+                        nome: seasonList?.data?.elementAt(index).node?.title ??
+                            '',
+                        desc: "",
+                      );
+                    })),
+              );
             }
           },
         ));
   }
 }
+
+/*
+TextField(
+  textAlign: TextAlign.center,
+  decoration: const InputDecoration(
+    hintText: 'Digite aqui',
+    hintStyle: TextStyle(
+      color: Colors.black,
+      fontSize: 18,
+      fontStyle: FontStyle.italic,
+    ),
+    border: InputBorder.none,
+  ),
+  style: const TextStyle(
+    color: Colors.black,
+  ),
+),*/

@@ -7,7 +7,14 @@ class AnimeImgName extends StatefulWidget {
   final String desc;
   final int id;
 
-  const AnimeImgName({super.key, required this.numero, required this.imgLink, required this.nome, required this.desc, required this.id,});
+  const AnimeImgName({
+    super.key,
+    required this.numero,
+    required this.imgLink,
+    required this.nome,
+    required this.desc,
+    required this.id,
+  });
 
   @override
   State<AnimeImgName> createState() => _AnimeImgNameState();
@@ -42,15 +49,13 @@ class _AnimeImgNameState extends State<AnimeImgName> {
             ),
           ),
         ),
-
         Text(
           nome,
           textAlign: TextAlign.center,
           style: const TextStyle(
               color: Color.fromARGB(255, 10, 34, 57),
               fontWeight: FontWeight.bold,
-              fontSize: 13
-          ),
+              fontSize: 13),
         ),
       ],
     );
