@@ -40,17 +40,23 @@ class _HomeTela03State extends AuthRequiredState<HomeTela03> {
     rankTop = await MalQuery().getRank('all');
 
     //TESTANDO AS FUNCOES DA LISTA DE ANIMES
-    //SupabaseRequest().setAnimeToList('34a0569f-8ba3-4df2-95d9-bb1a895c49dc',
-    //    supabase.auth.currentUser!.id, Status.watching.name, 10);
+    //SupabaseRequest().setAnimeToList('ddc73882-643e-4431-9f22-f165e0ab2d25',
+    //    supabase.auth.currentUser!.id, Status.watching.name, 1);
+
+    //testar o getanimelist amanha
     //SupabaseRequest().getAnimeList(SupabaseRequest().getActiveUser()!.id);
-    //SupabaseRequest().getAnimeListRow(45653);
+    //SupabaseRequest().getAnimeListRow(50346);
     //SupabaseRequest()
     //    .updateAnimeListEpisode(10, 'e8c66675-c7ca-457a-bdb3-edda85d1dca6');
     //SupabaseRequest()
-    //    .addAnimeToFavorite(false, 'e8c66675-c7ca-457a-bdb3-edda85d1dca6');
+    //    .addAnimeToFavorite(true, '7ad7e871-2c56-466a-9a39-e953bc22b5b9');
     //SupabaseRequest().getAnimeStatistic();
     //SupabaseRequest()
     //    .deleteAnimeFromList('a0d97695-78c3-4eef-987f-0148d61e03fe');
+    //SupabaseRequest()
+    //    .updateAnimeListEpisode(1, '7ad7e871-2c56-466a-9a39-e953bc22b5b9');
+    //SupabaseRequest().changeAnimeStatus(
+    //    Status.planToWatching.name, '7ad7e871-2c56-466a-9a39-e953bc22b5b9');
     if (rankAiring != null && rankTop != null && rankUpcoming != null) {
       if (this.mounted) {
         setState(() {});
@@ -94,10 +100,8 @@ class _HomeTela03State extends AuthRequiredState<HomeTela03> {
       body: ListView(
         children: [
           const SizedBox(height: 30),
-
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
-
             children: [
               Container(
                 //============================================================== TOP AIRING ANIME======================================================
@@ -122,7 +126,6 @@ class _HomeTela03State extends AuthRequiredState<HomeTela03> {
                   const TopContainer(nome: 'Top Airing Anime'),
                   const SizedBox(height: 7),
                   for (int i = 0; i < 3; i++)
-                    
                     TopAnime(
                         // ========================================================== TOP ===============================================
                         id: rankAiring?.data?.elementAt(i).node?.id ?? 0,
@@ -135,11 +138,8 @@ class _HomeTela03State extends AuthRequiredState<HomeTela03> {
                             '',
                         nome: rankAiring?.data?.elementAt(i).node?.title ?? '',
                         desc: ""),
-                    
                 ]),
-
               ),
-              
               const SizedBox(height: 30),
               Container(
                 //============================================================== TOP ANIME======================================================
@@ -214,7 +214,6 @@ class _HomeTela03State extends AuthRequiredState<HomeTela03> {
               const SizedBox(height: 30),
             ],
           ),
-  
         ],
       ),
     );

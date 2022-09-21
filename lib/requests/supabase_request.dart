@@ -176,7 +176,7 @@ class SupabaseRequest {
   }
 
   //pega o UUID do anime no BD através do ID externo do anime(que vem da API)
-  Future getAnimeUuid(int animeId) async {
+  Future getAnimeUuid(int? animeId) async {
     try {
       final res = await supabase
           .from('ANIME')
@@ -200,8 +200,10 @@ class SupabaseRequest {
 //--------------------------------------Funcoes ANIME LIST--------------------------------------
   //-------------------------------SET ANIME LIST--------------------------------------
   //adiciona anime a lista de anime
-  Future setAnimeToList(String animeId, String userId, String status,
-      [int epWatched = 0]) async {
+  //se já existir na lista, não irá adicionar
+  Future setAnimeToList(String animeId, String userId,
+      [String status = 'watching', int epWatched = 0]) async {
+    //verifico se existe anime com esse id no banco de dados
     final selectRes =
         await supabase.from('ANIME').select().eq('id_anime', animeId).execute();
 
@@ -211,26 +213,46 @@ class SupabaseRequest {
       return;
     }
 
+    //verifico se esse anime já foi adicionado na lista
+    final selectAnimeList = await supabase
+        .from('ANIME_LIST')
+        .select('*')
+        .eq('id_anime', animeId)
+        .eq('id_user', userId)
+        .execute();
+
+    if (selectAnimeList.error != null) {
+      showToastMessage('can\'t add anime');
+      return debugPrint('error - ${selectAnimeList.error!.message}');
+    }
+
+    if (selectAnimeList.data.toString() != '[]') {
+      return debugPrint('Anime já existe na lista - ${selectAnimeList.data}');
+    }
+
     try {
-      final resUpsert = await supabase.from('ANIME_LIST').upsert({
+      final resUpsert = await supabase.from('ANIME_LIST').insert({
         'anime_status': status,
         'episodes_watched': epWatched,
         'id_anime': animeId,
         'id_user': userId
-      }, onConflict: 'id_anime').execute();
+      }).execute();
 
       if (resUpsert.error != null) {
-        showToastMessage('error: ${resUpsert.error?.message}');
-      } else {
-        showToastMessage('Anime adicionado com sucesso');
+        showToastMessage('can\'t add anime');
+        return debugPrint('error: ${resUpsert.error?.message}');
       }
+      showToastMessage('Anime adicionado com sucesso');
+      debugPrint('Anime adicionado com sucesso ${resUpsert.data}');
+      var animeListRow = Data.fromJson(resUpsert.data[0]);
+      return animeListRow;
     } catch (e) {
       showToastMessage(e.toString());
     }
   }
 
   //FUNCAO QUE ADICIONA OU REMOVE ANIME AOS FAVORITOS
-  Future addAnimeToFavorite(bool favorite, String uuidAnimeList) async {
+  Future addAnimeToFavorite(bool favorite, String? uuidAnimeList) async {
     try {
       final response = await supabase
           .from('ANIME_LIST')
@@ -242,8 +264,11 @@ class SupabaseRequest {
         debugPrint('error: ${response.error!.message}');
       } else {
         showToastMessage(
-            (favorite == true) ? 'Favorito Adicionado' : 'Favorito Removido');
+            (favorite == true) ? 'Favorite added' : 'Favorite removed');
       }
+
+      var animeListRow = Data.fromJson(response.data[0]);
+      return animeListRow;
     } catch (e) {
       debugPrint(e.toString());
     }
@@ -255,7 +280,7 @@ class SupabaseRequest {
   //criar uma func aux que verifica isso
   //-----------------------------------------------------
   //Funcao que atualiza os episodios assistidos de um anime
-  Future updateAnimeListEpisode(int epNumber, String uuidAnimeList) async {
+  Future updateAnimeListEpisode(int epNumber, String? uuidAnimeList) async {
     try {
       final response = await supabase
           .from('ANIME_LIST')
@@ -271,16 +296,41 @@ class SupabaseRequest {
       //vou pegar essa informação pra atualizar a variavel da propria pagina de anime
       debugPrint('func updateanimelistepisode - ${response.data}');
       showToastMessage('Episodios atualizados');
+      var animeListUpdated = Data.fromJson(response.data[0]);
+      return animeListUpdated;
     } catch (e) {
       debugPrint(e.toString());
     }
   }
 
+  Future changeAnimeStatus(String status, String? uuidAnimeList) async {
+    try {
+      final response = await supabase
+          .from('ANIME_LIST')
+          .update({'anime_status': status})
+          .eq('id_anime_list', uuidAnimeList)
+          .execute();
+
+      if (response.error != null) {
+        debugPrint('error - ${response.error!.message}');
+      }
+
+      var animeListRow = Data.fromJson(response.data[0]);
+      debugPrint('Mudança de status realizada - ${response.data[0]}');
+      showToastMessage('Status Changed');
+      return animeListRow;
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+//arrumar o model para  receber o id tbm
 //funcao que vai pegar infos de apenas um anime da lista
-  Future getAnimeListRow(int animeIdExt) async {
+  Future getAnimeListRow(int? animeIdExt) async {
     //talvez eu use o id interno do anime, depende de como a pagina do anime
     //vai ficar
     try {
+      Data? animeListRow;
       final response = await supabase
           .from('ANIME_LIST')
           .select('*')
@@ -291,12 +341,19 @@ class SupabaseRequest {
       if (response.error != null) {
         debugPrint('error: ${response.error!.message}');
       }
-      var animeListRow = Data.fromJson(response.data);
+
+      if (response.data.toString() == '[]') {
+        return debugPrint(
+            'Retorno vazio[], O anime não existe na lista do usuário atual');
+      }
+      animeListRow = Data.fromJson(response.data[0]);
+
+      debugPrint('func getanimelistrow - ${response.data}');
       debugPrint('func getanimelistrow - ${animeListRow.animeStatus}');
       //pretendo criar um model para isso, para enviar já tratado
       return animeListRow;
     } catch (e) {
-      throw e.toString();
+      debugPrint(e.toString());
     }
   }
 
@@ -307,7 +364,7 @@ class SupabaseRequest {
       final res = await supabase
           .from('ANIME_LIST')
           .select(
-              '*, ANIME!inner(title, main_picture_medium, media_type, status)')
+              '*, ANIME!inner(title, main_picture_medium, media_type, status, id_external_anime)')
           .eq('id_user', idUser)
           .execute();
 
@@ -318,9 +375,9 @@ class SupabaseRequest {
       for (var animeListRow in res.data) {
         animeList.add(new Data.fromJson(animeListRow));
       }
-
-      debugPrint('func getanimelist - ${animeList.elementAt(0).aNIME?.title}');
-      return animeList;
+      debugPrint('func getanimelistrow - ${res.data}');
+      //debugPrint('func getanimelist - ${animeList.elementAt(0).aNIME?.title}');
+      //return animeList;
     } catch (e) {
       showToastMessage(e.toString());
     }
