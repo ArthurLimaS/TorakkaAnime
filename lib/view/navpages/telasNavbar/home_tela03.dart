@@ -39,14 +39,18 @@ class _HomeTela03State extends AuthRequiredState<HomeTela03> {
     //SupabaseRequest().setAnimeToList('7e219baf-e7ce-44d1-a5c9-5a2abf43c21c',
     //  supabase.auth.currentUser!.id, Status.watching.name, 2);
     //SupabaseRequest().getAnimeList(SupabaseRequest().getActiveUser()!.id);
-    //SupabaseRequest().getAnimeListRow(45653);
+    //SupabaseRequest().getAnimeListRow(50346);
     //SupabaseRequest()
     //    .updateAnimeListEpisode(10, 'e8c66675-c7ca-457a-bdb3-edda85d1dca6');
     //SupabaseRequest()
-    //    .addAnimeToFavorite(false, 'e8c66675-c7ca-457a-bdb3-edda85d1dca6');
+    //    .addAnimeToFavorite(true, '7ad7e871-2c56-466a-9a39-e953bc22b5b9');
     //SupabaseRequest().getAnimeStatistic();
     //SupabaseRequest()
     //    .deleteAnimeFromList('a0d97695-78c3-4eef-987f-0148d61e03fe');
+    //SupabaseRequest()
+    //    .updateAnimeListEpisode(1, '7ad7e871-2c56-466a-9a39-e953bc22b5b9');
+    //SupabaseRequest().changeAnimeStatus(
+    //    Status.planToWatching.name, '7ad7e871-2c56-466a-9a39-e953bc22b5b9');
     if (rankAiring != null && rankTop != null && rankUpcoming != null) {
       if (this.mounted) {
         setState(() {});

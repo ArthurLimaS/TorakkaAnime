@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:torakka_anime/model/anime.dart';
+import 'package:torakka_anime/model/anime_list_model/data.dart';
 import 'package:torakka_anime/requests/mal_queries.dart';
+import 'package:torakka_anime/requests/supabase_request.dart';
+import 'package:torakka_anime/utils/aux_func.dart';
+import 'package:torakka_anime/utils/constants.dart';
 
 class TelaAnime extends StatefulWidget {
   const TelaAnime({Key? key}) : super(key: key);
@@ -14,6 +18,7 @@ class TelaAnime extends StatefulWidget {
 class _TelaAnimeState extends State<TelaAnime> {
   late int x;
   Anime? anime;
+  Data? animeListRowInfo;
   bool y = true;
   int tamGenero = 3;
   var isLoaded = false;
@@ -31,6 +36,74 @@ class _TelaAnimeState extends State<TelaAnime> {
     super.didChangeDependencies();
 
     getData();
+    getAnimeListRowData();
+  }
+
+  //adiciona um anime na lista
+  _onAddAnimeToListPress() async {
+    String animeUUID = await SupabaseRequest().getAnimeUuid(anime?.id);
+
+    animeListRowInfo = await SupabaseRequest()
+        .setAnimeToList(animeUUID, SupabaseRequest().getActiveUser()!.id);
+    if (animeListRowInfo != null) {}
+  }
+
+  //atualiza o numero de eps assistidos
+  _onUpdateEpisodesPress(int? animeTotalEp, [int epNumber = 1]) async {
+    if (animeTotalEp == null) {
+      return debugPrint(
+          'Variavel numEpisodes está fazia - ${anime?.numEpisodes}');
+    }
+
+    if (epNumber <= animeTotalEp && epNumber >= 0) {
+      animeListRowInfo = await SupabaseRequest()
+          .updateAnimeListEpisode(epNumber, animeListRowInfo?.idAnimeList);
+      return;
+    } else {
+      debugPrint('Número de episódios inválido');
+      return debugPrint('invalid episode number');
+    }
+  }
+
+  //muda o status de um anime
+  _onStatusChangePress(String status) async {
+    if (status == Status.completed.name && anime?.status != 'completed') {
+      showToastMessage('Anime isn\'t completed');
+      return debugPrint('Anime não foi terminado');
+    } else {
+      animeListRowInfo = await SupabaseRequest()
+          .changeAnimeStatus(status, animeListRowInfo?.idAnimeList);
+      return;
+    }
+  }
+
+  //adiciona ou remove o anime do favorito
+  _onAddAnimeToFavoritePress() async {
+    switch (animeListRowInfo?.favorite) {
+      case null:
+        animeListRowInfo = await SupabaseRequest()
+            .addAnimeToFavorite(false, animeListRowInfo?.idAnimeList);
+        break;
+      case false:
+        animeListRowInfo = await SupabaseRequest()
+            .addAnimeToFavorite(true, animeListRowInfo?.idAnimeList);
+        break;
+      case true:
+        animeListRowInfo = await SupabaseRequest()
+            .addAnimeToFavorite(false, animeListRowInfo?.idAnimeList);
+        break;
+      default:
+        debugPrint('nenhuma das alternativas anteriores');
+        break;
+    }
+  }
+
+  getAnimeListRowData() async {
+    animeListRowInfo = await SupabaseRequest().getAnimeListRow(anime?.id);
+
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   getData() async {

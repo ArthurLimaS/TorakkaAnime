@@ -31,7 +31,7 @@ class _ListaState extends State<Lista> {
                             '',
                     nome: widget.animes?.elementAt(i).aNIME?.title ?? '',
                     desc: '',
-                    id: 0)
+                    id: widget.animes?.elementAt(i).aNIME?.idExt ?? 0)
             ],
           ),
           const SizedBox(height: 30),
