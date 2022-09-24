@@ -40,7 +40,7 @@ class _EntrarTela01State extends State<EntrarTela01> {
     _passwordController = TextEditingController();
     //MalQuery().getAnime(41084);
     //Future<String> id = SupabaseRequest().getAnimeUuid(41084);
-    SupabaseRequest().getAnimeDB(41084);
+    //SupabaseRequest().getAnimeDB(41084);
     super.initState();
   }
 

@@ -187,19 +187,19 @@ class Anime {
     } else {
       _rating = json['rating'];
     }
-    print(json['studios']);
+    //print(json['studios']);
     if (json['studios'].toString() == '[]') {
       _studios = <Studio>[];
       _studios!.add(Studio(0, 'none'));
     } else if (json['studios'] != null) {
       _studios = <Studio>[];
       json['studios'].forEach((v) {
-        print(v);
+        //print(v);
         _studios!.add(new Studio.fromJson(v));
       });
     }
-    print(studios?.first.name);
-    print(studios?.length);
+    //print(studios?.first.name);
+    //print(studios?.length);
   }
 
   Map<String, dynamic> toJson() {
