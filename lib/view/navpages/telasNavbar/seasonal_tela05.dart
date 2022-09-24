@@ -32,6 +32,7 @@ class _SeasonalTela05State extends State<SeasonalTela05> {
   List<String> seasons = <String>['spring', 'summer', 'fall', 'winter'];
   String dropdownvalue = 'spring';
   int yearBar = 1;
+  final fieldText = TextEditingController();
 
   @override
   void initState() {
@@ -140,6 +141,7 @@ class _SeasonalTela05State extends State<SeasonalTela05> {
                     onPressed: () {
                       setState(() {
                         tab = 1;
+                        isLoaded = true;
                       });
                     },
                     child: Text(
@@ -180,146 +182,154 @@ class _SeasonalTela05State extends State<SeasonalTela05> {
                             '',
                         desc: "",
                       );
-                    }));
+                    }
+                  )
+                );
               } else if (tab == 1) {
                 return Center(
-                    child: ListView(
-                  children: List.generate(6, (index) {
-                    if (index == 0) {
-                      return Column(
-                        children: [
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Colors.grey,
-                              borderRadius: BorderRadius.circular(1000),
-                            ),
-                            child: TextField(
-                              onChanged: (String value) {
-                                yearBar = int.parse(value);
-                              },
+                  child: ListView(
+                    children: List.generate(7, (index) {
+                      if (index == 0) {
+                        return Column(
+                          children: [
+                            const SizedBox(height: 10.0),
+                            const Text(
+                              "Pesquisa por ano",
                               textAlign: TextAlign.center,
-                              decoration: const InputDecoration(
-                                hintText: 'Digite aqui',
-                                hintStyle: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 18,
-                                  fontStyle: FontStyle.italic,
-                                ),
-                                border: InputBorder.none,
-                              ),
-                              style: const TextStyle(
-                                color: Colors.black,
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 10, 34, 57),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 21
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              DropdownButton<String>(
-                                  value: dropdownvalue,
-                                  items: seasons.map((String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(value),
-                                    );
-                                  }).toList(),
-                                  onChanged: (String? value) {
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                SizedBox(
+                                  width: 110,
+                                  height: 30,
+                                  child: TextField(
+                                    onChanged: (String value) {
+                                      try {
+                                        yearBar = int.parse(value);
+                                      } on Exception catch (_) {
+                                        setState(() {
+                                          fieldText.clear();
+                                        });
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) => const AlertDialog(
+                                            title: Text('Erro de input'),
+                                            content: Text('Digite apenas um número inteiro'),
+                                          )
+                                        );
+                                      }
+                                    },
+                                    controller: fieldText,
+                                    textAlign: TextAlign.center,
+                                    textAlignVertical: TextAlignVertical.bottom,
+                                    decoration: InputDecoration(
+                                      filled: true,
+                                      fillColor: Colors.grey,
+                                      hintText: 'Digite aqui',
+                                      hintStyle: const TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 18,
+                                        fontStyle: FontStyle.italic,
+                                      ),
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(1000)
+                                      ),
+                                    ),
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                                DropdownButton<String>(
+                                    value: dropdownvalue,
+                                    items: seasons.map((String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(value),
+                                      );
+                                    }).toList(),
+                                    onChanged: (String? value) {
+                                      setState(() {
+                                        dropdownvalue = value!;
+                                      });
+                                    }
+                                ),
+                                GestureDetector(
+                                  onTap: () {
                                     setState(() {
-                                      dropdownvalue = value!;
+                                      tab = 2;
+                                      isLoaded = false;
+                                      getData(dropdownvalue, yearBar);
                                     });
-                                  }),
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(4),
-                                child: Stack(
-                                  children: <Widget>[
-                                    Positioned.fill(
-                                      child: Container(
-                                        decoration: const BoxDecoration(
-                                          gradient: LinearGradient(
-                                            colors: <Color>[
-                                              Color(0xFF0D47A1),
-                                              Color(0xFF1976D2),
-                                              Color(0xFF42A5F5),
-                                            ],
-                                          ),
+                                  },
+                                  child: Container(
+                                    height: 30,
+                                    width: 90,
+                                    decoration: BoxDecoration(
+                                      color: const Color.fromARGB(255, 10, 34, 57),
+                                      borderRadius: BorderRadius.circular(1000),
+                                    ),
+                                    child: const Center(
+                                      child: Text(
+                                        "Pesquisar",
+                                        style: TextStyle(
+                                          color: Color.fromARGB(255, 255, 255, 255),
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18,
                                         ),
                                       ),
                                     ),
-                                    TextButton(
-                                      style: TextButton.styleFrom(
-                                        primary: Colors.white,
-                                        padding: const EdgeInsets.all(16.0),
-                                        textStyle:
-                                            const TextStyle(fontSize: 20),
-                                      ),
-                                      onPressed: () {
-                                        setState(() {
-                                          tab = 2;
-                                          isLoaded = false;
-                                          getData(dropdownvalue, yearBar);
-                                        });
-                                      },
-                                      child: const Text('Pesquisar'),
-                                    ),
-                                  ],
+                                  ),
                                 ),
-                              ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                          ],
+                        );
+                      } else {
+                        int ano = anoAtual - (index - 1);
+                        return Column(children: [
+                          const SizedBox(height: 10.0),
+                          Text(
+                            "$ano",
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                                color: Color.fromARGB(255, 10, 34, 57),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18),
+                          ),
+                          const SizedBox(height: 10.0),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              buttonSeasons("winter", ano),
+                              buttonSeasons("spring", ano),
+                              buttonSeasons("summer", ano),
+                              buttonSeasons("fall", ano)
                             ],
                           ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                        ],
-                      );
-                    } else {
-                      int ano = anoAtual - (index - 1);
-                      return Column(children: [
-                        const SizedBox(height: 10.0),
-                        Text(
-                          "$ano",
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                              color: Color.fromARGB(255, 10, 34, 57),
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18),
-                        ),
-                        const SizedBox(height: 10.0),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            buttonSeasons("winter", ano),
-                            buttonSeasons("spring", ano),
-                            buttonSeasons("summer", ano),
-                            buttonSeasons("fall", ano)
-                          ],
-                        ),
-                        const SizedBox(height: 10.0),
-                      ]);
-                    }
-                  }),
-                ));
+                          const SizedBox(height: 10.0),
+                        ]);
+                      }
+                    }),
+                  )
+                );
               } else {
                 return WillPopScope(
                   onWillPop: () async {
                     setState(() {
-                      tab = 0;
-                      isLoaded = false;
-
-                      if (3 <= mesAtual && mesAtual <= 5) {
-                        getData('spring', anoAtual);
-                      } else if (6 <= mesAtual && mesAtual <= 8) {
-                        getData('summer', anoAtual);
-                      } else if (9 <= mesAtual && mesAtual <= 11) {
-                        getData('fall', anoAtual);
-                      } else if (12 <= mesAtual || mesAtual <= 2) {
-                        getData('winter', anoAtual);
-                      }
+                      tab = 1;
                     });
                     return false;
                   },
@@ -346,11 +356,11 @@ class _SeasonalTela05State extends State<SeasonalTela05> {
                 );
               }
             } else {
-              //return const Center(child: CircularProgressIndicator());
-              return WillPopScope(
+              return const Center(child: CircularProgressIndicator());
+              /*return WillPopScope(
                 onWillPop: () async {
                   setState(() {
-                    tab = 0;
+                    tab = 1;
                     isLoaded = false;
 
                     if (3 <= mesAtual && mesAtual <= 5) {
@@ -384,7 +394,7 @@ class _SeasonalTela05State extends State<SeasonalTela05> {
                         desc: "",
                       );
                     })),
-              );
+              );*/
             }
           },
         ));
