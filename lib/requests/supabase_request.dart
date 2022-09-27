@@ -151,13 +151,6 @@ class SupabaseRequest {
   Future getAnimeDB(int animeId) async {
     final animeUuid = await getAnimeUuid(animeId);
 
-    /*final res = await supabase
-        .from('ANIME')
-        .select('title, GENERO!inner(*), STUDIO!inner(*)')
-        .eq('GENERO.id_anime', animeUuid)
-        .eq('STUDIO.id_anime', animeUuid)
-        .execute();*/
-
     final res = await supabase
         .from('ANIME')
         .select('title')
@@ -242,7 +235,7 @@ class SupabaseRequest {
         showToastMessage('can\'t add anime');
         return debugPrint('error: ${resUpsert.error?.message}');
       }
-      showToastMessage('Anime adicionado com sucesso');
+      showToastMessage('Anime sucessfully added');
       debugPrint('Anime adicionado com sucesso ${resUpsert.data}');
       var animeListRow = Data.fromJson(resUpsert.data[0]);
       return animeListRow;
@@ -295,7 +288,7 @@ class SupabaseRequest {
       //como retorna a a lista do episodio que modificou, atualizada,
       //vou pegar essa informação pra atualizar a variavel da propria pagina de anime
       debugPrint('func updateanimelistepisode - ${response.data}');
-      showToastMessage('Episodios atualizados');
+      showToastMessage('Episodes Updated');
       var animeListUpdated = Data.fromJson(response.data[0]);
       return animeListUpdated;
     } catch (e) {
@@ -324,11 +317,8 @@ class SupabaseRequest {
     }
   }
 
-//arrumar o model para  receber o id tbm
 //funcao que vai pegar infos de apenas um anime da lista
   Future getAnimeListRow(int? animeIdExt) async {
-    //talvez eu use o id interno do anime, depende de como a pagina do anime
-    //vai ficar
     try {
       Data? animeListRow;
       final response = await supabase
@@ -350,7 +340,7 @@ class SupabaseRequest {
 
       debugPrint('func getanimelistrow - ${response.data}');
       debugPrint('func getanimelistrow - ${animeListRow.animeStatus}');
-      //pretendo criar um model para isso, para enviar já tratado
+
       return animeListRow;
     } catch (e) {
       debugPrint(e.toString());
