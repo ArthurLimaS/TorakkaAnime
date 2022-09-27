@@ -144,9 +144,7 @@ class _DiscoverTela04State extends State<DiscoverTela04> {
               ],
             );
           } else {
-            return const Center(
-              child: CircularProgressIndicator()
-            );
+            return const Center(child: CircularProgressIndicator());
           }
         }),
       )

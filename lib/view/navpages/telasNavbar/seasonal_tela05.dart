@@ -160,13 +160,13 @@ class _SeasonalTela05State extends State<SeasonalTela05> {
           toolbarHeight: 100,
           backgroundColor: const Color.fromARGB(255, 10, 34, 57),
         ),
-        body: Builder(
-          builder: (BuildContext context) {
+        body: OrientationBuilder(
+          builder: (context, orientation) {
             if (isLoaded) {
               if (tab == 0) {
                 return GridView.count(
                     padding: const EdgeInsets.only(top: 20),
-                    crossAxisCount: 2,
+                    crossAxisCount: orientation == Orientation.portrait ? 2 : 4,
                     childAspectRatio: (120 / 150),
                     children: List.generate(listSize!, (index) {
                       return AnimeImgName(
@@ -202,9 +202,7 @@ class _SeasonalTela05State extends State<SeasonalTela05> {
                                 fontSize: 21
                               ),
                             ),
-                            const SizedBox(
-                              height: 10,
-                            ),
+                            const SizedBox(height: 10,),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
@@ -292,9 +290,7 @@ class _SeasonalTela05State extends State<SeasonalTela05> {
                                 ),
                               ],
                             ),
-                            const SizedBox(
-                              height: 10,
-                            ),
+                            const SizedBox(height: 10,),
                           ],
                         );
                       } else {
@@ -335,9 +331,9 @@ class _SeasonalTela05State extends State<SeasonalTela05> {
                   },
                   child: GridView.count(
                       padding: const EdgeInsets.only(top: 20),
-                      crossAxisCount: 2,
+                      crossAxisCount: orientation == Orientation.portrait ? 2 : 4,
                       childAspectRatio: (120 / 140),
-                      children: List.generate(10, (index) {
+                      children: List.generate(listSize!, (index) {
                         return AnimeImgName(
                           id: seasonList?.data?.elementAt(index).node?.id ?? 0,
                           numero: index,
@@ -357,63 +353,8 @@ class _SeasonalTela05State extends State<SeasonalTela05> {
               }
             } else {
               return const Center(child: CircularProgressIndicator());
-              /*return WillPopScope(
-                onWillPop: () async {
-                  setState(() {
-                    tab = 1;
-                    isLoaded = false;
-
-                    if (3 <= mesAtual && mesAtual <= 5) {
-                      getData('spring', anoAtual);
-                    } else if (6 <= mesAtual && mesAtual <= 8) {
-                      getData('summer', anoAtual);
-                    } else if (9 <= mesAtual && mesAtual <= 11) {
-                      getData('fall', anoAtual);
-                    } else if (12 <= mesAtual || mesAtual <= 2) {
-                      getData('winter', anoAtual);
-                    }
-                  });
-                  return false;
-                },
-                child: GridView.count(
-                    padding: const EdgeInsets.only(top: 20),
-                    crossAxisCount: 2,
-                    childAspectRatio: (120 / 150),
-                    children: List.generate(listSize!, (index) {
-                      return AnimeImgName(
-                        id: seasonList?.data?.elementAt(index).node?.id ?? 0,
-                        numero: index,
-                        imgLink: seasonList?.data
-                                ?.elementAt(index)
-                                .node
-                                ?.mainPicture
-                                ?.medium ??
-                            '',
-                        nome: seasonList?.data?.elementAt(index).node?.title ??
-                            '',
-                        desc: "",
-                      );
-                    })),
-              );*/
             }
           },
         ));
   }
 }
-
-/*
-TextField(
-  textAlign: TextAlign.center,
-  decoration: const InputDecoration(
-    hintText: 'Digite aqui',
-    hintStyle: TextStyle(
-      color: Colors.black,
-      fontSize: 18,
-      fontStyle: FontStyle.italic,
-    ),
-    border: InputBorder.none,
-  ),
-  style: const TextStyle(
-    color: Colors.black,
-  ),
-),*/
