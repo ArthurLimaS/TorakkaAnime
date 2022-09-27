@@ -73,16 +73,19 @@ class _DiscoverTela04State extends State<DiscoverTela04> {
               child: TextField(
                 textAlignVertical: TextAlignVertical.bottom,
                 decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white,
-                    hintText: 'Discover',
-                    hintStyle: const TextStyle(
-                        color: Color.fromARGB(60, 0, 0, 0),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18),
-                    contentPadding: const EdgeInsets.all(15),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(1000))),
+                  filled: true,
+                  fillColor: Colors.white,
+                  hintText: 'Discover',
+                  hintStyle: const TextStyle(
+                      color: Color.fromARGB(60, 0, 0, 0),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18
+                  ),
+                  contentPadding: const EdgeInsets.all(15),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(1000)
+                  )
+                ),
                 onSubmitted: (value) {
                   setState(() {
                     searchDone = false;
