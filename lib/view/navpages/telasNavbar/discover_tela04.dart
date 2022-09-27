@@ -27,9 +27,9 @@ class _DiscoverTela04State extends State<DiscoverTela04> {
 
   getData(String search) async {
     if (search.isEmpty) {
-      searchList = await MalQuery().getRank('airing', limit: 9);
+      searchList = await MalQuery().getRank('airing', limit: 30);
     } else {
-      searchList = await MalQuery().searchAnime(search, limit: 9);
+      searchList = await MalQuery().searchAnime(search, limit: 30);
     }
 
     listSize = searchList?.data?.length;
@@ -111,7 +111,7 @@ class _DiscoverTela04State extends State<DiscoverTela04> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const SizedBox(height: 7),
-                    if (listSize! < 9)
+                    if (listSize! < 30)
                       for (int i = 0; i < listSize!; i++)
                         TopAnime(
                           id: searchList?.data?.elementAt(i).node?.id ?? 0,
@@ -125,8 +125,8 @@ class _DiscoverTela04State extends State<DiscoverTela04> {
                           nome: searchList?.data?.elementAt(i).node?.title ?? '',
                           desc: ""
                         ),
-                    if (listSize! >= 9)
-                      for (int i = 0; i < 9; i++)
+                    if (listSize! >= 30)
+                      for (int i = 0; i < 30; i++)
                         TopAnime(
                           id: searchList?.data?.elementAt(i).node?.id ?? 0,
                           numero: i,
