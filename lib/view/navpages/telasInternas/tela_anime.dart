@@ -24,7 +24,45 @@ class _TelaAnimeState extends State<TelaAnime> {
   var isLoaded = false;
   List<String> items = ['Watching', 'Plan to Watching', 'Completed', 'Dropped'];
   String? selectedItem = '';
-  int totalEps = 0;
+
+  String? statusAnime(String? status) {
+    debugPrint('o status eh $status');
+    switch (status) {
+      case 'watching':
+        status = 'Watching';
+        break;
+      case 'planToWatching':
+        status = 'Plan to Watching';
+        break;
+      case 'completed':
+        status = 'Completed';
+        break;
+      case 'dropped':
+        status = 'Dropped';
+        break;
+      default:
+        status = '';
+    }
+    return status;
+  }
+
+  String statusReverso(String status) {
+    switch (status) {
+      case 'Watching':
+        status = 'watching';
+        break;
+      case 'Plan to Watching':
+        status = 'planToWatching';
+        break;
+      case 'Completed':
+        status = 'completed';
+        break;
+      case 'Dropped':
+        status = 'dropped';
+        break;
+    }
+    return status;
+  }
 
   @override
   void initState() {
@@ -34,25 +72,24 @@ class _TelaAnimeState extends State<TelaAnime> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-
     getData();
-    getAnimeListRowData();
+    //getAnimeListRowData();
   }
 
   //adiciona um anime na lista
-  _onAddAnimeToListPress() async {
+  _onAddAnimeToListPress(String status) async {
     String animeUUID = await SupabaseRequest().getAnimeUuid(anime?.id);
 
-    animeListRowInfo = await SupabaseRequest()
-        .setAnimeToList(animeUUID, SupabaseRequest().getActiveUser()!.id);
-    if (animeListRowInfo != null) {}
+    animeListRowInfo = await SupabaseRequest().setAnimeToList(
+        animeUUID, SupabaseRequest().getActiveUser()!.id, status);
+    //if (animeListRowInfo != null) {}
   }
 
   //atualiza o numero de eps assistidos
   _onUpdateEpisodesPress(int? animeTotalEp, [int epNumber = 1]) async {
     if (animeTotalEp == null) {
       return debugPrint(
-          'Variavel numEpisodes está fazia - ${anime?.numEpisodes}');
+          'Variavel numEpisodes está vazia - ${anime?.numEpisodes}');
     }
 
     if (epNumber <= animeTotalEp && epNumber >= 0) {
@@ -102,13 +139,22 @@ class _TelaAnimeState extends State<TelaAnime> {
     animeListRowInfo = await SupabaseRequest().getAnimeListRow(anime?.id);
 
     if (mounted) {
-      setState(() {});
+      setState(() {
+        selectedItem = statusAnime(animeListRowInfo?.animeStatus);
+      });
     }
   }
 
   getData() async {
     final arg = ModalRoute.of(context)!.settings.arguments;
     anime = await MalQuery().getAnime(int.parse('$arg'));
+    getAnimeListRowData();
+
+    if (animeListRowInfo != null) {
+      if (mounted) {
+        setState(() {});
+      }
+    }
 
     if (anime != null) {
       if (anime!.genres!.length > 4) {
@@ -240,8 +286,16 @@ class _TelaAnimeState extends State<TelaAnime> {
                                               ),
                                             ))
                                         .toList(),
-                                    onChanged: (item) =>
-                                        setState(() => selectedItem = item),
+                                    onChanged: (item) => setState(() {
+                                      selectedItem = item;
+                                      if (animeListRowInfo == null) {
+                                        _onAddAnimeToListPress(
+                                            statusReverso(selectedItem!));
+                                      } else if (animeListRowInfo != null) {
+                                        _onStatusChangePress(
+                                            statusReverso(selectedItem!));
+                                      }
+                                    }),
                                   ),
                                 ),
                                 const Divider(
@@ -269,7 +323,7 @@ class _TelaAnimeState extends State<TelaAnime> {
                                             MainAxisAlignment.center,
                                         children: [
                                           Text(
-                                            '$totalEps/${anime?.numEpisodes ?? ""}',
+                                            '${animeListRowInfo?.episodesWatched ?? '0'}/${(anime?.numEpisodes == 0) ? '??' : anime?.numEpisodes}',
                                             style: const TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold,
@@ -278,9 +332,7 @@ class _TelaAnimeState extends State<TelaAnime> {
                                           ),
                                           IconButton(
                                               onPressed: () {
-                                                setState(() {
-                                                  totalEps += 1;
-                                                });
+                                                setState(() {});
                                               },
                                               icon: const Icon(
                                                 Icons

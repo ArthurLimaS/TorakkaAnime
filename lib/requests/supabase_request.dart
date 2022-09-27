@@ -186,7 +186,7 @@ class SupabaseRequest {
 
       return res.data[0]['id_anime'];
     } catch (e) {
-      showToastMessage(e.toString());
+      showToastMessage('func getanimeuuid - ${e.toString()}');
     }
   }
 
@@ -194,8 +194,8 @@ class SupabaseRequest {
   //-------------------------------SET ANIME LIST--------------------------------------
   //adiciona anime a lista de anime
   //se já existir na lista, não irá adicionar
-  Future setAnimeToList(String animeId, String userId,
-      [String status = 'watching', int epWatched = 0]) async {
+  Future setAnimeToList(String animeId, String userId, String status,
+      [int epWatched = 0]) async {
     //verifico se existe anime com esse id no banco de dados
     final selectRes =
         await supabase.from('ANIME').select().eq('id_anime', animeId).execute();
@@ -369,7 +369,7 @@ class SupabaseRequest {
       //debugPrint('func getanimelist - ${animeList.elementAt(0).aNIME?.title}');
       return animeList;
     } catch (e) {
-      showToastMessage(e.toString());
+      showToastMessage('func getAnimeList - ${e.toString()}');
     }
   }
 
@@ -441,7 +441,7 @@ class SupabaseRequest {
     } catch (e) {
       showToastMessage(e.toString());
     }
-    
+
     debugPrint(stats.toString());
     return stats;
   }
