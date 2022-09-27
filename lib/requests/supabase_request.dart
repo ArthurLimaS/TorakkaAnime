@@ -451,7 +451,7 @@ class SupabaseRequest {
     } catch (e) {
       showToastMessage(e.toString());
     }
-
+    
     debugPrint(stats.toString());
     return stats;
   }
