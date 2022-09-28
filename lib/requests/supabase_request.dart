@@ -367,7 +367,7 @@ class SupabaseRequest {
       }
       debugPrint('func getanimelistrow - ${res.data}');
       //debugPrint('func getanimelist - ${animeList.elementAt(0).aNIME?.title}');
-      //return animeList;
+      return animeList;
     } catch (e) {
       showToastMessage(e.toString());
     }
