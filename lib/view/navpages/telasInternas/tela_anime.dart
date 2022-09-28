@@ -20,7 +20,9 @@ class _TelaAnimeState extends State<TelaAnime> {
   Anime? anime;
   Data? animeListRowInfo;
   bool y = true;
+  bool? toggle = false;
   int tamGenero = 3;
+  int? epsWatch = 0;
   var isLoaded = false;
   List<String> items = ['Watching', 'Plan to Watching', 'Completed', 'Dropped'];
   String? selectedItem = '';
@@ -116,6 +118,7 @@ class _TelaAnimeState extends State<TelaAnime> {
 
   //adiciona ou remove o anime do favorito
   _onAddAnimeToFavoritePress() async {
+    debugPrint("entrou na funcao addtofavoritePRESS");
     switch (animeListRowInfo?.favorite) {
       case null:
         animeListRowInfo = await SupabaseRequest()
@@ -141,6 +144,12 @@ class _TelaAnimeState extends State<TelaAnime> {
     if (mounted) {
       setState(() {
         selectedItem = statusAnime(animeListRowInfo?.animeStatus);
+        debugPrint(
+            "func - getAnimeListRowData - ${animeListRowInfo?.favorite}");
+        if (animeListRowInfo != null) {
+          toggle = animeListRowInfo?.favorite;
+          epsWatch = animeListRowInfo?.episodesWatched;
+        }
       });
     }
   }
@@ -323,7 +332,7 @@ class _TelaAnimeState extends State<TelaAnime> {
                                             MainAxisAlignment.center,
                                         children: [
                                           Text(
-                                            '${animeListRowInfo?.episodesWatched ?? '0'}/${(anime?.numEpisodes == 0) ? '??' : anime?.numEpisodes}',
+                                            '${epsWatch ?? '0'}/${(anime?.numEpisodes == 0) ? '??' : anime?.numEpisodes}',
                                             style: const TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold,
@@ -332,7 +341,14 @@ class _TelaAnimeState extends State<TelaAnime> {
                                           ),
                                           IconButton(
                                               onPressed: () {
-                                                setState(() {});
+                                                setState(() {
+                                                  _onUpdateEpisodesPress(
+                                                      anime!.numEpisodes,
+                                                      animeListRowInfo!
+                                                              .episodesWatched! +
+                                                          1);
+                                                  epsWatch = epsWatch! + 1;
+                                                });
                                               },
                                               icon: const Icon(
                                                 Icons
@@ -348,16 +364,44 @@ class _TelaAnimeState extends State<TelaAnime> {
                                   color: Color.fromARGB(255, 218, 218, 218),
                                   thickness: 1,
                                 ),
-                                const SizedBox(
+                                SizedBox(
                                   height: 50,
                                   child: Center(
                                     // ================================================================================ ADD FAVORITES =====================================
-                                    child: Text(
-                                      'Add to Favorites',
-                                      style: TextStyle(
-                                        color: Color.fromARGB(255, 10, 34, 57),
-                                        fontSize: 20,
-                                      ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        const Text(
+                                          'Favorite',
+                                          style: TextStyle(
+                                            color:
+                                                Color.fromARGB(255, 10, 34, 57),
+                                            fontSize: 20,
+                                          ),
+                                        ),
+                                        IconButton(
+                                            onPressed: () {
+                                              if (animeListRowInfo != null) {
+                                                setState(() {
+                                                  if (toggle != null) {
+                                                    toggle = !toggle!;
+                                                  }
+                                                  _onAddAnimeToFavoritePress();
+                                                });
+                                              }
+                                            },
+                                            icon: toggle!
+                                                ? const Icon(
+                                                    Icons.favorite,
+                                                    color: Colors.redAccent,
+                                                  )
+                                                : const Icon(
+                                                    Icons.favorite_border,
+                                                    color: Color.fromARGB(
+                                                        255, 10, 34, 57),
+                                                  )),
+                                      ],
                                     ),
                                   ),
                                 ),
