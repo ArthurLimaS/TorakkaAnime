@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:http/http.dart';
-import 'package:torakka_anime/requests/mal_queries.dart';
+import 'package:torakka_anime/requests/supabase_request.dart';
+import 'package:torakka_anime/utils/constants.dart';
 import 'package:torakka_anime/view/navpages/telasInternas/lista.dart';
-
-import '../../../model/anime.dart';
+import '../../../model/anime_list_model/data.dart';
 
 class ListaTela06 extends StatefulWidget {
   const ListaTela06({Key? key}) : super(key: key);
@@ -15,8 +12,24 @@ class ListaTela06 extends StatefulWidget {
 }
 
 class _ListaTela06State extends State<ListaTela06> {
-  List<Anime>? animes;
-  //var isLoaded = false;
+  List<Data>? animes;
+  List<Data>? watching;
+  List<Data>? planToWatching;
+  List<Data>? dropped;
+  List<Data>? completed;
+  var isLoaded = false;
+
+  List<Data>? getList(List<Data>? animes, String status) {
+    List<Data>? list = [];
+
+    for (var animeListRow in animes!) {
+      if (animeListRow.animeStatus == status) {
+        list.add(animeListRow);
+      }
+    }
+
+    return list;
+  }
 
   @override
   void initState() {
@@ -25,23 +38,25 @@ class _ListaTela06State extends State<ListaTela06> {
   }
 
   getData() async {
-    Anime anime1 = await MalQuery().getAnime(41084);
-    animes?.add(anime1);
-    Anime anime2 = await MalQuery().getAnime(36296);
-    animes?.add(anime2);
-    print('tamanho dentro da função add to list ${animes?.length}');
+    animes = await SupabaseRequest()
+        .getAnimeList(SupabaseRequest().getActiveUser()?.id);
+    watching = getList(animes, Status.watching.name);
+    planToWatching = getList(animes, Status.planToWatching.name);
+    dropped = getList(animes, Status.dropped.name);
+    completed = getList(animes, Status.completed.name);
+    //debugPrint('tamanho dentro da função add to list ${watching?.length}');
+    //debugPrint('tamanho dentro da função add to list ${animes?.length}');
     if (animes != null) {
-      if (this.mounted) {
-        setState(() {});
+      if (mounted) {
+        setState(() {
+          isLoaded = true;
+        });
       }
     }
   }
 
-  addAnimeToList() async {}
-
   @override
   Widget build(BuildContext context) {
-    print('anime tela anime tamanho: ${animes?.length}');
     return DefaultTabController(
       length: 4,
       child: Scaffold(
@@ -62,12 +77,50 @@ class _ListaTela06State extends State<ListaTela06> {
           backgroundColor: const Color.fromARGB(255, 10, 34, 57),
         ),
         backgroundColor: Colors.white,
-        body: TabBarView(physics: NeverScrollableScrollPhysics(), children: [
-          Lista(animes: animes),
-          Center(child: Text('2')),
-          Center(child: Text('3')),
-          Center(child: Text('4')),
-        ]),
+        body: TabBarView(
+            physics: const NeverScrollableScrollPhysics(),
+            children: [
+              Builder(builder: (BuildContext context) {
+                if (isLoaded) {
+                  if (watching!.isEmpty) {
+                    return const Center(child: Text('List Empty'));
+                  }
+                  return Lista(animes: watching);
+                } else {
+                  return const Center(child: CircularProgressIndicator());
+                }
+              }),
+              Builder(builder: (BuildContext context) {
+                if (isLoaded) {
+                  if (completed!.isEmpty) {
+                    return const Center(child: Text('List Empty'));
+                  }
+                  return Lista(animes: completed);
+                } else {
+                  return const Center(child: CircularProgressIndicator());
+                }
+              }),
+              Builder(builder: (BuildContext context) {
+                if (isLoaded) {
+                  if (dropped!.isEmpty) {
+                    return const Center(child: Text('List Empty'));
+                  }
+                  return Lista(animes: dropped);
+                } else {
+                  return const Center(child: CircularProgressIndicator());
+                }
+              }),
+              Builder(builder: (BuildContext context) {
+                if (isLoaded) {
+                  if (planToWatching!.isEmpty) {
+                    return const Center(child: Text('List Empty'));
+                  }
+                  return Lista(animes: planToWatching);
+                } else {
+                  return const Center(child: CircularProgressIndicator());
+                }
+              }),
+            ]),
       ),
     );
   }

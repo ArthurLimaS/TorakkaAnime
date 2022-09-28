@@ -27,9 +27,9 @@ class _DiscoverTela04State extends State<DiscoverTela04> {
 
   getData(String search) async {
     if (search.isEmpty) {
-      searchList = await MalQuery().getRank('airing', limit: 9);
+      searchList = await MalQuery().getRank('airing', limit: 30);
     } else {
-      searchList = await MalQuery().searchAnime(search, limit: 9);
+      searchList = await MalQuery().searchAnime(search, limit: 30);
     }
 
     listSize = searchList?.data?.length;
@@ -73,16 +73,19 @@ class _DiscoverTela04State extends State<DiscoverTela04> {
               child: TextField(
                 textAlignVertical: TextAlignVertical.bottom,
                 decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white,
-                    hintText: 'Discover',
-                    hintStyle: const TextStyle(
-                        color: Color.fromARGB(60, 0, 0, 0),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18),
-                    contentPadding: const EdgeInsets.all(15),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(1000))),
+                  filled: true,
+                  fillColor: Colors.white,
+                  hintText: 'Discover',
+                  hintStyle: const TextStyle(
+                      color: Color.fromARGB(60, 0, 0, 0),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18
+                  ),
+                  contentPadding: const EdgeInsets.all(15),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(1000)
+                  )
+                ),
                 onSubmitted: (value) {
                   setState(() {
                     searchDone = false;
@@ -108,7 +111,7 @@ class _DiscoverTela04State extends State<DiscoverTela04> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const SizedBox(height: 7),
-                    if (listSize! < 9)
+                    if (listSize! < 30)
                       for (int i = 0; i < listSize!; i++)
                         TopAnime(
                           id: searchList?.data?.elementAt(i).node?.id ?? 0,
@@ -122,8 +125,8 @@ class _DiscoverTela04State extends State<DiscoverTela04> {
                           nome: searchList?.data?.elementAt(i).node?.title ?? '',
                           desc: ""
                         ),
-                    if (listSize! >= 9)
-                      for (int i = 0; i < 9; i++)
+                    if (listSize! >= 30)
+                      for (int i = 0; i < 30; i++)
                         TopAnime(
                           id: searchList?.data?.elementAt(i).node?.id ?? 0,
                           numero: i,
@@ -141,9 +144,7 @@ class _DiscoverTela04State extends State<DiscoverTela04> {
               ],
             );
           } else {
-            return const Center(
-              child: CircularProgressIndicator()
-            );
+            return const Center(child: CircularProgressIndicator());
           }
         }),
       )

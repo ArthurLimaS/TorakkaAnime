@@ -186,7 +186,7 @@ class SupabaseRequest {
 
       return res.data[0]['id_anime'];
     } catch (e) {
-      showToastMessage(e.toString());
+      showToastMessage('func getanimeuuid - ${e.toString()}');
     }
   }
 
@@ -194,8 +194,8 @@ class SupabaseRequest {
   //-------------------------------SET ANIME LIST--------------------------------------
   //adiciona anime a lista de anime
   //se já existir na lista, não irá adicionar
-  Future setAnimeToList(String animeId, String userId,
-      [String status = 'watching', int epWatched = 0]) async {
+  Future setAnimeToList(String animeId, String userId, String status,
+      [int epWatched = 0]) async {
     //verifico se existe anime com esse id no banco de dados
     final selectRes =
         await supabase.from('ANIME').select().eq('id_anime', animeId).execute();
@@ -369,7 +369,7 @@ class SupabaseRequest {
       //debugPrint('func getanimelist - ${animeList.elementAt(0).aNIME?.title}');
       return animeList;
     } catch (e) {
-      showToastMessage(e.toString());
+      showToastMessage('func getAnimeList - ${e.toString()}');
     }
   }
 
@@ -392,7 +392,7 @@ class SupabaseRequest {
   }
 
   //GET ANIME LIST STATISTIC
-  Future getAnimeStatistic() async {
+  Future getAnimeStatistic(String idUser) async {
     var stats = [];
 
     try {
@@ -400,6 +400,7 @@ class SupabaseRequest {
       final res = await supabase
           .from('ANIME_LIST')
           .select('anime_status')
+          .eq('id_user', idUser)
           .execute(count: CountOption.exact);
       stats.add(res.count);
 
@@ -407,6 +408,7 @@ class SupabaseRequest {
       final resCom = await supabase
           .from('ANIME_LIST')
           .select('anime_status')
+          .eq('id_user', idUser)
           .eq('anime_status', 'completed')
           .execute(count: CountOption.exact);
       stats.add(resCom.count);
@@ -415,6 +417,7 @@ class SupabaseRequest {
       final resWat = await supabase
           .from('ANIME_LIST')
           .select('anime_status')
+          .eq('id_user', idUser)
           .eq('anime_status', 'watching')
           .execute(count: CountOption.exact);
       stats.add(resWat.count);
@@ -423,6 +426,7 @@ class SupabaseRequest {
       final resPlan = await supabase
           .from('ANIME_LIST')
           .select('anime_status')
+          .eq('id_user', idUser)
           .eq('anime_status', 'planToWatching')
           .execute(count: CountOption.exact);
       stats.add(resPlan.count);
@@ -430,6 +434,7 @@ class SupabaseRequest {
       final resDrop = await supabase
           .from('ANIME_LIST')
           .select('anime_status')
+          .eq('id_user', idUser)
           .eq('anime_status', 'dropped')
           .execute(count: CountOption.exact);
       stats.add(resDrop.count);
