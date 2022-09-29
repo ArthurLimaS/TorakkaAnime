@@ -28,7 +28,6 @@ class _TelaAnimeState extends State<TelaAnime> {
   String? selectedItem = '';
 
   String? statusAnime(String? status) {
-    debugPrint('o status eh $status');
     switch (status) {
       case 'watching':
         status = 'Watching';
@@ -84,6 +83,7 @@ class _TelaAnimeState extends State<TelaAnime> {
 
     animeListRowInfo = await SupabaseRequest().setAnimeToList(
         animeUUID, SupabaseRequest().getActiveUser()!.id, status);
+
     //if (animeListRowInfo != null) {}
   }
 
@@ -94,14 +94,37 @@ class _TelaAnimeState extends State<TelaAnime> {
           'Variavel numEpisodes está vazia - ${anime?.numEpisodes}');
     }
 
-    if (epNumber <= animeTotalEp && epNumber >= 0) {
+    if ((epNumber <= animeTotalEp && epNumber >= 0) ||
+        (animeTotalEp == 0 && epNumber >= 0)) {
       animeListRowInfo = await SupabaseRequest()
           .updateAnimeListEpisode(epNumber, animeListRowInfo?.idAnimeList);
       return;
     } else {
       debugPrint('Número de episódios inválido');
-      return debugPrint('invalid episode number');
+      return showToastMessage('invalid episode number');
     }
+  }
+
+  //funcoes auxiliares
+  localUpdateEpisodes() {
+    if (epsWatch! < anime!.numEpisodes!.toInt()) {
+      epsWatch = epsWatch! + 1;
+    }
+  }
+
+  checkIfAired(String status) {
+    if (anime?.status == 'not_yet_aired' &&
+        status != Status.planToWatching.name) {
+      showToastMessage('Anime not yet aired', isError: true);
+      return false;
+    } else if (anime?.status != 'completed' &&
+        status == Status.completed.name) {
+      showToastMessage('func checkifaired - Anime isn\'t completed',
+          isError: true);
+      return false;
+    }
+
+    return true;
   }
 
   //muda o status de um anime
@@ -296,13 +319,22 @@ class _TelaAnimeState extends State<TelaAnime> {
                                             ))
                                         .toList(),
                                     onChanged: (item) => setState(() {
+                                      //Colocar uma checagem do if aqui pra não mudar o anime para completo sem ele ter acabado
+                                      var aux = selectedItem;
                                       selectedItem = item;
-                                      if (animeListRowInfo == null) {
+                                      //checa se o anime está lançado ou completo
+                                      if ((animeListRowInfo == null) &&
+                                          checkIfAired(
+                                              statusReverso(selectedItem!))) {
                                         _onAddAnimeToListPress(
                                             statusReverso(selectedItem!));
-                                      } else if (animeListRowInfo != null) {
+                                      } else if (animeListRowInfo != null &&
+                                          checkIfAired(
+                                              statusReverso(selectedItem!))) {
                                         _onStatusChangePress(
                                             statusReverso(selectedItem!));
+                                      } else {
+                                        selectedItem = aux;
                                       }
                                     }),
                                   ),
@@ -342,12 +374,15 @@ class _TelaAnimeState extends State<TelaAnime> {
                                           IconButton(
                                               onPressed: () {
                                                 setState(() {
-                                                  _onUpdateEpisodesPress(
-                                                      anime!.numEpisodes,
-                                                      animeListRowInfo!
-                                                              .episodesWatched! +
-                                                          1);
-                                                  epsWatch = epsWatch! + 1;
+                                                  if (animeListRowInfo !=
+                                                      null) {
+                                                    _onUpdateEpisodesPress(
+                                                        anime!.numEpisodes,
+                                                        animeListRowInfo!
+                                                                .episodesWatched! +
+                                                            1);
+                                                    localUpdateEpisodes();
+                                                  }
                                                 });
                                               },
                                               icon: const Icon(

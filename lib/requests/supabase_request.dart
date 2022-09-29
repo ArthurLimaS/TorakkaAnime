@@ -186,7 +186,7 @@ class SupabaseRequest {
 
       return res.data[0]['id_anime'];
     } catch (e) {
-      showToastMessage('func getanimeuuid - ${e.toString()}');
+      debugPrint('func getanimeuuid - ${e.toString()}');
     }
   }
 
@@ -271,6 +271,7 @@ class SupabaseRequest {
     }
   }
 
+  //COLOCAR LIMITE DE FAVORITOS
   //FUNCAO QUE ADICIONA OU REMOVE ANIME AOS FAVORITOS
   Future addAnimeToFavorite(bool favorite, String? uuidAnimeList) async {
     try {
