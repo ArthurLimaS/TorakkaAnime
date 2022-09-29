@@ -4,13 +4,15 @@ class ANIME {
   String? mediaType;
   String? status;
   int? idExt;
+  int? totalEps;
 
   ANIME(
       {this.title,
       this.mainPictureMedium,
       this.mediaType,
       this.status,
-      this.idExt});
+      this.idExt,
+      this.totalEps});
 
   ANIME.fromJson(Map<String, dynamic> json) {
     title = json['title'];
@@ -18,6 +20,7 @@ class ANIME {
     mediaType = json['media_type'];
     status = json['status'];
     idExt = json['id_external_anime'];
+    totalEps = json['num_episodes'];
   }
 
   Map<String, dynamic> toJson() {
@@ -27,6 +30,7 @@ class ANIME {
     data['media_type'] = this.mediaType;
     data['status'] = this.status;
     data['id_external_anime'] = this.idExt;
+    data['num_episodes'] = this.totalEps;
     return data;
   }
 }

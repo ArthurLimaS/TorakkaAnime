@@ -6,6 +6,9 @@ import 'package:torakka_anime/components/auth_required_state.dart';
 import 'package:torakka_anime/requests/supabase_request.dart';
 import 'package:torakka_anime/utils/aux_func.dart';
 import 'package:torakka_anime/utils/constants.dart';
+import 'package:torakka_anime/view/widgets/favorites_anime.dart';
+
+import '../../../model/anime_list_model/data.dart';
 
 class PerfilTela07 extends StatefulWidget {
   const PerfilTela07({Key? key}) : super(key: key);
@@ -17,6 +20,7 @@ class PerfilTela07 extends StatefulWidget {
 class _PerfilTela07State extends AuthRequiredState<PerfilTela07> {
   List stats = [];
   bool isLoaded = false;
+  List<Data>? favorites;
 
   Future _onSignOutPress(BuildContext context) async {
     final response = await supabase.auth.signOut();
@@ -35,6 +39,9 @@ class _PerfilTela07State extends AuthRequiredState<PerfilTela07> {
   getData() async {
     stats = await SupabaseRequest()
         .getAnimeStatistic(supabase.auth.currentUser!.id);
+    favorites = await SupabaseRequest()
+        .getFavorites(SupabaseRequest().getActiveUser()?.id);
+
     if (mounted) {
       setState(() {
         isLoaded = true;
@@ -189,46 +196,10 @@ class _PerfilTela07State extends AuthRequiredState<PerfilTela07> {
                                         child: Center(
                                           child: GestureDetector(
                                             onTap: () {
-                                              showDialog(
-                                                context: context,
-                                                builder: (context) =>
-                                                    AlertDialog(
-                                                  backgroundColor:
-                                                      const Color.fromARGB(
-                                                          255, 10, 34, 57),
-                                                  title: Text(
-                                                    'Edit Password',
-                                                    style: const TextStyle(
-                                                        color: Colors.white,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 24),
-                                                  ),
-                                                  content: Text(
-                                                    textAlign: TextAlign.center,
-                                                    'texto',
-                                                    style: const TextStyle(
-                                                        color: Colors.white,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 18),
-                                                  ),
-                                                  actions: [
-                                                    TextButton(
-                                                        onPressed: () =>
-                                                            Navigator.pop(
-                                                                context),
-                                                        child: const Text(
-                                                          'Save',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.white),
-                                                        )),
-                                                  ],
-                                                ),
-                                              );
+                                              Navigator.of(context)
+                                                  .pushNamed("/edit");
                                             },
-                                            child: Text(
+                                            child: const Text(
                                               'Edit_Profile',
                                               style: TextStyle(
                                                 color: Color.fromARGB(
@@ -440,84 +411,31 @@ class _PerfilTela07State extends AuthRequiredState<PerfilTela07> {
                 ),
                 const SizedBox(height: 15),
                 SizedBox(
-                  height: 150,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: [
-                      const SizedBox(width: 20),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(7),
-                        child: Container(
-                          width: 115,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              fit: BoxFit.fill,
-                              image: NetworkImage(
-                                  "https://cdn.myanimelist.net/images/anime/1880/118484.jpg"),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(7),
-                        child: Container(
-                          width: 115,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              fit: BoxFit.fill,
-                              image: NetworkImage(
-                                  "https://cdn.myanimelist.net/images/anime/1880/118484.jpg"),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(7),
-                        child: Container(
-                          width: 115,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              fit: BoxFit.fill,
-                              image: NetworkImage(
-                                  "https://cdn.myanimelist.net/images/anime/1880/118484.jpg"),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(7),
-                        child: Container(
-                          width: 115,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              fit: BoxFit.fill,
-                              image: NetworkImage(
-                                  "https://cdn.myanimelist.net/images/anime/1880/118484.jpg"),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(7),
-                        child: Container(
-                          width: 115,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              fit: BoxFit.fill,
-                              image: NetworkImage(
-                                  "https://cdn.myanimelist.net/images/anime/1880/118484.jpg"),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                    ],
-                  ),
-                ),
+                    height: 150,
+                    child: Builder(builder: (BuildContext context) {
+                      if (isLoaded) {
+                        if (favorites!.isEmpty) {
+                          return const Center(child: Text('List Empty'));
+                        } else {
+                          debugPrint('chegou na lista ${favorites!.length}');
+                          return ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: [
+                              const SizedBox(width: 20),
+                              for (int i = 0; i < favorites!.length; i++)
+                                FavoritesAnime(
+                                    id: favorites!.elementAt(i).aNIME!.idExt,
+                                    imgLink: favorites!
+                                        .elementAt(i)
+                                        .aNIME!
+                                        .mainPictureMedium)
+                            ],
+                          );
+                        }
+                      } else {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                    })),
                 const SizedBox(height: 60),
               ],
             );

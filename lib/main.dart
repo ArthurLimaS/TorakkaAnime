@@ -4,6 +4,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:torakka_anime/view/login/cadastrar_tela02.dart';
 import 'package:torakka_anime/view/login/entrar_tela01.dart';
 import 'package:torakka_anime/view/navpages/main_navpag.dart';
+import 'package:torakka_anime/view/navpages/telasInternas/edit_profile.dart';
 import 'package:torakka_anime/view/navpages/telasInternas/tela_anime.dart';
 import 'package:torakka_anime/view/navpages/telasNavbar/lista_tela06.dart';
 import 'package:torakka_anime/view/navpages/telasNavbar/perfil_tela07.dart';
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
           "/home": (BuildContext context) => const MainNavPage(),
           "/more": (BuildContext context) => const TopMore(),
           "/anime": (BuildContext context) => const TelaAnime(),
+          "/edit": (BuildContext context) => const EditProfile(),
         });
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:torakka_anime/view/widgets/list_anime.dart';
 import 'package:torakka_anime/view/widgets/top_anime.dart';
 import '../../../model/anime_list_model/data.dart';
 
@@ -24,13 +25,14 @@ class _ListaState extends State<Lista> {
             children: [
               const SizedBox(height: 20),
               for (int i = 0; i < widget.animes!.length; i++)
-                TopAnime(
-                    numero: i,
+                ListAnime(
+                    idList: widget.animes?.elementAt(i).idAnimeList ?? '',
+                    totalEps: widget.animes?.elementAt(i).aNIME?.totalEps ?? 0,
+                    epsWatch: widget.animes?.elementAt(i).episodesWatched ?? 0,
                     imgLink:
                         widget.animes?.elementAt(i).aNIME?.mainPictureMedium ??
                             '',
                     nome: widget.animes?.elementAt(i).aNIME?.title ?? '',
-                    desc: '',
                     id: widget.animes?.elementAt(i).aNIME?.idExt ?? 0)
             ],
           ),

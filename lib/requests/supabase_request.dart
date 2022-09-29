@@ -244,6 +244,33 @@ class SupabaseRequest {
     }
   }
 
+  //função que pega os favoritos
+  Future getFavorites(dynamic idUser) async {
+    try {
+      List<Data>? favorites = [];
+      final res = await supabase
+          .from('ANIME_LIST')
+          .select(
+              '*, ANIME!inner(title, main_picture_medium, media_type, status, id_external_anime)')
+          .eq('id_user', idUser)
+          .eq('favorite', true)
+          .execute();
+
+      if (res.error != null) {
+        showToastMessage('Error - ${res.error!.message}');
+      }
+
+      for (var animeListRow in res.data) {
+        favorites.add(new Data.fromJson(animeListRow));
+      }
+      debugPrint('func getFavorites - ${res.data}');
+      //debugPrint('func getanimelist - ${animeList.elementAt(0).aNIME?.title}');
+      return favorites;
+    } catch (e) {
+      showToastMessage('func getFavorites - ${e.toString()}');
+    }
+  }
+
   //FUNCAO QUE ADICIONA OU REMOVE ANIME AOS FAVORITOS
   Future addAnimeToFavorite(bool favorite, String? uuidAnimeList) async {
     try {
@@ -354,7 +381,7 @@ class SupabaseRequest {
       final res = await supabase
           .from('ANIME_LIST')
           .select(
-              '*, ANIME!inner(title, main_picture_medium, media_type, status, id_external_anime)')
+              '*, ANIME!inner(title, main_picture_medium, media_type, status, id_external_anime, num_episodes)')
           .eq('id_user', idUser)
           .execute();
 
