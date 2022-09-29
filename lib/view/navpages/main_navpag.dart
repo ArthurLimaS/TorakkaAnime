@@ -9,13 +9,17 @@ import 'package:torakka_anime/view/navpages/telasNavbar/seasonal_tela05.dart';
 import 'package:torakka_anime/view/navpages/telasNavbar/seasonal_tela05.dart';
 
 class MainNavPage extends StatefulWidget {
-  const MainNavPage({Key? key}) : super(key: key);
+  MainNavPage({Key? key, this.currentIndex}) : super(key: key);
+
+  int? currentIndex;
 
   @override
   State<MainNavPage> createState() => _MainNavPageState();
 }
 
 class _MainNavPageState extends State<MainNavPage> {
+  get currentIndex => widget.currentIndex;
+
   List pages = [
     const HomeTela03(),
     const DiscoverTela04(),
@@ -23,11 +27,10 @@ class _MainNavPageState extends State<MainNavPage> {
     const ListaTela06(),
     const PerfilTela07(),
   ];
-  int currentIndex = 0;
 
   void onTap(int index) {
     setState(() {
-      currentIndex = index;
+      widget.currentIndex = index;
     });
   }
 

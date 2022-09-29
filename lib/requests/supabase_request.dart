@@ -65,7 +65,24 @@ class SupabaseRequest {
 
       return user;
     } catch (e) {
-      throw e.toString();
+      debugPrint('func getActiveUser - active user: ${e.toString()}');
+    }
+  }
+
+  Future getUserName() async {
+    try {
+      final response = await supabase
+          .from('USER')
+          .select('name')
+          .eq('id_user', supabase.auth.currentUser!.id)
+          .execute();
+      if (response.error != null) {
+        return debugPrint('func getUserName - ${response.error!.message}');
+      }
+      debugPrint('func getUserName - ${response.data[0]}');
+      return response.data[0]['name'];
+    } catch (e) {
+      debugPrint(e.toString());
     }
   }
 

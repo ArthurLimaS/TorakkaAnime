@@ -5,6 +5,8 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:torakka_anime/requests/supabase_request.dart';
 
+import '../../utils/aux_func.dart';
+
 class ListAnime extends StatefulWidget {
   const ListAnime({
     Key? key,
@@ -34,10 +36,25 @@ class _ListAnimeState extends State<ListAnime> {
   get nome => widget.nome;
   get epsWatch => widget.epsWatch;
   get totalEps => widget.totalEps;
-  int _eps = 0;
 
   _onDeletePress() {
     SupabaseRequest().deleteAnimeFromList(idList);
+  }
+
+  _onUpdateEpisodesPress(int? animeTotalEp, [int epNumber = 1]) async {
+    if (animeTotalEp == null) {
+      return debugPrint('Variavel numEpisodes está vazia - $animeTotalEp');
+    }
+
+    if ((epNumber <= animeTotalEp && epNumber >= 0) ||
+        (animeTotalEp == 0 && epNumber >= 0)) {
+      var animeListRowInfo = await SupabaseRequest()
+          .updateAnimeListEpisode(epNumber, widget.idList);
+      return;
+    } else {
+      debugPrint('Número de episódios inválido');
+      return showToastMessage('invalid episode number');
+    }
   }
 
   @override
@@ -88,10 +105,9 @@ class _ListAnimeState extends State<ListAnime> {
                         height: 50,
                         child: TextFormField(
                           onFieldSubmitted: (value) {
-                            //TODO
-                            //chamar funcao para mudar o valor do ep
-                            debugPrint('salvou o valor do ep inserido no form');
-                            //_eps = int.parse(value!);
+                            _onUpdateEpisodesPress(totalEps, int.parse(value));
+                            Navigator.of(context)
+                                .pushReplacementNamed('/listaHome');
                           },
                           decoration: InputDecoration(hintText: '$epsWatch'),
                           textAlign: TextAlign.center,
@@ -111,6 +127,8 @@ class _ListAnimeState extends State<ListAnime> {
                               iconSize: 35,
                               onPressed: () {
                                 _onDeletePress();
+                                Navigator.of(context)
+                                    .pushReplacementNamed('/listaHome');
                               },
                               icon: Icon(
                                 Icons.delete,
