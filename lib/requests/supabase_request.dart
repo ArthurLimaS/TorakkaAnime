@@ -86,33 +86,21 @@ class SupabaseRequest {
     }
   }
 
-  Future getUserName() async {
-    try {
-      final response = await supabase
-          .from('USER')
-          .select('name')
-          .eq('id_user', supabase.auth.currentUser!.id)
-          .execute();
-      if (response != null) {
-        return debugPrint('func getUserName - ${response.error!.message}');
-      }
-
-      return response.data[0];
-    } catch (e) {
-      debugPrint(e.toString());
-    }
-  }
-
   Future updateActiveUser(String name) async {
     try {
       final res = await supabase
           .from('USER')
           .update({'name': name})
-          .eq('id_user', getActiveUser())
+          .eq('id_user', getActiveUser()!.id)
           .execute();
       if (res.error != null) {
         showToastMessage('Error - ${res.error!.message}');
+        debugPrint('Error - ${res.error!.message}');
+        return;
       }
+
+      debugPrint('func updateActiveUser - ${res.data}');
+      return ('Nickname Updated');
     } catch (e) {
       showToastMessage(e.toString());
     }
@@ -291,7 +279,7 @@ class SupabaseRequest {
           .execute();
 
       if (res.error != null) {
-        showToastMessage('Error - ${res.error!.message}');
+        debugPrint('Error - ${res.error!.message}');
       }
 
       for (var animeListRow in res.data) {
@@ -301,7 +289,7 @@ class SupabaseRequest {
       //debugPrint('func getanimelist - ${animeList.elementAt(0).aNIME?.title}');
       return favorites;
     } catch (e) {
-      showToastMessage('func getFavorites - ${e.toString()}');
+      debugPrint('func getFavorites - ${e.toString()}');
     }
   }
 
