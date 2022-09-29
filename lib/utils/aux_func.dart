@@ -5,8 +5,15 @@ import 'package:http/http.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:torakka_anime/utils/constants.dart';
 
-String? validatePassword(String? value) {
-  return value == null || value.isEmpty ? 'Invalid password' : null;
+String? validatePassword(String? value, [bool onChangePassword = false]) {
+  if (!onChangePassword) {
+    debugPrint('entrou no if do validate password');
+    return value == null || value.isEmpty || value.length < 6
+        ? 'Invalid password'
+        : null;
+  } else {
+    return (value!.length > 0 && value.length < 6) ? 'invalid password' : null;
+  }
 }
 
 String? validateEmail(String? value) {
@@ -33,6 +40,7 @@ showToastMessage(String message, {bool isError = false}) {
 }
 
 
+//Tem que ter uma tela propria e tem que extender authState
 //função para recuperar senha
 /*Future _onPasswordRecoveryPress(BuildContext context) async {
   final form = formKey.currentState;
@@ -52,7 +60,7 @@ showToastMessage(String message, {bool isError = false}) {
 }*/
 
 //funcao para mudar senha
-/*Future _onPasswordChangePress(BuildContext context) async {
+/*Future passwordChangePress(BuildContext context) async {
   try {
     final form = formKey.currentState;
 

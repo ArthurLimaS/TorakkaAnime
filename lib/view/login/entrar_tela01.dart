@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:torakka_anime/requests/supabase_request.dart';
 import 'package:torakka_anime/utils/aux_func.dart';
+import 'package:torakka_anime/utils/constants.dart';
 import 'package:torakka_anime/view/widgets/fundo_inicial.dart';
 
 class EntrarTela01 extends StatefulWidget {

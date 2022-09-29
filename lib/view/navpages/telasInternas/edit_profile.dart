@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:torakka_anime/components/auth_required_state.dart';
+import 'package:torakka_anime/components/auth_state.dart';
+import 'package:torakka_anime/requests/supabase_request.dart';
+import 'package:torakka_anime/utils/constants.dart';
 
 import '../../../utils/aux_func.dart';
 
@@ -11,12 +16,57 @@ class EditProfile extends StatefulWidget {
   State<EditProfile> createState() => _EditProfileState();
 }
 
-class _EditProfileState extends State<EditProfile> {
+class _EditProfileState extends AuthRequiredState<EditProfile> {
   final _formKey = GlobalKey<FormState>();
   late final TextEditingController _passwordController;
   late final TextEditingController _nicknameController;
 
-  Future _onSavePress() async {}
+  Future _onSavePress() async {
+    String message = 'nothing to update';
+    int count = 0;
+
+    if (_nicknameController.text.isNotEmpty) {
+      debugPrint('atualizando nome de usuario - ${_nicknameController.text}');
+      message =
+          await SupabaseRequest().updateActiveUser(_nicknameController.text);
+      count += 1;
+    }
+
+    if (_passwordController.text.isNotEmpty) {
+      debugPrint('Atualizando senha de usuario');
+      message = await passwordChange();
+      count += 1;
+    }
+
+    showToastMessage((count == 2) ? 'Nickname and Password Updated' : message);
+  }
+
+  //funcao para mudar senha
+  Future passwordChange() async {
+    try {
+      final form = _formKey.currentState;
+
+      if (form != null && form.validate()) {
+        form.save();
+        FocusScope.of(context).unfocus();
+
+        final userAttributes =
+            UserAttributes(password: _passwordController.text);
+        final response = await supabase.auth.update(userAttributes);
+
+        if (response.error != null) {
+          debugPrint('password change failed: ${response.error!.message}');
+        }
+
+        return ('Password Update');
+        //if(Navigator.canPop(context)){}
+      } else {
+        Navigator.of(context).pushReplacementNamed("/home");
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
 
   @override
   void initState() {
@@ -67,8 +117,9 @@ class _EditProfileState extends State<EditProfile> {
                     Container(
                       width: 300,
                       child: TextFormField(
+                        obscureText: true,
                         controller: _passwordController,
-                        validator: (val) => validatePassword(val),
+                        validator: (val) => validatePassword(val, true),
                         textAlign: TextAlign.center,
                         keyboardType: TextInputType.text,
                         decoration: InputDecoration(

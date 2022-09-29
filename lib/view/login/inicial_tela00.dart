@@ -33,7 +33,7 @@ class _InicialTela00State extends State<InicialTela00> {
                 child: Container(
                   height: 300,
                   width: 300,
-                  child: Image.asset('assets/img/logo1v2.png'),
+                  child: Image.asset('assets/img/logo1.png'),
                 ),
               ),
             ),

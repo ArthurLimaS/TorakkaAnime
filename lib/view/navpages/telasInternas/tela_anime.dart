@@ -117,7 +117,7 @@ class _TelaAnimeState extends State<TelaAnime> {
         status != Status.planToWatching.name) {
       showToastMessage('Anime not yet aired', isError: true);
       return false;
-    } else if (anime?.status != 'completed' &&
+    } else if (anime?.status != 'finished_airing' &&
         status == Status.completed.name) {
       showToastMessage('func checkifaired - Anime isn\'t completed',
           isError: true);
@@ -129,7 +129,7 @@ class _TelaAnimeState extends State<TelaAnime> {
 
   //muda o status de um anime
   _onStatusChangePress(String status) async {
-    if (status == Status.completed.name && anime?.status != 'completed') {
+    if (status == Status.completed.name && anime?.status != 'finished_airing') {
       showToastMessage('Anime isn\'t completed');
       return debugPrint('Anime não foi terminado');
     } else {
