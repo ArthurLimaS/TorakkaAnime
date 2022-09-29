@@ -86,6 +86,23 @@ class SupabaseRequest {
     }
   }
 
+  Future getUserName() async {
+    try {
+      final response = await supabase
+          .from('USER')
+          .select('name')
+          .eq('id_user', supabase.auth.currentUser!.id)
+          .execute();
+      if (response != null) {
+        return debugPrint('func getUserName - ${response.error!.message}');
+      }
+
+      return response.data[0];
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
   Future updateActiveUser(String name) async {
     try {
       final res = await supabase
