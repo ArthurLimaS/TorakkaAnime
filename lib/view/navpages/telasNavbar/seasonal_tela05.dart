@@ -182,145 +182,146 @@ class _SeasonalTela05State extends State<SeasonalTela05> {
                             '',
                         desc: "",
                       );
-                    }
-                  )
-                );
+                    }));
               } else if (tab == 1) {
                 return Center(
-                  child: ListView(
-                    children: List.generate(7, (index) {
-                      if (index == 0) {
-                        return Column(
-                          children: [
-                            const SizedBox(height: 10.0),
-                            const Text(
-                              "Pesquisa por ano",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 10, 34, 57),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 21
-                              ),
-                            ),
-                            const SizedBox(height: 10,),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                SizedBox(
-                                  width: 110,
-                                  height: 30,
-                                  child: TextField(
-                                    onChanged: (String value) {
-                                      try {
-                                        yearBar = int.parse(value);
-                                      } on Exception catch (_) {
-                                        setState(() {
-                                          fieldText.clear();
-                                        });
-                                        showDialog(
-                                          context: context,
-                                          builder: (context) => const AlertDialog(
-                                            title: Text('Erro de input'),
-                                            content: Text('Digite apenas um número inteiro'),
-                                          )
-                                        );
-                                      }
-                                    },
-                                    controller: fieldText,
-                                    textAlign: TextAlign.center,
-                                    textAlignVertical: TextAlignVertical.bottom,
-                                    decoration: InputDecoration(
-                                      filled: true,
-                                      fillColor: Colors.grey,
-                                      hintText: 'Digite aqui',
-                                      hintStyle: const TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 18,
-                                        fontStyle: FontStyle.italic,
-                                      ),
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(1000)
-                                      ),
-                                    ),
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                                DropdownButton<String>(
-                                    value: dropdownvalue,
-                                    items: seasons.map((String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(value),
-                                      );
-                                    }).toList(),
-                                    onChanged: (String? value) {
-                                      setState(() {
-                                        dropdownvalue = value!;
-                                      });
-                                    }
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      tab = 2;
-                                      isLoaded = false;
-                                      getData(dropdownvalue, yearBar);
-                                    });
-                                  },
-                                  child: Container(
-                                    height: 30,
-                                    width: 90,
-                                    decoration: BoxDecoration(
-                                      color: const Color.fromARGB(255, 10, 34, 57),
-                                      borderRadius: BorderRadius.circular(1000),
-                                    ),
-                                    child: const Center(
-                                      child: Text(
-                                        "Pesquisar",
-                                        style: TextStyle(
-                                          color: Color.fromARGB(255, 255, 255, 255),
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 10,),
-                          ],
-                        );
-                      } else {
-                        int ano = anoAtual - (index - 1);
-                        return Column(children: [
+                    child: ListView(
+                  children: List.generate(7, (index) {
+                    if (index == 0) {
+                      return Column(
+                        children: [
                           const SizedBox(height: 10.0),
-                          Text(
-                            "$ano",
+                          const Text(
+                            "Search by year",
                             textAlign: TextAlign.center,
-                            style: const TextStyle(
+                            style: TextStyle(
                                 color: Color.fromARGB(255, 10, 34, 57),
                                 fontWeight: FontWeight.bold,
-                                fontSize: 18),
+                                fontSize: 21),
                           ),
-                          const SizedBox(height: 10.0),
+                          const SizedBox(
+                            height: 10,
+                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              buttonSeasons("winter", ano),
-                              buttonSeasons("spring", ano),
-                              buttonSeasons("summer", ano),
-                              buttonSeasons("fall", ano)
+                              SizedBox(
+                                width: 110,
+                                height: 30,
+                                child: TextField(
+                                  onChanged: (String value) {
+                                    try {
+                                      yearBar = int.parse(value);
+                                    } on Exception catch (_) {
+                                      setState(() {
+                                        fieldText.clear();
+                                      });
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) =>
+                                              const AlertDialog(
+                                                title: Text('Error input'),
+                                                content: Text('Only number'),
+                                              ));
+                                    }
+                                  },
+                                  controller: fieldText,
+                                  textAlign: TextAlign.center,
+                                  textAlignVertical: TextAlignVertical.bottom,
+                                  decoration: InputDecoration(
+                                    filled: true,
+                                    fillColor: Colors.grey,
+                                    hintText: 'Type here',
+                                    hintStyle: const TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 18,
+                                      fontStyle: FontStyle.italic,
+                                    ),
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(1000)),
+                                  ),
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                              DropdownButton<String>(
+                                  value: dropdownvalue,
+                                  items: seasons.map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                  onChanged: (String? value) {
+                                    setState(() {
+                                      dropdownvalue = value!;
+                                    });
+                                  }),
+                              GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    tab = 2;
+                                    isLoaded = false;
+                                    getData(dropdownvalue, yearBar);
+                                  });
+                                },
+                                child: Container(
+                                  height: 30,
+                                  width: 90,
+                                  decoration: BoxDecoration(
+                                    color:
+                                        const Color.fromARGB(255, 10, 34, 57),
+                                    borderRadius: BorderRadius.circular(1000),
+                                  ),
+                                  child: const Center(
+                                    child: Text(
+                                      "Search",
+                                      style: TextStyle(
+                                        color:
+                                            Color.fromARGB(255, 255, 255, 255),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
-                          const SizedBox(height: 10.0),
-                        ]);
-                      }
-                    }),
-                  )
-                );
+                          const SizedBox(
+                            height: 10,
+                          ),
+                        ],
+                      );
+                    } else {
+                      int ano = anoAtual - (index - 1);
+                      return Column(children: [
+                        const SizedBox(height: 10.0),
+                        Text(
+                          "$ano",
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                              color: Color.fromARGB(255, 10, 34, 57),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18),
+                        ),
+                        const SizedBox(height: 10.0),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            buttonSeasons("winter", ano),
+                            buttonSeasons("spring", ano),
+                            buttonSeasons("summer", ano),
+                            buttonSeasons("fall", ano)
+                          ],
+                        ),
+                        const SizedBox(height: 10.0),
+                      ]);
+                    }
+                  }),
+                ));
               } else {
                 return WillPopScope(
                   onWillPop: () async {
@@ -331,7 +332,8 @@ class _SeasonalTela05State extends State<SeasonalTela05> {
                   },
                   child: GridView.count(
                       padding: const EdgeInsets.only(top: 20),
-                      crossAxisCount: orientation == Orientation.portrait ? 2 : 4,
+                      crossAxisCount:
+                          orientation == Orientation.portrait ? 2 : 4,
                       childAspectRatio: (120 / 140),
                       children: List.generate(listSize!, (index) {
                         return AnimeImgName(

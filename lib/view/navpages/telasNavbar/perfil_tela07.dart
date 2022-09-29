@@ -21,6 +21,7 @@ class _PerfilTela07State extends AuthRequiredState<PerfilTela07> {
   List stats = [];
   bool isLoaded = false;
   List<Data>? favorites;
+  String userName = '';
 
   Future _onSignOutPress(BuildContext context) async {
     final response = await supabase.auth.signOut();
@@ -37,6 +38,7 @@ class _PerfilTela07State extends AuthRequiredState<PerfilTela07> {
   }
 
   getData() async {
+    userName = await SupabaseRequest().getUserName();
     stats = await SupabaseRequest()
         .getAnimeStatistic(supabase.auth.currentUser!.id);
     favorites = await SupabaseRequest()
@@ -163,13 +165,13 @@ class _PerfilTela07State extends AuthRequiredState<PerfilTela07> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Container(
-                                  alignment: Alignment.centerLeft,
-                                  padding: const EdgeInsets.only(left: 20),
+                                  alignment: Alignment.center,
                                   height: 50,
                                   width: 140,
-                                  child: const Text(
-                                    'GG_desu',
-                                    style: TextStyle(
+                                  child: Text(
+                                    userName,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 22,
@@ -200,7 +202,7 @@ class _PerfilTela07State extends AuthRequiredState<PerfilTela07> {
                                                   .pushNamed("/edit");
                                             },
                                             child: const Text(
-                                              'Edit_Profile',
+                                              'Edit Profile',
                                               style: TextStyle(
                                                 color: Color.fromARGB(
                                                     255, 255, 255, 255),

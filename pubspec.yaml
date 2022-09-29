@@ -65,8 +65,10 @@ flutter:
   assets:
   - assets/img/capa.jpg
   - assets/img/logo1.png
+  - assets/img/logo1v2.png
   - assets/img/logo2.png
   - assets/img/logo3.png
+  - assets/img/logo3v2.png
   - assets/img/exit.png
   - assets/img/foto.png
 
