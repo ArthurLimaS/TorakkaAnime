@@ -30,13 +30,13 @@ Com o nosso aplicativo você pode:
 - ![Android Studio](https://img.shields.io/badge/Android%20Studio-3DDC84.svg?style=for-the-badge&logo=android-studio&logoColor=white)
 
 ## Telas
-> Login e Cadastro
+>Login e Cadastro
 <p align="center">
   <img src="https://i.imgur.com/OtNGWMh.png"/>
   <img src="https://i.imgur.com/6u54Bao.png"/>
 </p>
 
-> Página inicial
+>Página inicial
 <p align="center">
   <img src="https://i.imgur.com/9KcV9gc.png"/>
   <img src="https://i.imgur.com/5945Nb4.png"/>
@@ -48,26 +48,26 @@ Com o nosso aplicativo você pode:
   <img src="https://i.imgur.com/5945Nb4.png"/>
 </p>
 
-> Pesquisa
+>Pesquisa
 <p align="center">
   <img src="[https://i.imgur.com/9KcV9gc.png](https://i.imgur.com/JqJ6LQO.png)"/>
 </p>
-> Temporada
+>Temporada
 <p align="center">
   <img src="https://i.imgur.com/G88s89h.png"/>
   <img src="https://i.imgur.com/PXw9Qqo.png"/>
 </p>
-> Lista
+>Lista
 <p align="center">
   <img src="https://i.imgur.com/IWsBquJ.png"/>
   <img src="https://i.imgur.com/Abt2aqh.png"/>
 </p>
-> Página do Anime
+>Página do Anime
 <p align="center">
   <img src="https://i.imgur.com/g6xrLTp.png"/>
   <img src="https://i.imgur.com/CmnS12q.png"/>
 </p>
-> Perfil
+>Perfil
 <p align="center">
   <img src="https://i.imgur.com/MK6nUQJ.png"/>
 </p>
